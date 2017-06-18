@@ -1,0 +1,1148 @@
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Sat, 22 Jun 2013 00:03:10 +0000",Re: Apache Spark podling: Created!,Henry Saputra <henry.saputra@gmail.com>,"CC'ing dev@spark.i.a.o: our first email to the dev list! :)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+<haoyuan@cs.berkeley.edu>, Josh Rosen <joshrosen@cs.berkeley.edu>,
+Shivaram Venkataraman <shivaram@eecs.berkeley.edu>, Mosharaf Chowdhury
+<mosharaf@cs.berkeley.edu>, Charles Reiss <charles@eecs.berkeley.edu>,
+Andy Konwinski <andykonwinski@gmail.com>, Patrick Wendell
+<pwendell@eecs.berkeley.edu>, Imran Rashid <imran@quantifind.com>, Ryan
+LeCompte <lecompte@gmail.com>, Ravi Pandya <ravip@exchange.microsoft.com>,
+Ram Sriharsha <harshars@yahoo-inc.com>, Robert Evans
+<evans@yahoo-inc.com>, Mridul Muralidharan <mridulm@yahoo-inc.com>, Thomas
+Dudziak <tomdz@clearstorydata.com>, Mark Hamstra
+<mark@clearstorydata.com>, Stephen Haberman <stephen.haberman@gmail.com>,
+Jason Dai <jason.dai@intel.com>, Shane Huang <shannie.huang@gmail.com>,
+Andrew xia <xiajunluan@gmail.com>, Nick Pentreath
+<nick.pentreath@gmail.com>, Sean McNamara <sean.mcnamara@webtrends.com>,
+""Ramirez, Paul M (398J)"" <paul.m.ramirez@jpl.nasa.gov>, Roman Shaposhnik
+<rvs@apache.org>, Suresh Marru <smarru@apache.org>, ""Hart, Andrew F
+(398J)"" <Andrew.F.Hart@jpl.nasa.gov>
+Subject: Re: Apache Spark podling: Created!
+
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Sat, 22 Jun 2013 17:33:10 +0000",FW: [jira] [Commented] (INFRA-6418) Create Spark Git repository,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Spark peeps!
+
+FYI below -- can someone please audit the Git repo and make sure it
+looks good then comment back on INFRA-6418 when done so that David
+can make it writeable? At that point you'll have a writeable Git repo
+for the podling at the ASF and can start devving there.
+
+Thanks!
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+om
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Sat, 22 Jun 2013 19:04:30 +0000",Re: [jira] [Commented] (INFRA-6418) Create Spark Git repository,Matei Zaharia <matei.zaharia@gmail.com>,"Thanks Matei I just replied there -- he can make it writeable now
+and close the issue since the ASF copyrights and other things can
+be added to the files during Incubation and before our first release.
+
+We're good!
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+ra
+#c
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Sat, 22 Jun 2013 14:59:44 -0400",Re: [jira] [Commented] (INFRA-6418) Create Spark Git repository,"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Replied on https://issues.apache.org/jira/browse/INFRA-6418 -- overall it looks good.
+
+Matei
+
+
+https://issues.apache.org/jira/browse/INFRA-6418?page=com.atlassian.jira.p
+lugin.system.issuetabpanels:comment-tabpanel&focusedCommentId=13691181#com
+and
+http://www.atlassian.com/software/jira
+
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Tue, 25 Jun 2013 10:18:26 -0700",Re: Apache Spark podling: Created!,dev@spark.incubator.apache.org,"This is great.
+
+Quick question about mailing lists: Spark also has a
+spark-users<https://groups.google.com/forum/#!forum/spark-users>
+google
+group. Can we also get a users@spark.i.a.o mailing list to have somewhere
+to migrate that group? Do I need to create an infra issue for this?
+
+Also, we should discuss a strategy, and timeline for migrating the mailing
+lists over to the new ones.
+
+As far as a strategy, here are the steps I can think of that will help make
+for a smooth transition:
+
+   1. Request users list on apache infra (done)
+   2. Pick a day/time for the switch (how about July 1, assuming
+   users@spark.i.a.o is set up by then)
+   3. At Switch time:
+      1. Make announcements on the dev and users mailing lists with links
+      to the new lists, instructions on how to subscribe, and a note saying all
+      conversations are moving over to that list.
+      2. Update the website with links to the new lists
+      3. Enable an auto responders on those lists with pointers to the new
+      apache lists
+
+Anything else?
+
+Andy
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 25 Jun 2013 13:56:48 -0400",Re: Apache Spark podling: Created!,Andy Konwinski <andykonwinski@gmail.com>,"Yeah, similarly to the users list, we asked for a ""commits"" one on the incubator proposal, where we'll hopefully set up Git to email commit messages. Do we have to request these specifically with JIRAs on INFRA?
+
+Matei
+
+
+google group. Can we also get a users@spark.i.a.o mailing list to have somewhere to migrate that group? Do I need to create an infra issue for this?
+mailing lists over to the new ones.
+make for a smooth transition:
+users@spark.i.a.o is set up by then)
+the new lists, instructions on how to subscribe, and a note saying all conversations are moving over to that list.
+apache lists
+Li
+Ryan
+<ravip@exchange.microsoft.com>,
+Thomas
+<stephen.haberman@gmail.com>,
+<shannie.huang@gmail.com>,
+<sean.mcnamara@webtrends.com>,
+Shaposhnik
+and
+next
+Haoyuan Li
+Reynold
+<charles@eecs.berkeley.edu>,
+Ryan
+<ravip@exchange.microsoft.com>,
+Thomas
+<stephen.haberman@gmail.com>,
+<shannie.huang@gmail.com>,
+<sean.mcnamara@webtrends.com>
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Tue, 25 Jun 2013 11:07:39 -0700",Re: Apache Spark podling: Created!,Matei Zaharia <matei.zaharia@gmail.com>,"Re a commits email list, Henry said that a commits list was created and I
+was able to subscribe to it so it seems like it exists. However, it isn't
+showing up at http://mail-archives.apache.org/mod_mbox/ but maybe
+that's because no email has been sent to it yet (thus no archives).
+
+And when i tried sending an email to it, I got a bounce (see below) but it
+looks like it bounced because it only accepts emails from @apache.org email
+addresses (and I sent from my gmail address).
+
+Andy
+
+---------- Forwarded message ----------
+From: <MAILER-DAEMON@apache.org>
+Date: Tue, Jun 25, 2013 at 11:03 AM
+Subject: failure notice
+To: andykonwinski@gmail.com
+
+
+Hi. This is the qmail-send program at apache.org.
+I'm afraid I wasn't able to deliver your message to the following addresses.
+This is a permanent error; I've given up. Sorry it didn't work out.
+
+<commits@spark.apache.org>:
+Must be sent from an @apache.org address.
+
+--- Below this line is a copy of the message.
+
+Return-Path: <andykonwinski@gmail.com>
+Received: (qmail 93730 invoked by uid 99); 25 Jun 2013 18:03:51 -0000
+Received: from athena.apache.org (HELO athena.apache.org) (140.211.11.136)
+    by apache.org (qpsmtpd/0.29) with ESMTP; Tue, 25 Jun 2013 18:03:51 +0000
+X-ASF-Spam-Status: No, hits=1.5 required=5.0
+        tests=HTML_MESSAGE,RCVD_IN_DNSWL_LOW,SPF_PASS
+X-Spam-Check-By: apache.org
+Received-SPF: pass (athena.apache.org: domain of
+andykonwinski@gmail.com designates
+209.85.215.50 as permitted sender)
+Received: from [209.85.215.50] (HELO mail-la0-f50.google.com)
+(209.85.215.50)
+    by apache.org (qpsmtpd/0.29) with ESMTP; Tue, 25 Jun 2013 18:03:46 +0000
+Received: by mail-la0-f50.google.com with SMTP id dy20so12429872lab.9
+        for <commits@spark.incubator.apache.org>; Tue, 25 Jun 2013 11:03:25
+-0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20120113;
+        h=mime-version:date:message-id:subject:from:to:content-type;
+        bh=2KxeMuYKjkL5ppYyrlAUUez3Cch1P4p5fRLNqrpa3Zo=;
+        b=Nv6hpA4tZjBYg7SleWat1iilaOCloL2YrlumjgbzOicTookoWYXTot+1LAVzpgvbIR
+
+ QzJ2SuF8RbXKIGjRrZbmzkMnXFhYDVYZxIRNSAGVMo/4D1yw28k9mbIHLcQOo6R4EUT5
+
+ wG5BDXhOlp9Zpdfhnr0D84Y+A90UswpWKM8Li5SP+wizp858mdilGHGHviaWsnkirg2V
+
+ E9TJbPaWKNmLbMGILz4YexfrwOEaZInRMHsE8RQybC7mibO+Z/+0EWp2MLvGqp1rrqYm
+
+ 9wAWeZokHZJX5Q5YDGhZuqyQ3QX4+Jg/0xrNtjtI4Vwbrs+fdEgVQRh5fabGblD8Trb5
+         G2yg==
+MIME-Version: 1.0
+X-Received: by 10.112.142.66 with SMTP id ru2mr477612lbb.7.1372183405190;
+Tue,
+ 25 Jun 2013 11:03:25 -0700 (PDT)
+Received: by 10.112.75.6 with HTTP; Tue, 25 Jun 2013 11:03:25 -0700 (PDT)
+Date: Tue, 25 Jun 2013 11:03:25 -0700
+Message-ID: <
+CALEZFQx95McSA2p2vsBXmPrGEB2FsAhqhMnKt_JhXFU94H5ivA@mail.gmail.com>
+Subject: Test to make sure this list is working
+From: Andy Konwinski <andykonwinski@gmail.com>
+To: commits@spark.incubator.apache.org
+Content-Type: multipart/alternative; boundary=001a11c37aaa6ee48404dffe5814
+X-Virus-Checked: Checked by ClamAV on apache.org
+
+--001a11c37aaa6ee48404dffe5814
+Content-Type: text/plain; charset=ISO-8859-1
+
+It isn't showing up at http://mail-archives.apache.org/mod_mbox/ but maybe
+that's because no email has been sent to it yet (thus no archives).
+
+Andy
+
+--001a11c37aaa6ee48404dffe5814
+Content-Type: text/html; charset=ISO-8859-1
+
+<div dir=""ltr"">It isn&#39;t showing up at <a href=""
+http://mail-archives.apache.org/mod_mbox/"">
+http://mail-archives.apache.org/mod_mbox/</a> but maybe that&#39;s because
+no email has been sent to it yet (thus no archives).<br>
+<div><br></div><div>Andy</div></div>
+
+--001a11c37aaa6ee48404dffe5814--
+
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Tue, 25 Jun 2013 11:09:40 -0700",Re: Apache Spark podling: Created!,dev@spark.incubator.apache.org,"Hi Andy,
+
+Usually new Apache incubator has dev@ list without users@ to make sure all
+the effort and discussion focused in one mailing list. But Spark, and like
+several other podlings, already have enough users that warrant creation of
+users@ list.
+
+I am +1 to create that list if all think that its the way to go.
+
+- Henry
+
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Tue, 25 Jun 2013 11:10:51 -0700",Re: Apache Spark podling: Created!,dev@spark.incubator.apache.org,"Hi Matei,
+
+Some podlings have JIRA messages delivered to dev@ list. Maybe we could
+have issues@ later. I think for now we could just use dev@ list as
+reservoir for JIRA notifications.
+
+- Henry
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 26 Jun 2013 08:56:47 -0700",Re: Apache Spark podling: Created!,dev@spark.incubator.apache.org,"Ah, got it. I'd prefer not to do this actually because we already had separate dev and issues lists before we moved to Apache. It could be annoying for people to add new filters that deal with them as one list.
+
+Matei
+
+
+could
+the
+INFRA?
+google
+somewhere
+help
+the
+apache
+Haoyuan
+Chowdhury
+<charles@eecs.berkeley.edu>,
+Ryan
+<ravip@exchange.microsoft.com
+<stephen.haberman@gmail.com
+<shannie.huang@gmail.com>,
+<sean.mcnamara@webtrends.com>,
+Shaposhnik
+and
+Dave
+Haoyuan
+<charles@eecs.berkeley.edu>,
+Ryan
+<stephen.haberman@gmail.com
+<shannie.huang@gmail.com>,
+<sean.mcnamara@webtrends.com>
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Fri, 28 Jun 2013 19:20:31 +0000",Mailing list transition (was Re: Apache Spark podling: Created!),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Andy,
+
+
+
+OK, cool yeah I think I requested commits and dev as lists earlier, but
+didn't request a user one. To request a new list, you go here:
+
+https://infra.apache.org/officers/mlreq/incubator
+
+
+Did you request a list yet? Should i?
+
+(BTW sorry about the delay in responding was at a DARPA meeting all week in
+DC an am just back in California now catching up on everything).
+
+
+
+Perfect! That's correct Andy.
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Fri, 28 Jun 2013 19:21:53 +0000",Re: Apache Spark podling: Created!,"Matei Zaharia <matei.zaharia@gmail.com>,
+        Andy Konwinski
+	<andykonwinski@gmail.com>","Hi Matei,
+
+Nope it will automatically get mapped to those lists so please let me know
+if you are Git committing but not seeing them go to the lists and I will
+double check with infra@ Similarly, JIRA issues should go to dev.
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Fri, 28 Jun 2013 19:22:51 +0000",Re: Apache Spark podling: Created!,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","I am +1 to create a user list too since Spark has a bunch of users,
+but also thank you for providing the rationale Henry which is why
+in the Incubator typically we discourage the creation of user lists.
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Fri, 28 Jun 2013 19:23:05 +0000",Re: Apache Spark podling: Created!,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Yep right now should go to dev list.
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Fri, 28 Jun 2013 19:23:31 +0000",Re: Apache Spark podling: Created!,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>,
+        ""Matei
+ Zaharia"" <matei.zaharia@gmail.com>","Hi Andy,
+
+Yeah right now it's set up to accept email from @apache.org email
+addresses,
+but that can be relaxed if desired. Should I change it?
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+14
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Fri, 28 Jun 2013 20:45:14 +0000",Re: A wiki for Spark (on Apache infra),Andy Konwinski <andykonwinski@gmail.com>,"Sorry dude, that sucks. I'll try and open the mailing list to other emails
+as well. Can you create a Spark ticket in the ASF
+INFRA ticket [1] project so we don't forget?
+
+Cheers,
+Chris
+
+[1] http://issues.apache.org/jira/browse/INFRA
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+Subject: Re: A wiki for Spark (on Apache infra)
+
+42
+
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Fri, 28 Jun 2013 14:04:24 -0700",Re: Mailing list transition (was Re: Apache Spark podling: Created!),"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","+ spark-developers@googlegroups.com to loop in those who haven't subscribed
+to dev@spark.i.a.o yet, (also because my emails are getting bounced by
+Apache's spam filters).
+
+I wanted to respond here in the conversation about the mailing list
+migration that was happening on the email thread called ""Re: A wiki for
+Spark (on Apache infra)""...
+
+Assuming that we Apache requires us to migrate from google groups to lists
+on Apache infra, we might consider waiting to migrating the users list to
+apache infra until after we graduate to a TLP, so that we only have to
+migrate it once.
+
+Here's why. I assume with each list migration that requires subscribers to
+do work, we will lose some subscribers. If we ask them to migrate to an
+incubator user list now and then again to yet a different list when we
+graduate to a TLP (which we hope to do fairly quickly), it seems like we
+will irritate and lose strictly more subscribers.
+
+This requirement to migrate infra twice as part of moving to Apache seems a
+bit hard on communities. It also seems like a requirement that will go away
+if the changes you are pushing for to the incubation process (i.e. podling
+TLPs) actually ever happen.
+
+Anyway, I see our options as:
+
+1. Migrate only the dev list now (since this is a smaller core group that
+is more likely to migrate with us) and wait to create an apache users list
+until we graduate and migrate from the users google group then. Con: it's
+confusing to have user and dev lists on different infra.
+2. Move the users list now, in which case we go with the migration plan I
+proposed earlier. Con: migrating users list twice = more irritating to
+users.
+
+Andy
+
+
+
+
+"
+Suresh Marru <smarru@apache.org>,"Fri, 28 Jun 2013 17:12:28 -0400",Re: Mailing list transition (was Re: Apache Spark podling: Created!),dev@spark.incubator.apache.org,"Hi Andy,
+
+Its strongly advisable to have all the lists on ASF infrastructure. The only reason the incubators are not encouraged against users list is to keep the community together. But if spark already had a user base and the projects wants to have a user list, you should go for it. That will be way less confusing. 
+
+If there are no objections, I can request a user list. 
+
+Suresh
+
+subscribed
+for
+lists
+to
+subscribers to
+an
+we
+seems a
+away
+podling
+that
+list
+it's
+plan I
+to
+<dev@spark.incubator.apache.org
+somewhere
+but
+week in
+mailing
+help
+links
+new
+Dave
+Haoyuan
+Chowdhury
+<charles@eecs.berkeley.edu>,
+Ryan
+<shannie.huang@gmail.com>,
+<sean.mcnamara@webtrends.com
+and
+starting
+Dave
+Haoyuan
+<charles@eecs.berkeley.edu>,
+<mridulm@yahoo-inc.com>,
+<shannie.huang@gmail.com
+<sean.mcnamara@webtrends.com
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+"
+Reynold Xin <rxin@cs.berkeley.edu>,"Fri, 28 Jun 2013 14:08:12 -0700",Re: Mailing list transition (was Re: Apache Spark podling: Created!),spark-developers@googlegroups.com,"I think we should avoid migrating the list too many times, especially the
+user list.
+
+Also - are there any rules regarding maintaining a separate, non-Apache
+mailing list by 3rd party? Google Groups has been very convenient for
+users, both in terms of the UX and the way to quickly and easily search for
+archived messages.
+
+--
+Reynold Xin, AMPLab, UC Berkeley
+http://rxin.org
+
+
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Fri, 28 Jun 2013 14:20:49 -0700",Re: Mailing list transition (was Re: Apache Spark podling: Created!),dev@spark.incubator.apache.org,"Hi Suresh,
+
+The request here is actually to *not* use the Apache user list while in the
+incubator. The issue is that we don't want to ask almost 1000 people to
+migrate twice between two different lists in a short period of time. That
+seems like the most confusion of all options.
+
+If there is a requirement that eventually we get all lists over to apache,
+then so be it. But having a double migration is something I'd personally
+strongly object to and I feel that others in the community would also
+object to this.
+
+Let's just defer the migration of the users list until we graduate to a TLP
+- this is a completely sensible option and will be easy to explain to the
+broader user community.
+
+- Patrick
+
+
+
+"
+Suresh Marru <smarru@apache.org>,"Fri, 28 Jun 2013 17:26:19 -0400",Re: Mailing list transition (was Re: Apache Spark podling: Created!),dev@spark.incubator.apache.org,"Hi Patrick,
+
+Thanks for clarifying I think I get it now. So the issues is users having to migrate now to  user@spark.incubator.apache.org and later to dev@spark.apache.org? Thats less of a worry in my opinion. Because once the project graduates, the incubator list auto redirect to TLP list. Users will slowly change it themselves. I agree migrating from google groups to ASF list will be a big one. 
+
+I think we should have lots of lessons learned from Open Office dealing with magnitude more number of users. 
+
+Suresh
+
+
+in the
+to
+That
+apache,
+personally
+a TLP
+the
+The
+to keep
+be way
+by
+for
+list to
+to
+subscribers
+an
+we
+like we
+go
+that
+users
+it's
+plan I
+irritating to
+<dev@spark.incubator.apache.org>
+this?
+but
+help
+links
+the
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Dave
+<joshrosen@cs.berkeley.edu>,
+<charles@eecs.berkeley.edu
+<imran@quantifind.com>,
+<mridulm@yahoo-inc.com>,
+<shannie.huang@gmail.com
+F
+moderated
+starting
+please
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Dave
+<joshrosen@cs.berkeley.edu>,
+<charles@eecs.berkeley.edu
+<imran@quantifind.com>,
+<mridulm@yahoo-inc.com>,
+all
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+"
+Suresh Marru <smarru@apache.org>,"Fri, 28 Jun 2013 17:27:59 -0400",Re: Mailing list transition (was Re: Apache Spark podling: Created!),dev@spark.incubator.apache.org,"
+the
+non-Apache
+search for
+
+Hi Reynold,
+
+I should look up the reference the right reference but it is not encouraged (or allowed) to use 3rd-party mailing lists. I certainly sympathize with the loss of usability when moving from google groups to  ezmlm lists, but I do not think we have a choice. 
+
+Suresh
+
+getting
+for
+lists
+list to
+to
+subscribers to
+an
+we
+we
+seems
+go
+(i.e.
+that
+list
+it's
+plan I
+to
+<dev@spark.incubator.apache.org>
+but
+week
+help
+links
+the
+Dave
+Haoyuan
+Chowdhury
+<charles@eecs.berkeley.edu>,
+<mridulm@yahoo-inc.com>,
+<shannie.huang@gmail.com
+<sean.mcnamara@webtrends.com
+F
+moderated
+starting
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Dave
+<joshrosen@cs.berkeley.edu>,
+<charles@eecs.berkeley.edu
+<imran@quantifind.com>,
+<mridulm@yahoo-inc.com>,
+<shannie.huang@gmail.com
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Groups
+send an
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Fri, 28 Jun 2013 23:02:14 +0000",Re: Mailing list transition (was Re: Apache Spark podling: Created!),Andy Konwinski <andykonwinski@gmail.com>,"Hi Andy et al.,
+
+Why don't we just collect the current subscribers to the Google Group,
+get them to me, and I'll subscribe them to the ASF new lists? I'm happy
+to create a user list here at the ASF for the project, and to migrate
+the users. Then all they would have to do is remember to use the new
+email when addressing. A change, yes, I know, but still a minimal one.
+
+That OK?
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+Created!)
+
+
+
+"
+Reynold Xin <reynoldx@gmail.com>,"Fri, 28 Jun 2013 16:08:13 -0700",Re: Mailing list transition (was Re: Apache Spark podling: Created!),dev@spark.incubator.apache.org,"Hi Chris,
+
+There are a lot of user preferences set by them (e.g. individual emails vs
+batch) that wouldn't work when you just ""import"". If user list is not an
+absolute requirement for the incubator, it would make sense to delay
+the migration of user lists until we are graduating to a TLP.
+
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Fri, 28 Jun 2013 23:40:46 +0000",Re: Mailing list transition (was Re: Apache Spark podling: Created!),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey Reynold,
+
+I hear your pain - trust me I do - but at the same time it doesn't
+make sense to half complete bringing the community over. Mailing list
+conversation (especially user oriented ones) are one of the core
+portions of open source communities at least in my experience.
+
+There are not really many hard requirements here at the ASF -- there
+are social norms and memes and old fuddy duddies like me who share
+those memes and information with people to try and encourage open
+source best practice, while at the same time trying not to disturb
+all the awesomeness going on that you guys are leading.
+
+With that, how many users are we talking about on the user mailing
+list at this point? Can you give me an exact count?
+
+I'm willing to spend the time to get people migrated now. Then,
+migrating later from user@spark.incubator.apache.org to
+user@spark.apache.org
+will be really less of a hassle and a lot less difficult since we
+are really moving from ezmlm to ezmlm. Also with the $podling.i.a.o
+namespace I think even now we can use spark.apache.org (*think*)
+which in turn could cause even less hassle later. In addition, like
+I said, when we graduate to TLP I'll also be happy to contribute
+time towards making the migration as seamless as possible.
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+Subject: Re: Mailing list transition (was Re: Apache Spark podling:
+Created!)
+
+o
+
+
+"
+Matei Zaharia <matei@eecs.berkeley.edu>,"Fri, 28 Jun 2013 17:28:27 -0700",Re: Mailing list transition (was Re: Apache Spark podling: Created!),dev@spark.incubator.apache.org,"Hey Chris,
+
+I definitely understand that we need to move to Apache lists, and I think that's fine, but maybe one question -- is it possible to transform the *@spark.incubator.apache.org lists into *@spark.apache.org more seamlessly when we graduate? It's weird to ask users to move twice. If these could somehow become aliases that would be ideal.
+
+In any case though, I think we'll have a gradual transition. I'd first move the dev list over, then the user one, and for a while I'd keep both and keep a notice on the Google group. I'm not sure how Google groups allow that but there must be a way.
+
+Matei
+
+
+<dev@spark.incubator.apache.org>
+<spark-developers@googlegroups.com>
+emails vs
+an
+Group,
+happy
+migrate
+one.
+<dev@spark.incubator.apache.org>,
+<spark-developers@googlegroups.com>
+getting
+for
+to
+users
+only
+subscribers
+migrate to
+when
+strictly
+will
+(i.e.
+group
+users
+then.
+irritating to
+<dev@spark.incubator.apache.org>
+this?
+but
+help
+the
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Dave
+<joshrosen@cs.berkeley.edu>,
+<imran@quantifind.com>,
+<mridulm@yahoo-inc.com>,
+F
+moderated
+starting
+please
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+<joshrosen@cs.berkeley.edu>,
+<imran@quantifind.com>,
+<mridulm@yahoo-inc.com>,
+all
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Fri, 28 Jun 2013 19:00:20 -0700",Re: Mailing list transition (was Re: Apache Spark podling: Created!),"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","
+
+spark-users: 868 members
+spark-developers: 224 members
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Sat, 29 Jun 2013 02:37:05 +0000",Re: A wiki for Spark (on Apache infra),Andy Konwinski <andykonwinski@gmail.com>,"Hey Andy,
+
+Ahh, ok that sucks. Can you send a mail to infrastructure@apache.org
+with the Message-IDs and they can investigate? Feel free to copy me
+(though I am already subscribed to the list).
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+Subject: Re: A wiki for Spark (on Apache infra)
+
+3;
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Sat, 29 Jun 2013 02:40:35 +0000",Re: Mailing list transition (was Re: Apache Spark podling: Created!),Andy Konwinski <andykonwinski@gmail.com>,"Hi Andy,
+
+Thanks for sharing. That's quite a few indeed. Like I said, I'm happy
+to help, I'd imagine the steps would be:
+
+1. Notice email to spark-developers@googlegroups.com that by XXX date
+(mid July, mid August?) that the project will shift its focus to answering
+questions
+on user@spark.i.a.o.
+
+2. #1 will give people time to start migrating. If you
+want to give me a list of emails I can subscribe them to the new user list.
+
+Thoughts?
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+Created!)
+
+to
+
+
+"
+Matei Zaharia <matei@berkeley.edu>,"Fri, 28 Jun 2013 17:29:10 -0700",Re: Mailing list transition (was Re: Apache Spark podling: Created!),dev@spark.incubator.apache.org,"Hey Chris,
+
+I definitely understand that we need to move to Apache lists, and I think that's fine, but maybe one question -- is it possible to transform the *@spark.incubator.apache.org lists into *@spark.apache.org more seamlessly when we graduate? It's weird to ask users to move twice. If these could somehow become aliases that would be ideal.
+
+In any case though, I think we'll have a gradual transition. I'd first move the dev list over, then the user one, and for a while I'd keep both and keep a notice on the Google group. I'm not sure how Google groups allow that but there must be a way.
+
+Matei
+
+
+
+<dev@spark.incubator.apache.org>
+<spark-developers@googlegroups.com>
+emails vs
+an
+Group,
+happy
+migrate
+one.
+<dev@spark.incubator.apache.org>,
+<spark-developers@googlegroups.com>
+getting
+for
+to
+users
+only
+subscribers
+migrate to
+when
+strictly
+will
+(i.e.
+group
+users
+then.
+irritating to
+<dev@spark.incubator.apache.org>
+this?
+but
+help
+the
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Dave
+<joshrosen@cs.berkeley.edu>,
+<imran@quantifind.com>,
+<mridulm@yahoo-inc.com>,
+F
+moderated
+starting
+please
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+<joshrosen@cs.berkeley.edu>,
+<imran@quantifind.com>,
+<mridulm@yahoo-inc.com>,
+all
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Sat, 29 Jun 2013 02:42:49 +0000",Re: Mailing list transition (was Re: Apache Spark podling: Created!),"Matei Zaharia <matei@berkeley.edu>,
+        ""dev@spark.incubator.apache.org""
+	<dev@spark.incubator.apache.org>","Hey Matei,
+
+Yep the below is exactly what I suggested to Andy (per your plan below).
+
+And yep I think with the $p.i.a.o namespace the transition is pretty
+seamless and doesn't require much from the users.
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+Created!)
+
+
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Fri, 28 Jun 2013 19:43:50 -0700",Re: A wiki for Spark (on Apache infra),"""spark-developers@googlegroups.com"" <spark-developers@googlegroups.com>","I've created this INFRA issue requesting a Spark Confluence wiki
+https://issues.apache.org/jira/browse/INFRA-6475 and made it a sub-task of
+the umbrella INFRA issue tracking all of the podling bootstrapping tasks
+(i.e., https://issues.apache.org/jira/browse/INFRA-6417 ).
+
+Andy
+
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Sat, 29 Jun 2013 15:34:57 +0000",Re: A wiki for Spark (on Apache infra),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>,
+        ""spark-developers@googlegroups.com"" <spark-developers@googlegroups.com>","Thanks Andy!
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+"

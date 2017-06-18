@@ -1,0 +1,2746 @@
+Mike <spark@good-with-numbers.com>,"Thu, 1 Aug 2013 19:00:52 +0000",Re: Saying hello and helping out,dev@spark.incubator.apache.org,"Matei,
+
+
+I'd be interesting in hearing about this part.
+
+--
+Mike
+
+"
+Marvin <no-reply@apache.org>,"Fri,  2 Aug 2013 16:20:19 +0000 (UTC)",Incubator PMC/Board report for Aug 2013 ([ppmc]),dev@spark.incubator.apache.org,"
+
+Dear podling,
+
+This email was sent by an automated system on behalf of the Apache Incubator PMC.
+It is an initial reminder to give you plenty of time to prepare your quarterly
+board report.
+
+The board meeting is scheduled for Wed, 21 August 2013, 10:30:00:00 PST. The report 
+for your podling will form a part of the Incubator PMC report. The Incubator PMC 
+requires your report to be submitted 2 weeks before the board meeting, to allow 
+sufficient time for review and submission (Wed, Aug 7th).
+
+Please submit your report with sufficient time to allow the incubator PMC, and 
+subsequently board members to review and digest. Again, the very latest you 
+should submit your report is 2 weeks prior to the board meeting.
+
+Thanks,
+
+The Apache Incubator PMC
+
+Submitting your Report
+----------------------
+
+Your report should contain the following:
+
+ * Your project name
+ * A brief description of your project, which assumes no knowledge of the project
+   or necessarily of its field
+ * A list of the three most important issues to address in the move towards 
+   graduation.
+ * Any issues that the Incubator PMC or ASF Board might wish/need to be aware of
+ * How has the community developed since the last report
+ * How has the project developed since the last report.
+ 
+This should be appended to the Incubator Wiki page at:
+
+  http://wiki.apache.org/incubator/August2013
+
+Note: This manually populated. You may need to wait a little before this page is
+      created from a template.
+
+Mentors
+-------
+Mentors should review reports for their project(s) and sign them off on the 
+Incubator wiki page. Signing off reports shows that you are following the 
+project - projects that are not signed may raise alarms for the Incubator PMC.
+
+Incubator PMC
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Fri, 2 Aug 2013 21:50:21 -0700",How do you run Spark jobs?,dev@spark.incubator.apache.org,"Hey All,
+
+I'm working on SPARK-800 [1]. The goal is to document a best practice or
+recommended way of bundling and running Spark jobs. We have a quickstart
+guide for writing a standlone job, but it doesn't cover how to deal with
+packaging up your dependencies and setting the correct environment
+variables required to submit a full job to a cluster. This can be a
+confusing process for beginners - it would be good to extend the guide to
+cover this.
+
+First though I wanted to sample this list and see how people tend to run
+Spark jobs inside their org's. Knowing any of the following would be
+helpful:
+
+- Do you create an uber jar with all of your job (and Spark)'s recursive
+dependencies?
+- Do you try to use sbt run or maven exec with some way to pass the correct
+environment variables?
+- Do people use a modified version of spark's own `run` script?
+- Do you have some other way of submitting jobs?
+
+Any notes would be helpful in compiling this!
+
+https://spark-project.atlassian.net/browse/SPARK-800
+"
+Konstantin Boudnik <cos@apache.org>,"Fri, 2 Aug 2013 23:57:50 -0700",Re: Looking into Maven build for spark,dev@spark.incubator.apache.org,"[Bcc: spark-developers@googlegroups.com]
+
+Guys, just wanted to close the loop on this.
+
+I have committed the packaging support for Spark (BIGTOP-715) into Bigtop
+master. The packaging is built on top of the Maven assembly and provides
+standard Linux services to control master and worker daemons.
+
+Shark is next in the pipeline ;)
+  Cos
+
+est
+ion.
+ in the
+on.
+ a
+the
+ocess
+re
+er:
+ the
+o I like
+ate
+ SBT
+obably
+'d bring
+ in their
+ following:
+sitive
+ would be cut
+hange a bit to
+ classpath.
+hat Spark is
+assages a
+der'ed into
+sense to
+er,
+ distros, it
+ded version
+rom this
+put something
+for further
+ release. We've
+p (e.g. Hive,
+act with a
+on at runtime.
+ark that is
+it simplifies
+r help. Is the
+with you
+they have
+doop dependency
+to allow a
+and Hadoop2.
+ Bigtop's Hadoop stack
+der. And, as always
+ial problem. By
+pendencies into the
+ independent of the
+ pretty much
+say Spark got compiled
+ainst Hadoop
+e with each other.
+are readily available
+et slightly different
+nds on low-level HDFS
+r a normal client
+Spark against any
+, unless the concrete
+ement of the binary
+rallel with shader's
+e Groups ""Spark Users"" group.
+ send an email to spark-users+unsubscribe@googlegroups.com.
+Groups ""Spark Users"" group.
+end an email to spark-users+unsubscribe@googlegroups.com.
+ps ""Spark Developers"" group.
+an email to spark-developers+unsubscribe@googlegroups.com.
+ ""Spark Developers"" group.
+ email to spark-developers+unsubscribe@googlegroups.com.
+"
+Roman Shaposhnik <rvs@apache.org>,"Mon, 5 Aug 2013 21:24:19 -0700",Re: How do you run Spark jobs?,dev@spark.incubator.apache.org,"
+Now that Spark has been integrated into Bigtop:
+    https://issues.apache.org/jira/browse/BIGTOP-715
+it may make sense to tackle some of those issues from a
+distribution perspective. Bigtop has a luxury of defining an
+entire distribution (you always know what versions of Hadoop
+and its ecosystem projects your're dealing with). It also
+provides helper functionality for a lot of common things (like
+finding JAVA_HOME, plugging into the underlying
+OS capabilities, etc.).
+
+I guess all I'm saying is that you guys should consider Bigtop
+as an integration platform for making Spark easier to use.
+
+Feel free to fork off this thread to dev@bigtop (CCed) if you
+think this is an idea worth exploring.
+
+Thanks,
+Roman.
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 7 Aug 2013 09:46:50 -0700",Re: Saying hello and helping out,dev@spark.incubator.apache.org,"Hey folks, FYI, I've added a ""Starter"" tag in JIRA to identify such issues. Here's the page listing them: https://spark-project.atlassian.net/browse/SPARK-865?jql=project%20%3D%2010000%20AND%20labels%20%3D%20Starter
+
+Matei
+
+
+
+
+
+"
+Roman Shaposhnik <rvs@apache.org>,"Wed, 7 Aug 2013 09:47:18 -0700",Re: Incubator PMC/Board report for Aug 2013 ([ppmc]),dev@spark.incubator.apache.org,"
+Guys, do you need any help with a report? It would be nice if we could get it
+done today.
+
+Thanks,
+Roman.
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 7 Aug 2013 10:57:12 -0700",Re: Incubator PMC/Board report for Aug 2013 ([ppmc]),dev@spark.incubator.apache.org,"I'll work on it later today and send it out. Thanks for the reminder!
+
+Matei
+
+
+Incubator PMC.
+quarterly
+PST. The report
+Incubator PMC
+meeting, to allow
+get it
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Wed, 7 Aug 2013 19:13:46 +0000",Re: Incubator PMC/Board report for Aug 2013 ([ppmc]),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Thanks I'll have time to review later today.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 7 Aug 2013 14:28:39 -0700",Re: Incubator PMC/Board report for Aug 2013 ([ppmc]),dev@spark.incubator.apache.org,"Alright, I've written it up: https://wiki.apache.org/incubator/August2013. Let me know if you have any comments.
+
+Matei
+
+
+<dev@spark.incubator.apache.org>
+your
+meeting,
+could
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Wed, 7 Aug 2013 14:32:42 -0700",Re: Incubator PMC/Board report for Aug 2013 ([ppmc]),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Thanks Matei
+
+content for http://spark.incubator.apache.org ?
+
+- Henry
+
+
+
+"
+Marvin <no-reply@apache.org>,"Wed,  7 Aug 2013 21:39:48 +0000 (UTC)",Incubator PMC/Board report for Aug 2013 ([ppmc]),dev@spark.incubator.apache.org,"
+
+Dear podling,
+
+This email was sent by an automated system on behalf of the Apache Incubator PMC.
+It is an initial reminder to give you plenty of time to prepare your quarterly
+board report.
+
+The board meeting is scheduled for Wed, 21 August 2013, 10:30:00:00 PST. The report 
+for your podling will form a part of the Incubator PMC report. The Incubator PMC 
+requires your report to be submitted 2 weeks before the board meeting, to allow 
+sufficient time for review and submission (Wed, Aug 7th).
+
+Please submit your report with sufficient time to allow the incubator PMC, and 
+subsequently board members to review and digest. Again, the very latest you 
+should submit your report is 2 weeks prior to the board meeting.
+
+Thanks,
+
+The Apache Incubator PMC
+
+Submitting your Report
+----------------------
+
+Your report should contain the following:
+
+ * Your project name
+ * A brief description of your project, which assumes no knowledge of the project
+   or necessarily of its field
+ * A list of the three most important issues to address in the move towards 
+   graduation.
+ * Any issues that the Incubator PMC or ASF Board might wish/need to be aware of
+ * How has the community developed since the last report
+ * How has the project developed since the last report.
+ 
+This should be appended to the Incubator Wiki page at:
+
+  http://wiki.apache.org/incubator/August2013
+
+Note: This manually populated. You may need to wait a little before this page is
+      created from a template.
+
+Mentors
+-------
+Mentors should review reports for their project(s) and sign them off on the 
+Incubator wiki page. Signing off reports shows that you are following the 
+project - projects that are not signed may raise alarms for the Incubator PMC.
+
+Incubator PMC
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 7 Aug 2013 14:52:29 -0700",Re: Incubator PMC/Board report for Aug 2013 ([ppmc]),dev@spark.incubator.apache.org,"Ah, good idea. I've added that in.
+
+Matei
+
+
+https://wiki.apache.org/incubator/August2013.
+<dev@spark.incubator.apache.org>
+reminder!
+Apache
+your
+10:30:00:00
+The
+meeting,
+could
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Wed, 7 Aug 2013 18:30:20 -0700",Re: Licensing for PySpark's CloudPickle Module,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","So I guess we could close this discussion as not as issue?
+
+This assuming that we could keep BSD license for CloudPickle module in
+Spark as ASF project.
+
+- Henry
+
+
+
+g
+e
+n
+e
+e
+n
+l
+at
+y
+n
+(
+ on the
+ts
+search)
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 7 Aug 2013 18:48:51 -0700",Re: Licensing for PySpark's CloudPickle Module,dev@spark.incubator.apache.org,"Yeah, I think we're fine with that. We don't have to switch its license.
+
+Matei
+
+
+<dev@spark.incubator.apache.org
+CloudPickle
+from
+PiCloud, in
+code
+since
+of the
+Python
+small
+I
+help
+small
+moving that
+modify
+our
+code
+import
+difficult
+(
+PiCloud's
+function
+PyPy (
+on the
+its
+its
+would
+/
+http://pypi.python.org/pypi?%3Aaction=search&term=pickle&submit=search)
+request.
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Thu, 8 Aug 2013 05:50:09 +0000",Re: Incubator PMC/Board report for Aug 2013 ([ppmc]),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Thanks Matei I've signed off, great work.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Thu, 8 Aug 2013 00:13:23 -0700",Re: Incubator PMC/Board report for Aug 2013 ([ppmc]),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","LGTM. I have signed off the report.
+
+Thanks Matei
+
+- Henry
+
+
+
+"
+Suresh Marru <smarru@apache.org>,"Thu, 8 Aug 2013 10:43:29 -0400",Re: Incubator PMC/Board report for Aug 2013 ([ppmc]),dev@spark.incubator.apache.org,"I signed off as well. Thanks Matei.
+
+Suresh
+
+
+website
+<matei.zaharia@gmail.com
+<dev@spark.incubator.apache.org>
+reminder!
+Apache
+your
+10:30:00:00
+The
+
+
+"
+Josh Rosen <rosenville@gmail.com>,"Thu, 8 Aug 2013 12:07:04 -0700",scala.Option vs Guava Optional in Spark Java APIs,"""Spark Dev (Apache Incubator)"" <dev@spark.incubator.apache.org>","I've noticed that Spark's Java API is inconsistent in how it represents
+optional values. Some methods use scala.Option instances, while others use
+Guava's Optional:
+
+scala.Option is used in by methods like JavaSparkContext.getSparkHome(),
+and the *outerJoin methods return a JavaPairRDD[K, (V, Option[W])].
+
+Guava Optional is used in methods like Java*RDD.getCheckpointFile() and
+JavaPairDStream.updateStateByKey() function arguments.
+
+I'd like to remove this inconsistency and settle on a single class for
+representing optional values in the Java API.
+
+Both APIs are similar, but the Guava API seems nicer for Java users.  For
+example, scala.Option.getOrElse(default) accepts a function, which isn't
+really usable from Java.
+
+http://www.scala-lang.org/api/current/index.html#scala.Option
+http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/base/Optional.html
+
+If we switch to exclusively using Guava Optional, we'd have to convert join
+results before turning them into JavaRDDs so that we have JavaPairRDD[K,
+(V, Optional[W])].  I don't anticipate this being a large performance issue.
+
+This would be a backwards-incompatible API change and 0.8 seems like the
+easiest time to make it.  I'd appreciate any thoughts on whether I should
+use Guava Optional everywhere.
+
+Thanks,
+Josh
+"
+Patrick Wendell <pwendell@gmail.com>,"Thu, 8 Aug 2013 12:14:55 -0700",Re: scala.Option vs Guava Optional in Spark Java APIs,dev@spark.incubator.apache.org,"For the streaming stuff, I'm fairly sure I used Guava (or I at least *want*
+it to be Guava) so I'm personally in full support of Guava for this.
+
+- Patrick
+
+
+
+"
+Roman Shaposhnik <rvs@apache.org>,"Thu, 8 Aug 2013 19:34:20 -0700",Re: Incubator PMC/Board report for Aug 2013 ([ppmc]),dev@spark.incubator.apache.org,"
+Very nice report! I signed off.
+
+Thanks,
+Roman.
+
+"
+Evan Chan <ev@ooyala.com>,"Fri, 9 Aug 2013 01:00:58 -0700",Re: How do you run Spark jobs?,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey Patrick,
+
+A while back I posted an SBT recipe allowing users to build Scala job
+assemblies that excluded Spark and its deps, which is what most people want
+I believe.  This allows you to include your own libraries and exclude
+Spark's for the smallest possible one.
+
+We don't use Spark's run script, instead we have SBT configured so that you
+can simply type ""run"" to run jobs.   I believe this gives maximum developer
+velocity.   We also have ""sbt console"" hooked up so that you can run spark
+shell from it (no need for ./spark-shell script).
+
+And, as you know, we are going to contribute back a job server.   We
+believe that for most organizations this will provide the easiest way for
+submitting and managing jobs -- IT/OPS sets up Spark as HTTP service (using
+job server), and users/developers can submit jobs to a managed service.
+We even have a giter8 template to make creating jobs for job server super
+simple.  The template has support for local run, spark shell, assembly, and
+testing.
+
+So anyways, I believe we'll have a lot to contribute to your guide -- both
+now and especially once the job server is contributed....  feel free to
+touch base offline.
+
+-Evan
+
+
+
+
+
+
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+<http://www.ooyala.com/>
+<http://www.facebook.com/ooyala><http://www.linkedin.com/company/ooyala><http://www.twitter.com/ooyala>
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Fri, 9 Aug 2013 10:42:15 -0700",Spark 0.8 branch,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>,
+ ""spark-developers@googlegroups.com"" <spark-developers@googlegroups.com>","Hi folks,
+
+In order to make the 0.8 release soon, I've created a new branch for it, on which we'll merge only bug fixes and a few of the new deployment features we still want there (e.g. updated EC2 scripts and some work to build one artifact that works with all Hadoop versions). If you continue sending pull requests against master, we will cherry-pick the ones with bug fixes into branch-0.8. Let me know if there are any other things you believe should be in 0.8 as well.
+
+Matei
+"
+Mridul Muralidharan <mridul@gmail.com>,"Sat, 10 Aug 2013 00:02:17 +0530",Re: Spark 0.8 branch,spark-developers@googlegroups.com,"Hi Matei,
+
+  Not sure if it is already planned, but the write related Connection  race
+condition Patrick reported/fixed might need to go to 0.8 also ...
+
+Regards
+Mridul
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Fri, 9 Aug 2013 11:32:53 -0700",Re: Spark 0.8 branch,spark-developers@googlegroups.com,"Yep - this will *definitely* be in 0.8!
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Fri, 9 Aug 2013 12:06:47 -0700",Re: Spark 0.8 branch,spark-developers@googlegroups.com,"Yes, that's what I count under ""bug fixes"".
+
+Matei
+
+
+race condition Patrick reported/fixed might need to go to 0.8 also ...
+it, on which we'll merge only bug fixes and a few of the new deployment features we still want there (e.g. updated EC2 scripts and some work to build one artifact that works with all Hadoop versions). If you continue sending pull requests against master, we will cherry-pick the ones with bug fixes into branch-0.8. Let me know if there are any other things you believe should be in 0.8 as well.
+Groups ""Spark Developers"" group.
+an email to spark-developers+unsubscribe@googlegroups.com.
+Groups ""Spark Developers"" group.
+an email to spark-developers+unsubscribe@googlegroups.com.
+Groups ""Spark Developers"" group.
+an email to spark-developers+unsubscribe@googlegroups.com.
+
+"
+Dmitriy Lyubimov <dlieu.7@gmail.com>,"Fri, 9 Aug 2013 13:41:40 -0700",Re: Spark 0.8 branch,spark-developers@googlegroups.com,"i sent a small pull request that declares HBASE_VERSION in the build
+explicitly in the header section of sbt build. It is pain to dig for it and
+it is a significant build parameter.
+
+
+
+"
+Evan Chan <ev@ooyala.com>,"Fri, 9 Aug 2013 15:36:02 -0700 (PDT)",Re: Spark 0.8 branch,spark-developers@googlegroups.com,"Matei,
+
+How about documentation updates, such as for the binary distribution?
+
+
+"
+Josh Rosen <rosenville@gmail.com>,"Fri, 9 Aug 2013 15:56:03 -0700",Re: Spark 0.8 branch,spark-developers@googlegroups.com,"I was thinking of making a backwards-incompatible API change in the Java
+API, described at
+https://mail-archives.apache.org/mod_mbox/incubator-spark-dev/201308.mbox/%3CCAOEPXP5iWWTSEhJGq5eafpPY1Dxp8ZTAfuhX9w-2%2BaQ3hApbfA%40mail.gmail.com%3E
+
+If nobody objects, I'll implement that change and submit a pull request to
+add it to 0.8.  I'm interested in doing this now because we won't break
+APIs in 0.8.1+, so it would have to wait until 0.9 if we don't do it now.
+
+I have several planned additions to the Java APIs to add the features
+missing from the Scala APIs, but those changes shouldn't introduce any
+incompatibilities and can be added in a minor release.
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Fri, 9 Aug 2013 20:44:03 -0700",Re: Spark 0.8 branch,spark-developers@googlegroups.com,"I think a change to Optional is good, so let's do that.
+
+@Evan -- documentation should definitely be added; feel free to send a PR adding a page on this to the docs. I also want to take a look at the binary distribution stuff once we've figured out the SBT build a little bit better.
+
+Matei
+
+
+Java API, described at https://mail-archives.apache.org/mod_mbox/incubator-spark-dev/201308.mbox/%3CCAOEPXP5iWWTSEhJGq5eafpPY1Dxp8ZTAfuhX9w-2%2BaQ3hApbfA%40mail.gmail.com%3E
+request to add it to 0.8.  I'm interested in doing this now because we won't break APIs in 0.8.1+, so it would have to wait until 0.9 if we don't do it now.
+missing from the Scala APIs, but those changes shouldn't introduce any incompatibilities and can be added in a minor release.
+it, on which we'll merge only bug fixes and a few of the new deployment features we still want there (e.g. updated EC2 scripts and some work to build one artifact that works with all Hadoop versions). If you continue sending pull requests against master, we will cherry-pick the ones with bug fixes into branch-0.8. Let me know if there are any other things you believe should be in 0.8 as well.
+Groups ""Spark Developers"" group.
+an email to spark-developers+unsubscribe@googlegroups.com.
+Groups ""Spark Developers"" group.
+an email to spark-developers+unsubscribe@googlegroups.com.
+
+"
+Michael Joyce <joyce@apache.org>,"Mon, 12 Aug 2013 05:48:08 -0700",Re: Saying hello and helping out,dev@spark.incubator.apache.org,"Awesome, thanks much for this!!
+
+
+-- Joyce
+
+
+
+"
+=?UTF-8?Q?Grega_Ke=C5=A1pret?= <grega@celtra.com>,"Tue, 13 Aug 2013 09:55:26 +0200",Re: How do you run Spark jobs?,dev@spark.incubator.apache.org,"Hey Evan,
+any chance you might find the link to the above mentioned SBT recipe?
+Would greatly appreciate it.
+
+Thanks,
+Grega
+
+
+"
+"""Huang, Jie"" <jie.huang@intel.com>","Wed, 14 Aug 2013 06:30:12 +0000",Fail to use  reduceByKey in latest github version with hadoop2 ,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi all,
+
+I am a newbie to Spark. After getting the latest code(0.8.0-SNAPSHOT, the default master branch) from github, and compiling it with Hadoop2, I found it failed to run the following example command demonstrated in the Spark document.
+  $> val wordCounts = textFile.flatMap(line => line.split("" "")).map(word => (word, 1)).reduceByKey((a, b) => a + b)
+
+BTW, I have prepared the package with SBT, and configured the Hadoop version in SparkBuild.scala file.  And it doesn¡¯t have the similar problem while choosing hadoop1 option.
+
+It seems the problem happening with the reduceByKey function(or its class loader). Since I have tried those RDD transformations one by one.  And you can find more details as below.
+Is there any solution to this problem? Is there anything missing in my preparation work? Thank you very much for your time and help.
+
+---------------------------------------------------------------------------------------------------------------------------
+java.lang.IncompatibleClassChangeError: Implementing class
+        at java.lang.ClassLoader.defineClass1(Native Method)
+        at java.lang.ClassLoader.defineClassCond(ClassLoader.java:631)
+        at java.lang.ClassLoader.defineClass(ClassLoader.java:615)
+        at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:141)
+        at java.net.URLClassLoader.defineClass(URLClassLoader.java:283)
+        at java.net.URLClassLoader.access$000(URLClassLoader.java:58)
+        at java.net.URLClassLoader$1.run(URLClassLoader.java:197)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+        at scala.tools.nsc.util.ScalaClassLoader$URLClassLoader.scala$tools$nsc$util$ScalaClassLoader$$super$findClass(ScalaClassLoader.scala:88)
+        at scala.tools.nsc.util.ScalaClassLoader$class.findClass(ScalaClassLoader.scala:44)
+        at scala.tools.nsc.util.ScalaClassLoader$URLClassLoader.findClass(ScalaClassLoader.scala:88)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+        at scala.tools.nsc.util.ScalaClassLoader$URLClassLoader.scala$tools$nsc$util$ScalaClassLoader$$super$loadClass(ScalaClassLoader.scala:88)
+        at scala.tools.nsc.util.ScalaClassLoader$class.loadClass(ScalaClassLoader.scala:50)
+        at scala.tools.nsc.util.ScalaClassLoader$URLClassLoader.loadClass(ScalaClassLoader.scala:88)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+        at spark.PairRDDFunctions.<init>(PairRDDFunctions.scala:53)
+        at spark.SparkContext$.rddToPairRDDFunctions(SparkContext.scala:877)
+        at <init>(<console>:14)
+        at <init>(<console>:19)
+        at <init>(<console>:21)
+        at <init>(<console>:23)
+        at <init>(<console>:25)
+        at .<init>(<console>:29)
+        at .<clinit>(<console>)
+        at .<init>(<console>:11)
+        at .<clinit>(<console>)
+        at $export(<console>)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+        at java.lang.reflect.Method.invoke(Method.java:597)
+        at spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:629)
+        at spark.repl.SparkIMain$Request$$anonfun$10.apply(SparkIMain.scala:890)
+        at scala.tools.nsc.interpreter.Line$$anonfun$1.apply$mcV$sp(Line.scala:43)
+        at scala.tools.nsc.io.package$$anon$2.run(package.scala:25)
+        at java.lang.Thread.run(Thread.java:662)
+
+Thank you && Best Regards,
+Grace £¨Huang Jie)
+
+
+"
+Gowtham N <gowtham.n.mail@gmail.com>,"Thu, 15 Aug 2013 01:23:40 -0700",ML algorithms,dev@spark.incubator.apache.org,"Hi,
+
+Can someone give details about the future work in ML algorithms (Inside
+mllib folder).
+Currently there are some basic algorithms implemented. Is there any roadmap
+regarding what ML algorithms are required?
+"
+Evan Chan <ev@ooyala.com>,"Thu, 15 Aug 2013 10:21:20 -0700",Re: How do you run Spark jobs?,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Here it is:
+
+https://groups.google.com/forum/?fromgroups=#!searchin/spark-users/SBT/spark-users/pHaF01sPwBo/faHr-fEAFbYJ
+
+
+te:
+
+or
+er
+e
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+<http://www.ooyala.com/>
+<http://www.facebook.com/ooyala><http://www.linkedin.com/company/ooyala><http://www.twitter.com/ooyala>
+"
+Stoney Vintson <stoneyv@gmail.com>,"Fri, 16 Aug 2013 00:15:16 -0700",Re: ML algorithms,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Gowtham,
+
+I will be uploading the Spark MLBase meetup video to youtube soon.  Ameet
+and Evan discuss what they have been working on and what they plan to work
+on in the future.
+
+Stoney
+"
+Nick Pentreath <nick.pentreath@gmail.com>,"Fri, 16 Aug 2013 13:08:18 +0200",Scikit-learn API paper,dev@spark.incubator.apache.org,"Quite interesting, and timely given current thinking around MLlib and MLI
+
+http://orbi.ulg.ac.be/bitstream/2268/154357/1/paper.pdf
+
+I do really like the way they have approached their API - and so far MLlib
+seems to be following a (roughly) similar approach.
+
+Interesting in particular they obviously go for mutable models instead of
+the Estimator / Predictor interface MLlib currently has. Not sure which of
+these is ""best"" really, they each have their pros & cons.
+
+N
+"
+Denis Turdakov <turdakov@ispras.ru>,"Fri, 16 Aug 2013 19:10:26 +0400",Bagel and partitioning,dev@spark.incubator.apache.org,"Hello everyone,
+
+In ISPRAS (http://ispras.ru) we are working on several problems of 
+social network analysis. In our work we are using Bagel implementation 
+in Spark.
+
+As one of ways to improve graph analysis performance we implement a 
+graph partitioning algorithm based on balanced label propagation (BLP) 
+algorithm developed in Facebook 
+can't be directly integrated to Bagel since it does not know anything 
+about graph edges. As a result interface for passing graph to the 
+partitioner is different from interface for passing graph to Bagel. 
+Because of this using partitioner requires more code modifications that 
+it could.
+
+So we thought about implementing another interface for processing graphs 
+that would be aware of edges. Another reason for a different interface 
+is that it may be very similar to GraphX so that switching between 
+edge-partitioning and vertex-partitioning approaches in an application 
+would be easier.
+
+
+Could you please clarify following things for us:
+1. Do you plan to continue development of Bagel?
+2. Would you be interested in incorporating our graph processing 
+interface into Spark if we implement it?
+3. Is there any point in contributing BLP partitioner to Spark project 
+in some way, e.g. as a Bagel partitioner?
+
+Best regards,
+Denis Turdakov
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Fri, 16 Aug 2013 18:37:14 -0700",Re: Fail to use  reduceByKey in latest github version with hadoop2,dev@spark.incubator.apache.org,"Maybe there are some old versions of libraries on the classpath. Run sbt clean and then sbt package again.
+
+Matei
+
+
+the default master branch) from github, and compiling it with Hadoop2, I found it failed to run the following example command demonstrated in the Spark document.
+"")).map(word => (word, 1)).reduceByKey((a, b) => a + b)
+version in SparkBuild.scala file.  And it doesn¡¯t have the similar problem while choosing hadoop1 option.
+class loader). Since I have tried those RDD transformations one by one.  And you can find more details as below.
+preparation work? Thank you very much for your time and help.
+---------------------------------------------------------------------------------------------------------------------------
+java.security.SecureClassLoader.defineClass(SecureClassLoader.java:141)
+scala.tools.nsc.util.ScalaClassLoader$URLClassLoader.scala$tools$nsc$util$ScalaClassLoader$$super$findClass(ScalaClassLoader.scala:88)
+scala.tools.nsc.util.ScalaClassLoader$class.findClass(ScalaClassLoader.scala:44)
+scala.tools.nsc.util.ScalaClassLoader$URLClassLoader.findClass(ScalaClassLoader.scala:88)
+scala.tools.nsc.util.ScalaClassLoader$URLClassLoader.scala$tools$nsc$util$ScalaClassLoader$$super$loadClass(ScalaClassLoader.scala:88)
+scala.tools.nsc.util.ScalaClassLoader$class.loadClass(ScalaClassLoader.scala:50)
+scala.tools.nsc.util.ScalaClassLoader$URLClassLoader.loadClass(ScalaClassLoader.scala:88)
+spark.SparkContext$.rddToPairRDDFunctions(SparkContext.scala:877)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:629)
+spark.repl.SparkIMain$Request$$anonfun$10.apply(SparkIMain.scala:890)
+scala.tools.nsc.interpreter.Line$$anonfun$1.apply$mcV$sp(Line.scala:43)
+
+
+"
+Reynold Xin <reynoldx@gmail.com>,"Fri, 16 Aug 2013 18:43:17 -0700",Re: Bagel and partitioning,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Denis,
+
+Thanks for the email. I didn't look at the paper yet so I don't fully
+understand your use case. But here are some answers:
+
+1. Do you plan to continue development of Bagel?
+
+Bagel will be subsumed by GraphX when GraphX comes out. We will try to
+provide a Bagel API on top of GraphX so existing interfaces don't have to
+change.
+
+2. Would you be interested in incorporating our graph processing interface
+into Spark if we implement it?
+
+Depending on what it is :) Can the interface be implemented on top of Bagel
+or GraphX? Does it benefit a large base of use cases/algorithms or is it
+very specific to some algorithms?
+
+If the interface doesn't require changing Spark itself, you can always put
+it out on GitHub and let others try the new interface, but creating a new
+Spark module would be a pretty major effort. We need to understand what it
+does and how it looks like before answering this question. It is a balance
+between how big/disruptive the change is, vs how much benefits it brings.
+
+
+3. Is there any point in contributing BLP partitioner to Spark project in
+some way, e.g. as a Bagel partitioner?
+
+See 2. If the BLP partitioner is small and can benefit some common graph
+use cases, definitely!
+
+
+
+
+
+"
+Gowtham N <gowtham.n.mail@gmail.com>,"Sun, 18 Aug 2013 21:14:20 -0700",Re: ML algorithms,dev@spark.incubator.apache.org,"Hi,
+
+Thanks for the youtube video. I wanted to know if people outside UCB, Brown
+and VMWare are allowed to contribute?
+
+
+
+
+
+
+-- 
+Gowtham Natarajan
+"
+Ameet Talwalkar <ameet@eecs.berkeley.edu>,"Sun, 18 Aug 2013 21:44:59 -0700",Re: ML algorithms,dev@spark.incubator.apache.org,"Yes, we encourage contributions from the community!   Please contact me if
+you're interested in working on anything in particular. Moreover, as noted
+in my previous email, I plan to update the JIRA issues in the next week to
+give more feedback about our internal roadmap.
+
+
+
+"
+Kiran Mathews <kiranmathews20@gmail.com>,"Mon, 19 Aug 2013 21:49:47 +0530",Re: ML algorithms,dev@spark.incubator.apache.org,"Stoney ,
+
+can you please post the link of your youtube video?
+
+
+
+
+"
+"""Ian O'Connell"" <ian@ianoconnell.com>","Mon, 19 Aug 2013 10:11:05 -0700",Re: ML algorithms,dev@spark.incubator.apache.org,"Stoney posted it on the user list
+
+https://www.youtube.com/watch?v=IxDnF_X4M-8
+
+
+
+"
+Sean McNamara <Sean.McNamara@Webtrends.com>,"Mon, 19 Aug 2013 17:12:25 +0000",Re: ML algorithms,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Kiran-
+
+I believe this is the link:  https://www.youtube.com/watch?v=IxDnF_X4M-8
+
+Best,
+
+Sean
+
+
+
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Mon, 19 Aug 2013 22:16:31 -0700",Re: Scikit-learn API paper,dev@spark.incubator.apache.org,"Thanks for forwarding this! We had indeed looked at SciKit-learn for MLLib.
+
+Matei
+
+
+
+
+"
+Evan Chan <ev@ooyala.com>,"Mon, 19 Aug 2013 23:02:59 -0700",Scala 2.10,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","When is the upgrade to 2.10 planned?
+
+thx,
+Evan
+
+"
+Gordon Hamilton <gordon.hamilton@wandisco.com>,"Tue, 20 Aug 2013 16:53:22 +0100",JSON Endpoints,dev@spark.incubator.apache.org,"Hi guys,
+
+I'm new to Spark, so apologies if I've missed something obvious.
+
+I'm investigating the possibility of using Spark from an external UI, and see that Spark 0.7.0 introduced JSON endpoints into the UI which allows Spark's state to be queried.  I see in MasterWebUI.scala that ""/json"" and ""/app/json"" map to renderJson functions, but when I hit the url's from a browser, I see ""No service available for [/json]"" and ""No service available for [/app/json]"" respectively.
+
+Is there any documentation on how the end points work, or could someone point me in the right direction as to where I can find more information?
+
+Many thanks in advance,
+Gordon
+
+
+-- 
+*Register now for* Subversion & Git Live October 2013<http://www.wandisco.com/subversion-live-2013>
+* **in** **Boston / San Francisco /** London*
+
+THIS MESSAGE AND ANY ATTACHMENTS ARE CONFIDENTIAL, PROPRIETARY, AND MAY BE 
+PRIVILEGED.  If this message was misdirected, WANdisco, Inc. and its 
+subsidiaries, (""WANdisco"") does not waive any confidentiality or privilege. 
+ If you are not the intended recipient, please notify us immediately and 
+destroy the message without disclosing its contents to anyone.  Any 
+distribution, use or copying of this e-mail or the information it contains 
+by other than an intended recipient is unauthorized.  The views and 
+opinions expressed in this e-mail message are the author's own and may not 
+reflect the views and opinions of WANdisco, unless the author is authorized 
+by WANdisco to express such views or opinions on its behalf.  All email 
+sent to or from this address is subject to electronic storage and review by 
+WANdisco.  Although WANdisco operates anti-virus programs, it does not 
+accept responsibility for any damage whatsoever caused by viruses being 
+passed.
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 20 Aug 2013 09:22:41 -0700",Re: Scala 2.10,dev@spark.incubator.apache.org,"Hi Evan,
+
+We plan to do it after Spark 0.8 comes out. You can already find a fairly complete work-in-progress version on branch scala-2.10.
+
+Matei
+
+
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Tue, 20 Aug 2013 11:14:08 -0700",Re: JSON Endpoints,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","In 0.7.X these are actually of the format /app?format=json. In 0.8.X they
+will be the format you described here ""/app/json"". Does that work for you?
+
+- Patrick
+
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Tue, 20 Aug 2013 11:34:45 -0700",Keeping users mailing list with Google groups,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Guys,
+
+I am thinking about keeping the users list with Google groups and mirror
+the messages to user@spark.i.a.o.
+
+This way users can communicate via Google groups forum style rather than
+Apache mailing list,
+
+Most developers contributing to Spark have to use Apache way to communicate
+but as for users, we could always let them communicate via Google groups
+but mirror the emails (or subscribe user@spark.i.a.o as member of Spark
+users Google group).
+
+Thoughts?
+
+- Henry
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 20 Aug 2013 11:37:15 -0700",Re: Keeping users mailing list with Google groups,dev@spark.incubator.apache.org,"Hi Henry,
+
+I'd be happy to do this as long as Apache is okay with it! It will save a lot of hassle for our users. Does it basically just require subscribing user@spark.i.a.o to the Google Group?
+
+Matei
+
+
+mirror
+than
+communicate
+groups
+Spark
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Tue, 20 Aug 2013 11:43:46 -0700",Re: Keeping users mailing list with Google groups,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","We'll let the other mentors chime in and give their thoughts.
+I have been looking at the Apache policy about public listing [1] and could
+not find anything about cross posting.
+
+Yeah, like Andy proposed before I am thinking about just subscribing the
+user@spark.i.a.o to Google groups and allow Google groups email to send
+email to the mailing list.
+Not sure what permission Chris set when creating the list but I did allow
+the JIRA emails to sent to other Apache list without actually subscribe to
+it.
+
+- Henry
+
+
+
+[1] http://www.apache.org/foundation/public-archives.html
+
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Tue, 20 Aug 2013 12:52:46 -0700",Re: Keeping users mailing list with Google groups,dev@spark.incubator.apache.org,"Is Google groups email formatting completely compatible with Apache lists?
+
+
+
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Tue, 20 Aug 2013 13:21:53 -0700",Re: Keeping users mailing list with Google groups,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Also, if we do it for the users group/list, is there any reason not to do
+it for the developers group/list as well? I think most of the developers
+also prefer to use Google groups and it would be nice to have the setup of
+the two mailing lists be parallel to each other.
+
+Andy
+
+
+
+"
+Kiran Mathews <kiranmathews20@gmail.com>,"Wed, 21 Aug 2013 02:24:24 +0530",Re: ML algorithms,dev@spark.incubator.apache.org,"Sean-
+
+Thank you Sean ...
+
+Regards
+Kiran
+
+
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Tue, 20 Aug 2013 13:55:34 -0700",Re: Keeping users mailing list with Google groups,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Oh, dont get me wrong, there will still be user list but we hopefully could
+mirror the content from Google groups mailing list.
+
+As for dev list, it is kind of similar situation but dev list is probably
+ok to use mailing list because most people in the list would be more
+flexible to not use UI for managing messages.
+The reason is because as part of the Apache way, the dev list is the main
+channel of communication for discussions and decision making for the
+community so I would prefer contributors to use the list directly.
+
+
+
+- Henry
+
+
+
+"
+Gordon Hamilton <gordon.hamilton@wandisco.com>,"Wed, 21 Aug 2013 00:25:20 +0100",Re: JSON Endpoints,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Patrick, that's great. I think I've possibly started a build from
+branch-0.7 but have been looking at branch-0.8 code. I'll try the formats
+you have described in the morning.
+
+Is there any documentation that outlines all that I could expect to see
+returned from the json calls?
+
+Thanks,
+Gordon
+
+
+
+
+-- 
+Gordon Hamilton I *Hadoop Development Team*
+
+WANdisco // *Non-Stop Data*
+
+e. gordon.hamilton@wandisco.com
+
+-- 
+*Register now for* Subversion & Git Live October 2013<http://www.wandisco.com/subversion-live-2013>
+* **in** **Boston / San Francisco /** London*
+
+THIS MESSAGE AND ANY ATTACHMENTS ARE CONFIDENTIAL, PROPRIETARY, AND MAY BE 
+PRIVILEGED.  If this message was misdirected, WANdisco, Inc. and its 
+subsidiaries, (""WANdisco"") does not waive any confidentiality or privilege. 
+ If you are not the intended recipient, please notify us immediately and 
+destroy the message without disclosing its contents to anyone.  Any 
+distribution, use or copying of this e-mail or the information it contains 
+by other than an intended recipient is unauthorized.  The views and 
+opinions expressed in this e-mail message are the author's own and may not 
+reflect the views and opinions of WANdisco, unless the author is authorized 
+by WANdisco to express such views or opinions on its behalf.  All email 
+sent to or from this address is subject to electronic storage and review by 
+WANdisco.  Although WANdisco operates anti-virus programs, it does not 
+accept responsibility for any damage whatsoever caused by viruses being 
+passed.
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Tue, 20 Aug 2013 16:44:39 -0700",Re: JSON Endpoints,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey Gordon,
+
+We don't have a specification of the API right now (in 0.7.X this is a
+somewhat experimental feature). Each call returns a set of (k, v) pairs and
+the list of keys is static, so you can just do a function call in the
+browser to see what it returns and get the schema. The JSON protocol code
+is here:
+
+https://github.com/mesos/spark/blob/branch-0.7/core/src/main/scala/spark/deploy/JsonProtocol.scala
+
+For 0.8 this will be more cleanly specified.
+
+- Patrick
+
+
+
+"
+Jey Kottalam <jey@cs.berkeley.edu>,"Tue, 20 Aug 2013 20:39:02 -0700",Important: Changes to Spark's build system on master branch,dev@spark.incubator.apache.org,"The master branch of Spark has been updated with PR #838, which
+changes aspects of Spark's interface to Hadoop. This involved also
+making changes to Spark's build system as documented below. The
+documentation will be updated with this information shortly.
+
+Please feel free to reply to this thread with any questions or if you
+encounter any problems.
+
+-Jey
+
+
+
+When Building Spark
+===============
+
+- General: The default version of Hadoop has been updated to 1.2.1 from 1.0.4.
+
+- General: You will probably need to perform an ""sbt clean"" or ""mvn
+clean"" to remove old build files. SBT users may also need to perform a
+""clean"" when changing Hadoop versions (or at least delete the
+lib_managed directory).
+
+- SBT users: The version of Hadoop used can be specified by setting
+the SPARK_HADOOP_VERSION environment variable when invoking sbt, and
+YARN-enabled builds can be created by setting SPARK_WITH_YARN=true.
+Example:
+
+    # Using Hadoop 1.1.0 (a version of Hadoop without YARN)
+    SPARK_HADOOP_VERSION=1.1.0 ./sbt/sbt package assembly
+
+    # Using Hadoop 2.0.5-alpha (which is a YARN-based version of Hadoop)
+    SPARK_HADOOP_VERSION=2.0.5-alpha SPARK_WITH_YARN=true ./sbt/sbt
+package assembly
+
+- Maven users: Set the Hadoop version built against by editing the
+""pom.xml"" file in the root directory and changing the ""hadoop.version""
+property (and, the ""yarn.version"" property if applicable). If you are
+building with YARN disabled, you no longer need to enable any Maven
+profiles (i.e. ""-P"" flags). To build with YARN enabled, use the
+""hadoop2-yarn"" Maven profile. Example:
+
+- The ""make-distribution.sh"" script has been updated to take
+additional parameters to select the Hadoop version and enable YARN.
+
+
+
+When Writing Spark Applications
+========================
+
+
+- Non-YARN users: If you wish to use HDFS, you will need to add the
+appropriate version of the ""hadoop-client"" artifact from the
+""org.apache.hadoop"" group to your project.
+
+    SBT example:
+        // ""force()"" is required because ""1.1.0"" is less than Spark's
+default of ""1.2.1""
+        ""org.apache.hadoop"" % ""hadoop-client"" % ""1.1.0"" force()
+
+    Maven example:
+        <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-client</artifactId>
+          <!-- the brackets are needed to tell Maven that this is a
+hard dependency on version ""1.1.0"" exactly -->
+          <version>[1.1.0]</version>
+        </dependency>
+
+
+- YARN users: You will now need to set SPARK_JAR to point to the
+spark-yarn assembly instead of the spark-core assembly previously
+used.
+
+  SBT Example:
+       SPARK_JAR=$PWD/yarn/target/spark-yarn-assembly-0.8.0-SNAPSHOT.jar \
+        ./run spark.deploy.yarn.Client \
+          --jar
+$PWD/examples/target/scala-2.9.3/spark-examples_2.9.3-0.8.0-SNAPSHOT.jar
+\
+          --class spark.examples.SparkPi --args yarn-standalone \
+          --num-workers 3 --worker-memory 2g --master-memory 2g --worker-cores 1
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Tue, 20 Aug 2013 22:02:04 -0700",Re: Important: Changes to Spark's build system on master branch,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>, Jey Kottalam <jey@cs.berkeley.edu>","Hi Jey, just want to clarify that the changes happen to master branch in
+the github and not the Apache git repository?
+
+Thanks,
+
+Henry
+
+
+
+"
+Jey Kottalam <jey@cs.berkeley.edu>,"Tue, 20 Aug 2013 22:14:19 -0700",Re: Important: Changes to Spark's build system on master branch,Henry Saputra <henry.saputra@gmail.com>,"Hi Henry,
+
+Yes, that is accurate to my knowledge. These changes were merged to
+the Github-hosted Spark repository at http://github.com/mesos/spark
+today (Aug 20) as part of pull request #838
+(https://github.com/mesos/spark/pull/838). The Apache-hosted
+repository at https://git-wip-us.apache.org/repos/asf/incubator-spark.git
+ does not appear to have these changes.
+
+-Jey
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Tue, 20 Aug 2013 22:21:29 -0700",Re: Important: Changes to Spark's build system on master branch,Jey Kottalam <jey@cs.berkeley.edu>,"Ah cool, thanks Jey
+
+- Henry
+
+
+
+"
+Roman Shaposhnik <rvs@apache.org>,"Tue, 20 Aug 2013 23:24:19 -0700",Re: Keeping users mailing list with Google groups,dev@spark.incubator.apache.org,"Hi!
+
+I totally understand the motivation, but I think we may be better
+off biting the bullet and doing the migration to the official ASF
+infra for MLs. My biggest concern is things like:
+    http://www.apache.org/foundation/public-archives.html
+
+I'm sure more senior ASF folks will chime in (if not -- I'll ping them ;-))
+but I'll be -0 on this (even though, again, I totally understand
+the motivation).
+
+Thanks,
+Roman.
+
+
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Tue, 20 Aug 2013 23:36:01 -0700",Re: Important: Changes to Spark's build system on master branch,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>, Jey Kottalam <jey@cs.berkeley.edu>","Hey Jey,
+
+I'd just like to add that you can also run hadoop2 without modifying the
+pom.xml file by passing the hadoop.version property at the command line
+like this:
+
+mvn -Dhadoop.version=2.0.0-mr1-cdh4.1.2 clean verify
+
+Also, when you mentioned building with Maven in your instructions I think
+you forgot to finish writing out your example for activating the yarn
+profile, which I think would be something like:
+
+mvn -Phadoop2-yarn clean verify
+
+...right?
+
+BTW, I've set up the AMPLab Jenkins Spark Maven Hadoop2 project to build
+using the new options
+https://amplab.cs.berkeley.edu/jenkins/job/Spark-Master-Maven-Hadoop2/
+
+Andy
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Tue, 20 Aug 2013 23:36:51 -0700",Re: Keeping users mailing list with Google groups,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Roman,
+
+I personally have no problem to go all the way with migration to ASF lists.
+Have been involved with couple projects that move the internal lists and
+forum-like support to ADF lists with no problem.
+
+I just started this thread to see if we could start something different
+like when git repos are start to be accepted for new ASF projects.
+There will be more projects in the future that come from github or google
+code that utilizes google groups for channel communication.
+
+For now, as Matei had communicated before, all migrations to ASF lists will
+begin on Sept 1 as planned.
+
+- Henry
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 21 Aug 2013 00:11:07 -0700",Re: Keeping users mailing list with Google groups,dev@spark.incubator.apache.org,"The other point, in case it wasn't clear, is that we do want to have an archive on the Apache mailing lists -- all messages sent to Google would also appear on user@spark.i.a.o.
+
+Matei
+
+
+lists.
+and
+different
+google
+will
+them ;-))
+<henry.saputra@gmail.com>
+mirror
+than
+groups
+Spark
+
+
+"
+Gordon Hamilton <open.gordy@gmail.com>,"Wed, 21 Aug 2013 09:46:58 +0100",Re: JSON Endpoints,dev@spark.incubator.apache.org,"Hi Patrick,
+
+I've got my calls working now.  This is exactly the kind of thing I was looking for.
+
+Thank you for all your help.
+
+Best regards,
+Gordon
+
+
+
+
+pairs and
+code
+https://github.com/mesos/spark/blob/branch-0.7/core/src/main/scala/spark/deploy/JsonProtocol.scala
+formats
+see
+0.8.X they
+for
+UI,
+allows
+""/json""
+from
+someone
+MAY
+its
+may
+email
+not
+being
+MAY BE
+privilege.
+and
+contains
+may not
+authorized
+email
+review by
+not
+being
+
+
+
+"
+Konstantin Boudnik <cos@apache.org>,"Wed, 21 Aug 2013 11:22:00 -0700",Re: Important: Changes to Spark's build system on master branch,dev@spark.incubator.apache.org,"For what it worth guys - hadoop2 profile content is misleading: CDH isn't
+Hadoop2: it has 1354 patches on top of Hadoop2 alpha.
+
+What is called hadoop2-yarn is actually hadoop2. Perhaps, while we are at it
+the profiles need to be renamed. I can supply the patch if the community is ok
+with it.
+
+Cos
+ 
+
+"
+Mridul Muralidharan <mridul@gmail.com>,"Thu, 22 Aug 2013 01:34:20 +0530",Re: Important: Changes to Spark's build system on master branch,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","hadoop2, in this context, is use of spark on a hadoop cluster without
+yarn but with hadoop2 interfaces.
+hadoop2-yarn uses yarn RM to launch a spark job (and obviously uses
+hadoop2 interfaces).
+
+Regards,
+Mridul
+
+
+"
+Jey Kottalam <jey@cs.berkeley.edu>,"Wed, 21 Aug 2013 13:20:05 -0700",Re: Important: Changes to Spark's build system on master branch,Mridul Muralidharan <mridul@gmail.com>,"As Mridul points out, the old ""hadoop1"" and ""hadoop2"" terminology
+referred to the versions of certain interfaces and classes within
+Hadoop. With these latest changes we have unified the handling of both
+hadoop1 and hadoop2 interfaces so that the build is agnostic to the
+exact Hadoop version available at runtime.
+
+However, the distinction between YARN-enabled and non-YARN builds does
+still exist. I propose that we retroactively reinterpret
+""hadoop2-yarn"" as shorthand for ""Hadoop MapReduce v2 (aka YARN)"".
+
+-Jey
+
+
+"
+Gowtham N <gowtham.n.mail@gmail.com>,"Wed, 21 Aug 2013 16:49:48 -0700",Re: ML algorithms,dev@spark.incubator.apache.org,"Hi,
+
+Yes. I will look at JIRA and the roadmap once its done and contact you
+about a particular algorithm.
+
+
+
+
+
+
+-- 
+Gowtham Natarajan
+"
+Konstantin Boudnik <cos@apache.org>,"Wed, 21 Aug 2013 16:50:04 -0700",Re: Important: Changes to Spark's build system on master branch,dev@spark.incubator.apache.org,"I hear you guys - and I am well aware about the differences between the two.
+However, actual Hadoop2 doesn't even have such thing as MR1 - this is why
+profile naming is misleading. What you see under the current profile 'hadoop2'
+is essentially a commercial hack, that doesn't exist anywhere beyond CDH
+artifacts (and event there not for long).
+
+Besides, YARN != MR2 :) YARN is a resource manager that, among other things,
+provides for running MR applications on it.
+
+We can argue about semantics till blue in the face, but the reality is simple:
+current 'hadoop2' profile doesn't reflect Hadoop2 facts. That's my only point.
+
+Cos
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 21 Aug 2013 16:59:40 -0700",Re: Important: Changes to Spark's build system on master branch,dev@spark.incubator.apache.org,"I understand this Cos, but Jey's patch actually removes the idea of ""hadoop2"". You only set SPARK_HADOOP_VERSION (which can be 1.0.x, 2.0.0-cdh4, 2.0.5-alpha, etc) and possibly SPARK_YARN_MODE if you want to run on YARN.
+
+Matei
+
+
+the two.
+why
+'hadoop2'
+CDH
+things,
+simple:
+only point.
+both
+does
+without
+isn't
+are at it
+community is ok
+modifying the
+line
+I think
+yarn
+build
+https://amplab.cs.berkeley.edu/jenkins/job/Spark-Master-Maven-Hadoop2/
+also
+you
+1.2.1 from
+""mvn
+perform a
+setting
+and
+SPARK_WITH_YARN=true.
+Hadoop)
+./sbt/sbt
+the
+""hadoop.version""
+are
+Maven
+YARN.
+=
+the
+Spark's
+a
+SPARK_JAR=$PWD/yarn/target/spark-yarn-assembly-0.8.0-SNAPSHOT.jar \
+$PWD/examples/target/scala-2.9.3/spark-examples_2.9.3-0.8.0-SNAPSHOT.jar
+
+
+"
+Konstantin Boudnik <cos@apache.org>,"Wed, 21 Aug 2013 20:44:00 -0700",Re: Important: Changes to Spark's build system on master branch,dev@spark.incubator.apache.org,"Looked into the code - totally makes sense now. Sorry for the fuss - was
+emailing from my phone being away from a normal computer and access to the
+code.
+
+Very good change indeed, thanks Jey!
+  Cos
+
+ two.
+hy
+adoop2'
+things,
+simple:
+ point.
+isn't
+re at it
+nity is ok
+g the
+line
+ think
+rn
+build
+p2/
+you
+ from
+rm a
+nd
+ue.
+doop)
+/sbt
+ion""
+are
+==
+'s
+HOT.jar \
+OT.jar
+"
+"""Liu, Raymond"" <raymond.liu@intel.com>","Thu, 22 Aug 2013 05:01:42 +0000",Question about Spark on Yarn design,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi
+
+	In the current implementation, when running Spark on top of Yarn by spark.deploy.yarn.Client, the Spark context is actually running in the Yarn Application Master process as a thread. Say not on the node that Client app is invoke. Which is quite different from the other mode say mesos/standalone/local etc.
+	I understand that this is not a problem for app that do not involve user interaction or local file operation. While not working for e.g. spark-shell like app. Say https://spark-project.atlassian.net/browse/SPARK-527
+
+	And with this yarn mode, the app output is on the node that AM is instanced. not easy to be checked.
+
+	So, any particular reason that yarn mode is implemented this way?
+
+	And I just wondering, could we add a mode that the scheduler's Driver actor is still run on local machine, and the Yarn Application Master just launch Executor instead of run the whole user application. Thus a client wrapper app is not needed, and user can just new Spark Context with this mode in local. The drawback I can image is that the client node's burden is heavier compare to current Yarn mode, but similar to mesos or standalone mode. And might also need to handle some fail over issue etc.
+
+	Another approaching might be that, enhance the current wrapper client application to proxy all input and output from the app back to the local machine instead of just report the application status. This seems to me not a sound or easy solution, Especially when local file is involved or third party library which have local operation involved.
+
+	Any ideas?
+
+Best Regards,
+Raymond Liu
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Thu, 22 Aug 2013 20:26:57 -0700",RDDs with no partitions,dev@spark.incubator.apache.org,"So how do these get created, and are we really handling them correctly?
+ What is prompting my questions is that I'm looking at making sure that the
+various data structures in the DAGScheduler shrink when appropriate instead
+of growing without bounds.  Jobs with no partitions and the ""zero split
+job"" test in the DAGSchedulerSuite really throw a wrench into the works.
+ That's because in the DAGScheduler we go part way along in handling this
+weird case as though it were a normal job submission, we start initializing
+or adding to various data structures, etc.; then we pretty much bail out in
+submitMissingTasks when we find out that there actually are no tasks to be
+done.  We remove the stage from the set of running stages, but we don't
+ever clean up pendingTasks, activeJobs, stageIdToStage, stageToInfos, and
+others because no tasks are ever submitted for the stage, so there are
+never any completion events, nor is the stage aborted -- i.e. the normal
+paths to cleanup are never taken.  The end result is that shuffleMap stages
+with no partitions (can these even occur?) never complete, and job's with
+no partitions would seem also to persist forever.
+
+In short, RDDs with no partitions do really weird things to the
+DAGScheduler.
+
+So, if there is no way to effectively prevent the creation of RDDs with no
+partitions, is there any reason why we can't short-circuit their handling
+within the DAGScheduler so that data structures are never built or
+populated for these weird things, or must we add a bunch of special-case
+cleanup code to submitMissingStages?
+"
+Reynold Xin <reynoldx@gmail.com>,"Thu, 22 Aug 2013 21:20:23 -0700",Re: RDDs with no partitions,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Being the guy that added the empty partition rdd, I second your idea that
+we should just short-circuit those in DAGScheduler.runJob.
+
+
+
+
+
+"
+Chris Mattmann <mattmann@apache.org>,"Thu, 22 Aug 2013 21:50:18 -0700",Re: Keeping users mailing list with Google groups,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey Guys,
+
+I replied to Matei  about this -- as far as the ASF is concerned, if
+it didn't happen on the *ASF* mailing list for the project, then it
+didn't happen and thus isn't a decision that binds the project, or that
+is defensible from a community perspective.
+
+So let's get that out of the way to start :) Now, beyond that, if folks
+prefer to post through Google Groups or use its interface, is it possible
+to simply make Google Groups postings to user@spark appear on user@spark?
+I would start there (ignore the dev list for now; we need to demonstrate
+this
+works first on user@ and if it does and doesn't have negative side effects,
+then we should try it on dev@). Also I think that the Spark PPMC needs to
+set a precedent and ensure that the traffic for the mailing list gets to
+the mailing list, and encourage folks that the gold source is @ the ASF.
+
+In short, if there is a way to treat Google Groups as a ""client"" of the
+canonical mail source/""server"" at the ASF, then that's OK by me, so long
+as the discussion appears here on this list and can be replied to and kept
+in context here at the ASF.
+
+Cheers,
+Chris
+
+
+
+
+
+
+"
+Chris Mattmann <mattmann@apache.org>,"Thu, 22 Aug 2013 21:56:22 -0700",Re: Keeping users mailing list with Google groups,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Roman, see my reply else-thread :)
+
+Cheers,
+Chris
+
+
+
+
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Thu, 22 Aug 2013 22:51:34 -0700",Re: RDDs with no partitions,dev@spark.incubator.apache.org,"We already do a quick, no-op return from DAGScheduler.runJob when there are
+no partitions submitted with the job, so running a job with no partitions
+in the usual way isn't a problem.  That still leaves at least the ""zero
+split job"" in the DAGSchedulerSuite and the possibility of shuffleMap
+stages with no partitions.  Is ""zero split job"" testing anything
+meaningful, or is its only purpose to cause me headaches?  Can shuffleMap
+stages actually have no partitions, or is this (also) a distraction posing
+as a legitimate problem?
+
+In short, when are RDDs with no partitions real things that we actually
+have to deal with?
+
+
+
+
+"
+Reynold Xin <reynoldx@gmail.com>,"Thu, 22 Aug 2013 22:57:01 -0700",Re: RDDs with no partitions,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>, Charles Reiss <charles@cs.berkeley.edu>","I actually don't think there is any reason to have 0 partition stages, be
+it either result stage or shufflemap.
+
+It looks like Charles added those. Charles, any comments?
+
+
+
+
+"
+"""Liu, Raymond"" <raymond.liu@intel.com>","Fri, 23 Aug 2013 07:06:24 +0000",Not able to sign up jira,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","
+Not able to sign up jira at :  https://spark-project.atlassian.net/secure/Signup!default.jspa
+
+The verification image on sign up page could not be displayed , I tred both chrome/IE/Firefox
+
+Error message :
+
+java.lang.NoClassDefFoundError: Could not initialize class com.atlassian.jira.servlet.NoOpImageCaptchaService
+java.lang.NoClassDefFoundError: Could not initialize class com.atlassian.jira.servlet.NoOpImageCaptchaService
+	at com.atlassian.jira.servlet.NoOpCaptchaServiceImpl.getImageCaptchaService(NoOpCaptchaServiceImpl.java:14)
+	at com.atlassian.jira.web.action.user.Signup.validateCaptcha(Signup.java:160)
+	at com.atlassian.jira.web.action.user.Signup.doValidation(Signup.java:91)
+	at webwork.action.ActionSupport.validate(ActionSupport.java:391)
+	at webwork.action.ActionSupport.execute(ActionSupport.java:162)
+	at com.atlassian.jira.action.JiraActionSupport.execute(JiraActionSupport.java:92)
+	at webwork.interceptor.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:39)
+	at webwork.interceptor.NestedInterceptorChain.proceed(NestedInterceptorChain.java:31)
+...
+
+
+Is it my client side problem or ?
+
+Best Regards,
+Raymond Liu
+
+
+"
+Tom Graves <tgraves_cs@yahoo.com>,"Fri, 23 Aug 2013 06:25:22 -0700 (PDT)",Re: Question about Spark on Yarn design,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","We also want to eventually make spark on yarn be able to handle interactive and be more like the standalone deploy where it is more long lived.  The first step was to it working for the batch like jobs.  So we plan on working on that later this year.  If you are interested in working on it that would be great.   
+
+Starting the driver on the local machine is not scalable. It would quickly overload the launcher boxes and make the launcher(local) boxes very critical.  
+
+Tom
+
+
+________________________________
+ From: ""Liu, Raymond"" <raymond.liu@intel.com>
+To: ""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org> 
+Sent: Thursday, August 22, 2013 12:01 AM
+Subject: Question about Spark on Yarn design
+ 
+
+Hi
+
+    In the current implementation, when running Spark on top of Yarn by spark.deploy.yarn.Client, the Spark context is actually running in the Yarn Application Master process as a thread. Say not on the node that Client app is invoke. Which is quite different from the other mode say mesos/standalone/local etc.
+    I understand that this is not a problem for app that do not involve user interaction or local file operation. While not working for e.g. spark-shell like app. Say https://spark-project.atlassian.net/browse/SPARK-527
+
+    And with this yarn mode, the app output is on the node that AM is instanced. not easy to be checked.
+
+    So, any particular reason that yarn mode is implemented this way?
+
+    And I just wondering, could we add a mode that the scheduler's Driver actor is still run on local machine, and the Yarn Application Master just launch Executor instead of run the whole user application. Thus a client wrapper app is not needed, and user can just new Spark Context with this mode in local. The drawback I can image is that the client node's burden is heavier compare to current Yarn mode, but similar to mesos or standalone mode. And might also need to handle some fail over issue etc.
+
+    Another approaching might be that, enhance the current wrapper client application to proxy all input and output from the app back to the local machine instead of just report the application status. This seems to me not a sound or easy solution, Especially when local file is involved or third party library which have local operation involved.
+
+    Any ideas?
+
+Best Regards,
+Raymond Liu"
+Ryan Weald <ryan@weald.com>,"Fri, 23 Aug 2013 08:49:52 -0700",Re: Not able to sign up jira,dev@spark.incubator.apache.org,"I am also having the same issue where a broken captcha prevents my from
+registering for the spark jira. Would love to be able to sign up and start
+contributing.
+
+-Ryan Weald
+
+-Ryan
+
+
+
+"
+Reynold Xin <reynoldx@gmail.com>,"Fri, 23 Aug 2013 11:07:41 -0700",Re: RDDs with no partitions,Charles Reiss <charles@eecs.berkeley.edu>,"But is there any reason to do the handling of those beyond runJob?
+
+
+
+"
+Charles Reiss <charles@eecs.berkeley.edu>,"Fri, 23 Aug 2013 11:04:54 -0700",Re: RDDs with no partitions,Reynold Xin <reynoldx@gmail.com>,"
+pretty easily with PartitionPruningRDD. Given that, e.g., Shark uses this with
+partition statistics, I imagine that real programs can hit the 0-partition
+stage case this way.
+
+and presumably some uses of hadoopFile/etc., though I won't claim that these
+are important to support.
+
+- Charles
+
+
+
+"
+Charles Reiss <charles@eecs.berkeley.edu>,"Fri, 23 Aug 2013 11:29:41 -0700",Re: RDDs with no partitions,Reynold Xin <reynoldx@gmail.com>,"
+I think the zero-partition RDD might be used in a shuffle with a non-zero
+output partition count (e.g. emptyRdd.reduceByKey(f, 1)).
+
+- Charles
+
+
+
+"
+Tathagata Das <tathagata.das1565@gmail.com>,"Fri, 23 Aug 2013 11:30:19 -0700",Re: RDDs with no partitions,dev@spark.incubator.apache.org,"Spark Streaming can also generate RDDs with zero partitions if no data was
+received i.e. no data blocks were created in a batch interval. The
+resultant BlockRDD for that batch interval will have zero partitions.
+
+This RDD still need to be cogrouped with another RDD (state RDD) and
+finally new state RDD needs to be computed (even if there was no input
+data).
+However, as far as I think, since we are doing a shuffle on the BlockRDD
+(for the cogroup) the ShuffledRDD (or whatever its now called) will
+non-zero partitions (even though its parent RDD has zero-poartitions). So
+this is not really a case of zero partitions and it will actually get
+computed in the current code.
+
+TL;DR: From Spark Streaming point of view, even though there are
+0-partition RDDs possible, I dont see a point of handling zero partitions
+beyond runjob.
+
+TD
+
+
+
+"
+Konstantin Boudnik <cos@apache.org>,"Fri, 23 Aug 2013 20:26:46 -0700",Re: Not able to sign up jira,dev@spark.incubator.apache.org,"A couple of guys in my team git the similar problem recently.
+
+Cos
+
+te:
+e(NoOpCaptchaServiceImpl.java:14)
+60)
+ava:92)
+hain.java:39)
+in.java:31)
+"
+Chris Mattmann <mattmann@apache.org>,"Fri, 23 Aug 2013 20:56:28 -0700",Website: WOW,<dev@spark.incubator.apache.org>,"Dudes just wanted to saw WOW. Amazing/excellent job on porting the website.
+
+/me gets all teary eyed. Great job on already starting to do the branding
+too!!
+
+See the branding guidelines:
+
+http://www.apache.org/foundation/marks/pmcs.html
+
+
+For more help. But this is amazing and I'm just way proud. What a great
+present
+for the weekend!!
+
+Cheers,
+Chris ""Happy Mentor"" Mattmann
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Fri, 23 Aug 2013 21:06:25 -0700",Re: Website: WOW,dev@spark.incubator.apache.org,"Thanks Chris! We're still working on it and hopefully we'll have some improvements over the old one soon too.
+
+Matei
+
+
+website.
+branding
+great
+
+
+"
+Gowtham N <gowtham.n.mail@gmail.com>,"Fri, 23 Aug 2013 22:10:29 -0700",Re: Not able to sign up jira,dev@spark.incubator.apache.org,"Same problem here.
+
+
+
+
+
+
+-- 
+Gowtham Natarajan
+"
+Henry Saputra <henry.saputra@gmail.com>,"Sat, 24 Aug 2013 11:35:09 -0700",Re: Website: WOW,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Yep, totally agree with Chris.
+
+Good job guys =)
+
+- Henry
+
+
+
+"
+Roman Shaposhnik <rvs@apache.org>,"Sat, 24 Aug 2013 12:25:17 -0700",Re: Website: WOW,dev@spark.incubator.apache.org,"
+Indeed -- very nice!
+
+Thanks,
+Roman.
+
+"
+Gerard Maas <gerard.maas@gmail.com>,"Sat, 24 Aug 2013 13:11:27 -0700",Re: Not able to sign up jira,dev@spark.incubator.apache.org,"Same here. Just sayin'
+
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Sat, 24 Aug 2013 14:33:22 -0700",Re: Not able to sign up jira,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey Guys,
+
+Thanks for reporting this - I've disabled CAPTCHA on our sign-up page. It
+looks like Atlassian broke this feature in and won't be fixing it until the
+next release:
+https://jira.atlassian.com/browse/JRA-34421.
+
+Could you let me know if you are able to sign up now? Thanks!
+
+- Patrick
+
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Sat, 24 Aug 2013 15:23:58 -0700",EC2 Script Changes,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Everyone,
+
+Today I merged a few improvements to the Spark EC2 scripts to master.
+I wanted to take a moment to explain what they are give some more
+color on the purpose of these scripts and how we plan to maintain them
+going forward. First, the new changes:
+
+- Clusters can be created in any region
+- We now support the beefier HVM instance types
+- A specific version or git-tag of Spark can be selected when
+launching a cluster
+- Clusters can now be launched with newer versions of HDFS
+- Mesos has been fully replaced with the Standalone scheduler
+- There was substantial internal refactoring and clean-up
+
+The purpose of these scripts is to make it extremely easy to create
+ephemeral Spark clusters on EC2. In the past this has served two
+audiences: (i) new users who want to experiment with Spark on a real
+cluster and (ii) developers and researchers testing extensions to
+Spark.
+
+Because these are the main goals, we’ve focused on
+ease-of-provisioning and ensuring the cluster environment is as simple
+and predictable as possible. This is in part why we’ve moved from
+Mesos to the Standalone scheduler (as many know Spark can run on
+Mesos, YARN, and it’s own simplified scheduler). We also tightly
+control the OS, JVM version, installed packages, etc, so we can
+support people easily on the mailing list who use this to kick the
+tires with Spark.
+
+If you are running older versions of the ec2 scripts, including those
+in Spark 0.6/0.7, things will work just as they used to. This only
+affects 0.8.0 and newer. I also wanted to note that we may extend
+these scripts over time in ways that break *internal* compatibility
+with earlier versions. If you are building applications on top of our
+ec2 scripts, you should fork the `spark-ec2` repository and maintain
+your own copy of the repo (not sure if anyone’s doing this though…).
+
+Please feel free to test this out in the next few days and report any
+issues to me/the dev list. Hopefully this change will make it easier
+for people to get started with Spark even if they have AWS data in
+other regions.
+
+Thanks,
+- Patrick
+
+"
+Gowtham N <gowtham.n.mail@gmail.com>,"Sat, 24 Aug 2013 17:30:14 -0700",Re: Not able to sign up jira,dev@spark.incubator.apache.org,"Hi,
+Sign up worked. Thanks.
+
+If anyone is working on MLlib, can you please update it here
+https://spark-project.atlassian.net/browse/MLLIB
+
+
+
+
+
+
+
+-- 
+Gowtham Natarajan
+"
+Henry Saputra <henry.saputra@gmail.com>,"Sat, 24 Aug 2013 22:47:35 -0700",Re: Keeping users mailing list with Google groups,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Thanks for the advice and insight Chris.
+
+So looks like we could try/ experiment it with user@spark.i.a.o list with
+Google group as client to send emails/messages to Apache Spark's user list.
+
+I know we can allow external email address to send emails to user@ list but
+I dont think we could manually add Spark's user@ email address as member of
+Spark's Google group, or do we?
+As Chris has mentioned before, we need to make sure every email sent via
+Spark's Google user group will be sent to the user@spark.i.a.o email
+address.
+
+
+- Henry
+
+
+
+"
+Imran Rashid <imran@therashids.com>,"Mon, 26 Aug 2013 00:26:02 +0200",off-heap RDDs,dev@spark.incubator.apache.org,"Hi,
+
+I was wondering if anyone has thought about putting cached data in an
+RDD into off-heap memory, eg. w/ direct byte buffers.  For really
+long-lived RDDs that use a lot of memory, this seems like a huge
+improvement, since all the memory is now totally ignored during GC.
+(and reading data from direct byte buffers is potentially faster as
+well, buts thats just a nice bonus).
+
+The easiest thing to do is to store memory-serialized RDDs in direct
+byte buffers, but I guess we could also store the serialized RDD on
+disk and use a memory mapped file.  Serializing into off-heap buffers
+is a really simple patch, I just changed a few lines (I haven't done
+any real tests w/ it yet, though).  But I dont' really have a ton of
+experience w/ off-heap memory, so I thought I would ask what others
+think of the idea, if it makes sense or if there are any gotchas I
+should be aware of, etc.
+
+thanks,
+Imran
+
+"
+Reynold Xin <reynoldx@gmail.com>,"Sun, 25 Aug 2013 16:39:30 -0700",Re: off-heap RDDs,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","This can be a good idea, especially for large heaps, and the changes for
+Spark is potentially fairly small (need to make BlockManager aware of off
+heap size and direct byte buffers in its size accounting). This is
+especially attractive if the application can read directly from a byte
+buffer without generic serialization (like Shark).
+
+good at dealing with tons of small allocations, but this is not really a
+big problem since RDD partitions are supposed to be large in Spark.
+
+
+
+
+
+"
+Haoyuan Li <haoyuan.li@gmail.com>,"Sun, 25 Aug 2013 17:06:04 -0700",Re: off-heap RDDs,dev@spark.incubator.apache.org,"Hi Imran,
+
+Tachyon<https://github.com/amplab/tachyon>.
+When data is in Tachyon, Spark jobs will read it from off-heap memory.
+Internally, it uses direct byte buffers to store memory-serialized RDDs as
+you mentioned. Also, different Spark jobs can share the same data in
+Tachyon's memory. Here is a presentation
+(slide<https://docs.google.com/viewer?url=http%3A%2F%2Ffiles.meetup.com%2F3138542%2FTachyon_2013-05-09_Spark_Meetup.pdf>)
+we did in May.
+
+Haoyuan
+
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Sun, 25 Aug 2013 18:06:31 -0700",Re: off-heap RDDs,dev@spark.incubator.apache.org,"I'd need to see a clear and significant advantage to using off-heap RDDs
+directly within Spark vs. leveraging Tachyon.  What worries me is the
+combinatoric explosion of different caching and persistence mechanisms.
+ With too many of these, not only will users potentially be baffled
+(@user-list: ""What are the performance trade-offs in
+using MEMORY_ONLY_SER_2 vs. MEMORY_ONLY vs. off-heap RDDs?  Or should I
+store some of my RDDs in Tachyon?  Which ones?"", etc. ad infinitum), but
+we've got to make sure that all of the combinations work correctly.  At
+some point we end up needing to do some sort of caching/persistence manager
+to automate some of the choices and wrangle the permutations.
+
+That's not to say that off-heap RDDs are a bad idea or are necessarily the
+combinatoric last straw, but I'm concerned about adding significant
+complexity for only marginal gains in limited cases over a more general
+solution via Tachyon.  I'm willing to be shown that those concerns are
+misplaced.
+
+
+
+
+"
+Reynold Xin <reynoldx@gmail.com>,"Sun, 25 Aug 2013 18:15:45 -0700",Re: off-heap RDDs,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Mark - you don't necessarily need to construct a separate storage level.
+a DirectByteBuffer.
+
+
+
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Sun, 25 Aug 2013 18:38:34 -0700",Re: off-heap RDDs,dev@spark.incubator.apache.org,"No, you don't necessarily need a separate storage level, but I don't think
+you can avoid the ""when do I use on-heap RDDs vs. off-heap RDDs vs. RDDs in
+Tachyon vs. ...?"" questions.  If off-heap RDDs don't gain us a lot over
+Tachyon in a lot of use cases, then I'm not sure that they are worth the
+extra complexity.  If you can show me how to do them really simply and so
+that their appropriate use cases are obvious, then that changes the
+calculus.
+
+
+
+"
+Mike <spark@good-with-numbers.com>,"Mon, 26 Aug 2013 02:16:45 +0000",Eclipse reports 38 errors & 92 warnings on master,dev@spark.incubator.apache.org,"""sbt package"" compiles with only a few of these appearing as deprecation 
+warnings.  Ideas on whence the discrepancy and how to get rid of the 
+rest?
+"
+Lijie Xu <csxulijie@gmail.com>,"Mon, 26 Aug 2013 10:38:01 +0800",Re: off-heap RDDs,dev@spark.incubator.apache.org,"I remember that I talked about this off-heap approach with Reynold in
+person several months ago. I think this approach is attractive to
+Spark/Shark, since there are many large objects in JVM. But the main
+problem in original Spark (without Tachyon support) is that it uses the
+same memory space both for storing critical data and processing temporary
+data. Separating storing and processing is more important than looking for
+memory-efficient storing technique. So I think this separation is the main
+contribution of Tachyon.
+
+
+As for off-heap approach, we are not the first to realize this problem.
+Apache DirectMemory is promising, though not mature currently. However, I
+think there are some problems while using direct memory.
+
+1)       Unsafe. As same as C++, there may be memory leak. Users will also
+be confused to set right memory-related configurations such as –Xmx and
+–MaxDirectMemorySize.
+
+2)       Difficult. Designing an effective and efficient memory management
+system is not an easy job. How to allocate, replace, reclaim objects at
+right time and at right location is challenging. It’s a bit similar with GC
+algorithms.
+
+3)       Limited usage. It’s useful for write-once-read-many-times large
+objects but not for others.
+
+
+
+I also have two related questions:
+
+1)       Can JVM’s heap use virtual memory or just use physical memory?
+
+2)       Can direct memory use virtual memory or just use physical memory?
+
+
+
+
+
+s
+542%2FTachyon_2013-05-09_Spark_Meetup.pdf
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Sun, 25 Aug 2013 20:43:04 -0700",Re: Eclipse reports 38 errors & 92 warnings on master,dev@spark.incubator.apache.org,"Hi Mike,
+
+I think the Eclipse project is just broken. The SBT-Eclipse plugin isn't great. I recommend using IntelliJ IDEA (community edition, which is free) -- this is what most of us use. You can do sbt/sbt gen-idea to create an IDEA project.
+
+Matei
+
+
+deprecation 
+
+
+
+"
+Stephen Haberman <stephen.haberman@gmail.com>,"Mon, 26 Aug 2013 10:53:53 -0500",slave shutdown in progress fails whole job,dev@spark.incubator.apache.org,"Hi,
+
+We're running Spark on EMR, and are seeing the whole job aborted when a
+slave goes down.
+
+What happens is that the slave starts throwing IllegalStateException
+""shutdown in progress"" errors (see [1]) but Spark thinks this is a
+regular application error, so retries the task, which gets scheduled
+back to the same node, fails again, repeat 4x, then aborts the job.
+
+So, there are two things I'm wondering about:
+
+1) Can Spark recognize these ""shutdown in progress"" errors and more
+gracefully mark the node as offline? Should this already be handled?
+
+2) It seems like if a task has failed, for any reason, it shouldn't be
+sent back to the same node. Especially 4x in a row. At some point the
+node should be marked as suspect, and we should try the task somewhere
+else. And only if a task has failed on >1 nodes do we fail the job. And
+if a node has failed >1 tasks (that then succeeded on other nodes), we
+just consider the node dead. Does this seem reasonable?
+
+I'm willing to hack around on either...it's been a few months since
+I've poked around in DAGScheduler and I saw a pull requests go by. Just
+wondering if maybe these are already handled now. Or if things are in
+flux and I should hold off.
+
+Thanks!
+
+- Stephen
+
+[1]: https://gist.github.com/stephenh/6342916
+
+"
+Imran Rashid <imran@therashids.com>,"Tue, 27 Aug 2013 10:37:49 +0200",Re: off-heap RDDs,dev@spark.incubator.apache.org,"Thanks for all the great comments & discussion.  Let me expand a bit
+on our use case, and then I'm gonna combine responses to various
+questions.
+
+In general, when we use spark, we have some really big RDDs that use
+up a lot of memory (10s of GB per node) that are really our ""core""
+data sets.  We tend to start up a spark application, immediately load
+all those data sets, and just leave them loaded for the lifetime of
+that process.  We definitely create a lot of other RDDs along the way,
+and lots of intermediate objects that we'd like to go through normal
+garbage collection.  But those all require much less memory, maybe
+1/10th of the big RDDs that we just keep around.  I know this is a bit
+of a special case, but it seems like it probably isn't that different
+from a lot of use cases.
+
+ byte
+
+interesting -- can you explain how this works in Shark?  do you have
+some general way of storing data in byte buffers that avoids
+serialization?  Or do you mean that if the user is effectively
+creating an RDD of ints, that you create a an RDD[ByteBuffer], and
+then you read / write ints into the byte buffer yourself?
+Sorry, I'm familiar with the basic idea of shark but not the code at
+all -- even a pointer to the code would be helpful.
+
+
+This is a good idea, that I had probably overlooked.  There are two
+potential issues that I can think of with this approach, though:
+1) I was under the impression that Tachyon is still not really tested
+in production systems, and I need something a bit more mature.  Of
+course, my changes wouldn't be thoroughly tested either, but somehow I
+feel better about deploying my 5-line patch to a codebase I understand
+than adding another entire system.  (This isn't a good reason to add
+this to spark in general, though, just might be a temporary patch we
+locally deploy)
+2) I may have misunderstood Tachyon, but it seems there is a big
+cluster, HDFS will spread the data all over the cluster, and so any
+particular piece of on-disk data will only live on a few machines.
+When you start a spark application, which only uses a small subset of
+the nodes, odds are the data you want is *not* on those nodes.  So
+even if tachyon caches data from HDFS into memory, it won't be on the
+same nodes as the spark application.  Which means that when the spark
+application reads data from the RDD, even though the data is in memory
+on some node in the cluster, it will need to be read over the network
+by the actual spark worker assigned to the application.
+
+Is my understanding correct?  I haven't done any measurements at all
+of a difference in performance, but it seems this would be much
+slower.
+
+
+
+great points, and I have no ideas of the real advantages yet.  I agree
+we'd need to actual observe an improvement to add yet another option.
+(I would really like some alternative to what I'm doing now, but maybe
+tachyon is all I need ...)
+
+rk
+
+hmm, that's true I suppose, but I had originally thought of making it
+another storage level, just for convenience & consistency.  Couldn't
+you get rid of all the storage levels and just have the user apply
+various transformations to an RDD?  eg.
+
+rdd.cache(MEMORY_ONLY_SER)
+
+could be
+
+rdd.map{x => serializer.serialize(x)}.cache(MEMORY_ONLY)
+
+
+And I agree with all of Lijie's comments that using off-heap memory is
+unsafe & difficult.  But I feel that isn't a reason to completely
+disallow it, if there is a significant performance improvement.  It
+would need to be clearly documented as an advanced feature with some
+risks involved.
+
+thanks,
+imran
+
+r
+n
+o
+t
+h GC
+e
+?
+as
+8542%2FTachyon_2013-05-09_Spark_Meetup.pdf
+
+"
+Denis Turdakov <turdakov@ispras.ru>,"Tue, 27 Aug 2013 15:49:54 +0400",Re: Bagel and partitioning,dev@spark.incubator.apache.org,"Hi Reynold,
+
+Thanks for your answer. Concerning to second question.
+
+Partitioning could be implemented on top of Bagel, but since Bagel 
+interface does not require user to expose data about edges this would 
+need some different interface to represent graph data. Adding edge data 
+seems more reasonable on level of Bagel, since it allows to add stuff 
+like sending messages to all neighbors. In addition, in this case using 
+partitioning does not require coding: developer just specifies which 
+partitioner to use.
+
+The idea is to change Bagel, so that it has a different interface which 
+would allow using partitioning (by adding edge data to interface, 
+possibly making interface more similar to GraphX).
+
+to represent vertex identifiers. If we use integers from 0 to N - using 
+array to store partition numbers allows to save a lot of space, compared 
+to hash tables (which would be required for other vertex ids).  So one 
+possibility is a specialized version of Bagel that uses integers from 0 
+to N as vertex identifies (+ requires user to expose graph edges). And 
+possibly a more general interface on top of it.
+
+As for implementing it on top of GraphX - this does not make much sense 
+since BLP partitions vertexes and GraphX partitions edges.
+
+BTW. Are there any estimates when Spark with GraphX will be released? 
+Will there be support for in-place modifications in RDDs?
+
+
+Best,
+Denis.
+
+
+
+"
+Reynold Xin <reynoldx@gmail.com>,"Tue, 27 Aug 2013 11:53:33 -0700",Re: off-heap RDDs,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","
+Yes - the user application (in this case) can create a bunch of byte
+buffers and doing primitive operations on that directly.
+"
+Timothy Chen <tnachen@gmail.com>,"Tue, 27 Aug 2013 11:59:00 -0700",Re: off-heap RDDs,dev@spark.incubator.apache.org,"Hi Reynold,
+
+Just wanted to ask a off-heap memory general question since we're on this
+topic, do you guys have a way to do memory management of off-heap memory?
+
+I'm also working on Apache Drill and we use Netty's ByteBuffer abstraction
+that provides some reference counting mechanisms, but we don't see a good
+way to manage and detect how leaks happened.
+
+Tim
+
+
+
+"
+Haoyuan Li <haoyuan.li@gmail.com>,"Tue, 27 Aug 2013 23:18:20 -0700",Re: off-heap RDDs,dev@spark.incubator.apache.org,"Response inline.
+
+
+
+
+This is a legitimate concern. The good news is that, several companies have
+been testing it for a while, and some are close to make it to production.
+For example, as Yahoo mentioned in today's meetup, we are working to
+integrate Shark and Tachyon closely, and results are very promising. It
+will be in production soon.
+
+
+
+Is my understanding correct?  I haven't done any measurements at all
+
+This is a great question. Actually, from data locality perspective, two
+approaches have no difference. Tachyon does client side caching, which
+means, if a client on a node reads data not on its local machine, the first
+read will cache the data on that node. Therefore, all future access on that
+node will read the data from its local memory. For example, suppose you
+have a cluster with 100 nodes all running HDFS and Tachyon. Then you launch
+a Spark jobs running on 20 nodes only. When it reads or caches the data
+first time, all data will be cached on those 20 nodes. In the future, when
+Spark master tries to schedule tasks, it will query Tachyon about data
+locations, and take advantage of data localities automatically.
+
+Best,
+
+Haoyuan
+
+
+.
+ry
+ I
+nd
+ith
+rge
+y?
+s
+542%2FTachyon_2013-05-09_Spark_Meetup.pdf
+n
+s
+"
+"""Liu, Raymond"" <raymond.liu@intel.com>","Wed, 28 Aug 2013 07:19:32 +0000",RE: Question about Spark on Yarn design,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi
+
+	Just send a pull request at https://github.com/mesos/spark/pull/868/ for enable spark-shell upon yarn ( https://spark-project.atlassian.net/browse/SPARK-527 ) according to idea I mentioned previously : ""add a mode that the scheduler's Driver actor is still run on local machine, and the Yarn Application Master just launch Executor instead of run the whole user application. Thus a client wrapper app is not needed, and user can just new Spark Context with this mode in local""
+
+
+Best Regards,
+Raymond Liu
+
+
+	In the current implementation, when running Spark on top of Yarn by spark.deploy.yarn.Client, the Spark context is actually running in the Yarn Application Master process as a thread. Say not on the node that Client app is invoke. Which is quite different from the other mode say mesos/standalone/local etc.
+	I understand that this is not a problem for app that do not involve user interaction or local file operation. While not working for e.g. spark-shell like app. Say https://spark-project.atlassian.net/browse/SPARK-527
+
+	And with this yarn mode, the app output is on the node that AM is instanced. not easy to be checked.
+
+	So, any particular reason that yarn mode is implemented this way?
+
+	And I just wondering, could we add a mode that the scheduler's Driver actor is still run on local machine, and the Yarn Application Master just launch Executor instead of run the whole user application. Thus a client wrapper app is not needed, and user can just new Spark Context with this mode in local. The drawback I can image is that the client node's burden is heavier compare to current Yarn mode, but similar to mesos or standalone mode. And might also need to handle some fail over issue etc.
+
+	Another approaching might be that, enhance the current wrapper client application to proxy all input and output from the app back to the local machine instead of just report the application status. This seems to me not a sound or easy solution, Especially when local file is involved or third party library which have local operation involved.
+
+	Any ideas?
+
+Best Regards,
+Raymond Liu
+
+
+"
+Imran Rashid <imran@therashids.com>,"Wed, 28 Aug 2013 10:21:30 +0200",Re: off-heap RDDs,dev@spark.incubator.apache.org,"Thanks Haoyuan.  It seems like we should try out Tachyon, sounds like
+it is what we are looking for.
+
+e:
+m
+ve
+st
+at
+ch
+n
+.
+l.
+e
+ary
+.
+, I
+and
+t
+with
+arge
+ry?
+.
+Ds
+8542%2FTachyon_2013-05-09_Spark_Meetup.pdf
+an
+t
+rs
+e
+f
+
+"
+Haoyuan Li <haoyuan.li@gmail.com>,"Wed, 28 Aug 2013 01:37:17 -0700",Re: off-heap RDDs,dev@spark.incubator.apache.org,"No problem. Like reading/writing data from/to off-heap bytebuffer, when a
+program reads/writes data from/to Tachyon, Spark/Shark needs to do ser/de.
+solution is that the application can do primitive operations directly on
+ByteBuffer, like how Shark is handling it now. Most related code is located
+at ""
+https://github.com/amplab/shark/tree/master/src/main/scala/shark/memstore2""
+and ""
+https://github.com/amplab/shark/tree/master/src/tachyon_enabled/scala/shark/tachyon
+"".
+
+Haoyuan
+
+
+
+n.
+s
+n
+ng
+e
+l
+x
+r
+n
+542%2FTachyon_2013-05-09_Spark_Meetup.pdf
+n
+C.
+as
+on
+rs
+I
+"
+Michael Kun Yang <kunyang@stanford.edu>,"Thu, 29 Aug 2013 16:32:26 -0700",add,dev@spark.incubator.apache.org,"add
+"
+Michael Joyce <joyce@apache.org>,"Thu, 29 Aug 2013 16:48:09 -0700",Which code base are we using for development?,dev@spark.incubator.apache.org,"Hi all,
+
+The incubator website (which is looking great by the way) is telling me to
+clone [1] to help out with development.
+
+According to [2] the Apache SVN has been updated recently (< 1 day ago).
+For some reason I had [3] down as the repo to get code from, but the Apache
+git for Spark hasn't been updated since mid July. I figured since this
+moved over from Github that we'd be using git, but it looks like we're
+using SVN. Just want to make sure I'm pulling down the correct repo (and
+make a JIRA for the link issue if it is in fact a problem).
+
+[1] git://github.com/mesos/spark.git
+[2] https://svn.apache.org/viewvc/incubator/spark/
+[3] https://git-wip-us.apache.org/repos/asf?p=incubator-spark.git;a=summary
+
+Cheers!
+
+-- Joyce
+"
+Michael Joyce <joyce@apache.org>,"Thu, 29 Aug 2013 16:49:14 -0700",Re: add,dev@spark.incubator.apache.org,"Hay Michael,
+
+I think you're looking for dev-subscribe@spark.incubator.apache.org as
+opposed to just dev@spark.incubator.apache.org
+
+Cheers!
+
+
+-- Joyce
+
+
+
+"
+Evan Chan <ev@ooyala.com>,"Fri, 30 Aug 2013 10:00:18 -0700",Re: off-heap RDDs,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey guys,
+
+I would also prefer to strengthen and get behind Tachyon, rather than
+implement a separate solution (though I guess if it's not offiically
+supported, then nobody will ask questions).  But it's more that off-heap
+memory is difficult, so it's better to focus efforts on one project, is my
+feeling.
+
+Haoyuan,
+
+Tachyon brings cached HDFS data to the local client.  Have we thought about
+the opposite approach, which might be more efficient?
+ - Load the data in HDFS node N into the off-heap memory of node N
+ - in Spark, inform the framework (maybe via RDD partition/location info)
+of where the data is, that it is located in node N
+ - bring the computation to node N
+
+This avoids network IO and may be much more efficient for many types of
+applications.   I know this would be a big win for us.
+
+-Evan
+
+
+
+.
+e
+ed
+2
+rk/tachyon
+d
+y,
+it
+t
+d
+ I
+nd
+s
+It
+f
+e
+k
+ry
+k
+wo
+h
+n
+ou
+ta
+a
+ee
+.
+be
+t
+is
+in
+s
+Xmx
+ts
+lar
+es
+d
+542%2FTachyon_2013-05-09_Spark_Meetup.pdf
+ly
+e
+r
+D
+on
+s
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+<http://www.ooyala.com/>
+<http://www.facebook.com/ooyala><http://www.linkedin.com/company/ooyala><http://www.twitter.com/ooyala>
+"
+Michael Joyce <joyce@apache.org>,"Fri, 30 Aug 2013 10:22:10 -0700",Moving JIRA to Apache,dev@spark.incubator.apache.org,"Hi all,
+
+I noticed that we're still operating in off-Apache JIRA mode. I saw that
+there are some problems importing the existing JIRA at [1]. Are we still
+waiting on INFRA on this one? Jumping on IRC might help if we are. Anything
+I can do to help?
+
+[1] https://issues.apache.org/jira/browse/INFRA-6419
+
+-- Joyce
+"
+Henry Saputra <henry.saputra@gmail.com>,"Fri, 30 Aug 2013 14:07:58 -0700",Re: Error while building spark-0.7.3,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Including Spark's dev@ list to get more potential audience building Spark
+from source.
+
+
+- Henry
+
+
+
+"
+Evan Chan <ev@ooyala.com>,"Fri, 30 Aug 2013 15:37:22 -0700",Release process?,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey guys,
+
+What is the schedule for the 0.8 release?
+
+In general, will the dev community be notified of code freeze, testing
+deadlines, doc deadlines, etc.?
+
+I'm specifically looking to know when is the deadline for submitting doc
+pull requests.  :)
+
+thanks,
+Evan
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+<http://www.ooyala.com/>
+<http://www.facebook.com/ooyala><http://www.linkedin.com/company/ooyala><http://www.twitter.com/ooyala>
+"
+Evan Chan <ev@ooyala.com>,"Fri, 30 Aug 2013 15:46:46 -0700",Re: A big THANK YOU....,"""spark-users@googlegroups.com"" <spark-users@googlegroups.com>","Cross post thank you.
+
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+"
+Parviz Deyhim <deyhim@gmail.com>,"Fri, 30 Aug 2013 15:48:41 -0700",Re: A big THANK YOU....,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","+1 fantastic job. Fun as always. And great preso Evan. 
+
+Sent from my iPhone
+
+
+ly
+
+"
+Parviz Deyhim <deyhim@gmail.com>,"Fri, 30 Aug 2013 15:48:41 -0700",Re: A big THANK YOU....,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","+1 fantastic job. Fun as always. And great preso Evan. 
+
+Sent from my iPhone
+
+
+ly
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Fri, 30 Aug 2013 16:42:19 -0700",Re: Release process?,dev@spark.incubator.apache.org,"Doc PRs were still open 4 hours ago.  At least for some of
+us.<https://github.com/mesos/spark/pull/877>
+
+
+
+"
+Michael Joyce <joyce@apache.org>,"Fri, 30 Aug 2013 17:07:26 -0700",Re: A big THANK YOU....,dev@spark.incubator.apache.org,"Awesome job guys! Had a ton of fun!
+
+
+-- Joyce
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Fri, 30 Aug 2013 17:39:17 -0700",Re: Moving JIRA to Apache,dev@spark.incubator.apache.org,"Yes, as posted there, we uploaded some files for INFRA to try, and haven't heard back. Is this a thing you could personally help with?
+
+Matei
+
+
+that
+still
+Anything
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Fri, 30 Aug 2013 17:40:58 -0700",Re: Release process?,dev@spark.incubator.apache.org,"I sent an email about a week ago saying we're doing a feature freeze and only finishing up some of the current tasks (e.g. better build setup for linking to Hadoop). I think many of those are now in. The other big scary thing left is to change the package name to org.apache.spark.. will do that this weekend. When it's done I plan to post a release candidate.
+
+Matei
+
+
+testing
+doc
+<http://www.facebook.com/ooyala><http://www.linkedin.com/company/ooyala><
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Fri, 30 Aug 2013 17:43:03 -0700",Re: Keeping users mailing list with Google groups,dev@spark.incubator.apache.org,"Guys, FYI, I'm going to try adding user@spark.i.a.o as a member of the Google group, but before that I'll do it temporarily for the dev group for testing. (I agree that we should move the dev group permanently to Apache). Cross your fingers.
+
+Matei
+
+
+with
+list.
+list but
+member of
+via
+that
+folks
+possible
+user@spark?
+demonstrate
+needs to
+to
+ASF.
+the
+long
+kept
+<dev@spark.incubator.apache.org
+hopefully
+probably
+main
+to
+developers
+setup
+<mark@clearstorydata.com
+Apache
+subscribing
+to
+did
+will
+
+
+"
+"""Matei Zaharia (Google Groups)"" <noreply@googlegroups.com>","Sat, 31 Aug 2013 00:43:54 +0000",Google Groups: You've been added to Spark Developers,dev@spark.incubator.apache.org," Testing cross-posting to Apache.
+
+About this group:
+
+Developer list for the Spark cluster computing framework: www.spark-project.
+org.
+
+----------------------- Google Groups Information ----------------------
+
+The owner of the group has set your subscription type as ""Email"", meaning that
+you'll receive a copy of every message posted to the group as they are posted.
+Visit this group:
+
+http://groups.google.com/group/spark-developers?hl=en
+
+You can unsubscribe from this group using the following URL:
+
+http://groups.google.com/group/spark-developers/unsub?u=qDIzWBQAAAA3hagNqQDQBiFNMFu2FqbBtx20f395-tTXprg9jvQSzw&hl=en
+
+If you feel that this message is abuse, please inform the Google Groups staff 
+by using the URL below. 
+http://groups.google.com/groups/abuse?direct=YQAAAB264nDzAAAA0h766AoAAACbjS9RI7DltbsBUGhHhNwnqX8Z_fM&hl=en
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Fri, 30 Aug 2013 18:10:07 -0700",Re: Which code base are we using for development?,dev@spark.incubator.apache.org,"We're going to switch from GitHub to the Apache git repo [3] soon. We've been periodically importing stuff there, but I want to have new pull requests happen against https://github.com/apache/incubator-spark directly once we release 0.8. The Apache SVN is only needed for the website, and that's why it has commits.
+
+Matei
+
+
+me to
+ago).
+Apache
+(and
+https://git-wip-us.apache.org/repos/asf?p=incubator-spark.git;a=summary
+
+
+"
+"""Ramirez, Paul M (398J)"" <paul.m.ramirez@jpl.nasa.gov>","Sat, 31 Aug 2013 02:54:55 +0000",Re: Google Groups: You've been added to Spark Developers,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>,
+        ""matei.zaharia@gmail.com"" <matei.zaharia@gmail.com>","Success!
+
+--Paul Ramirez
+
+
+qQ
+bj
+
+
+"
+Michael Joyce <joyce@apache.org>,"Sat, 31 Aug 2013 09:41:35 -0700",Re: Moving JIRA to Apache,dev@spark.incubator.apache.org,"Sure, I'll see what I can do. Do we have an updated JIRA dump? I'm guessing
+I don't have the necessary permissions to get it.
+
+
+-- Joyce
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Sat, 31 Aug 2013 13:17:09 -0700",Re: Moving JIRA to Apache,dev@spark.incubator.apache.org,"Alright, here's a new backup: http://cs.berkeley.edu/~matei/JIRA-backup-20130831.tgz. We only need to import the ""SPARK"" project from in there. Thanks for looking into it.
+
+Matei
+
+
+guessing
+haven't
+that
+still
+
+
+"
+Haoyuan Li <haoyuan.li@gmail.com>,"Sat, 31 Aug 2013 15:33:17 -0700",Re: off-heap RDDs,dev@spark.incubator.apache.org,"Evan,
+
+If I understand you correctly, you want to avoid network I/O as much as
+possible by caching the data on the node having the data on disk. Actually,
+what I meant client caching would automatically do this. For example,
+suppose you have a cluster of machines, nothing cached in memory yet. Then
+a spark application runs on it. Spark asks Tachyon where data X is. Since
+nothing is in memory yet, Tachyon would return disk locations for the first
+time. Then Spark program will try to take advantage of disk data locality,
+and load the data X in HDFS node N into the off-heap memory of node N. In
+the future, when Spark asks Tachyon the location of X, Tachyon will return
+node N. There is no network I/O involved in the whole process. Let me know
+if I misunderstood something.
+
+Haoyuan
+
+
+
+y
+ut
+ a
+n
+2
+rk/tachyon
+it
+se
+f
+al
+ly
+ve
+at
+o
+dd
+we
+o
+.
+ge
+y
+l
+he
+u
+e,
+e
+'t
+y
+t
+me
+ld
+o
+s
+imes
+l
+al
+m
+ta
+542%2FTachyon_2013-05-09_Spark_Meetup.pdf
+ta
+ng
+'t
+"
+Cesar Arevalo <cesar@cesararevalo.com>,"Sat, 31 Aug 2013 16:10:22 -0700",Add me to the mailing list,dev@spark.incubator.apache.org,"Add me to the mailing list
+"
+Henry Saputra <henry.saputra@gmail.com>,"Sat, 31 Aug 2013 16:26:48 -0700",Re: Add me to the mailing list,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>, cesar@cesararevalo.com","HI Cesar,
+
+To subscribe please send blank email to
+
+dev-subscribe@spark.incubator.apache.org
+
+Thanks,
+
+Henry
+
+
+
+"

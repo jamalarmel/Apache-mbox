@@ -1,0 +1,2137 @@
+Fabrizio Milo aka misto <mistobaan@gmail.com>,"Fri, 1 Nov 2013 21:16:42 -0700",RFC Placement Groups for ec2-scripts,dev@spark.incubator.apache.org,"Hi everyone,
+
+I am experimenting with spark on ec2 and I added the ability to
+declare placement groups for
+cluster instances. A work in progress is at:
+
+https://github.com/Mistobaan/incubator-spark/compare/placement_group
+
+Placement groups will boost network performances between nodes.
+
+Please try it out and let me know of any issues
+
+Comments and critiques are appreciated :)
+
+Thanks
+
+Fabrizio Milo
+
+--------------------------
+Luck favors the prepared mind. (Pasteur)
+
+"
+dachuan <hdc1112@gmail.com>,"Sat, 2 Nov 2013 10:51:08 -0400",a question about lineage graphs in streaming,dev@spark.incubator.apache.org,"Hi, developers,
+
+I found this sentence hard to understand, it's from sosp'13 spark streaming
+paper:
+
+""Lineage cutoff: Because lineage graphs between RDDs
+in D-Streams can grow indefinitely, we modified the
+scheduler to forget lineage after an RDD has been checkpointed,
+so that its state does not grow arbitrarily.""
+
+In my personal understanding, the length of DStream chain is fixed, so the
+RDDs these DStreams generate also have fixed length. Besides, the RDDs
+don't depend on the RDDs in the previous round. So why does it claim that
+lineage graph can grow indefinitely? when you say ""grow indefinitely"", do
+you refer to lineage graph's width or the number of lineage graphs?
+
+thanks,
+dachuan.
+"
+Christopher Nguyen <ctn@adatao.com>,"Sat, 2 Nov 2013 10:35:24 -0700",Re: a question about lineage graphs in streaming,dev@spark.incubator.apache.org,"Dachuan, you may have correctly answered your own question. See Fig. 3 of
+the same paper, where ""infinity"" occurs in the vertical direction.
+
+--
+Christopher T. Nguyen
+Co-founder & CEO, Adatao <http://adatao.com>
+linkedin.com/in/ctnguyen
+
+
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Sat, 2 Nov 2013 13:35:20 -0700",Re: a question about lineage graphs in streaming,dev@spark.incubator.apache.org,"You're coming at the paper from a different context than that in which it
+was written.  The paper doesn't claim that RDD lineage and state could grow
+indefinitely after the Spark Streaming changes were made.  That growth was
+indefinite in early, pre-Streaming versions of Spark, however.
+
+
+
+
+"
+dachuan <hdc1112@gmail.com>,"Sat, 2 Nov 2013 17:24:16 -0400",Re: a question about lineage graphs in streaming,dev@spark.incubator.apache.org,"It seems what Christopher said makes certain sense, because this round's
+RDD depends on last round's RDD, so as time goes by, it would grow
+infinitely.
+
+I realize that the streaming/examples/clickstream/PageViewStream.scala in
+code base is not what figure 3 in paper describes, so I have no idea what
+application figure 3 is talking about.
+
+Mark, sorry I don't quite understand what you've said.
+
+thanks,
+dachuan.
+
+
+
+
+
+
+-- 
+Dachuan Huang
+Cellphone: 614-390-7234
+2015 Neil Avenue
+Ohio State University
+Columbus, Ohio
+U.S.A.
+43210
+"
+Mark Hamstra <mark@clearstorydata.com>,"Sat, 2 Nov 2013 14:35:42 -0700",Re: a question about lineage graphs in streaming,dev@spark.incubator.apache.org,"All that I am saying is that before the checkpointing changes that came in
+with the Streaming additions, RDD lineage would grow indefintiely.  Now
+checkpointing causes pre-checkpoint lineage to be forgotten, so
+checkpointing is an effective means to control the growth of RDD state.
+
+
+
+"
+dachuan <hdc1112@gmail.com>,"Sat, 2 Nov 2013 17:40:36 -0400",Re: a question about lineage graphs in streaming,dev@spark.incubator.apache.org,"right. the paper mentioned this improvement.
+
+thanks, Mark.
+
+
+
+
+
+
+-- 
+Dachuan Huang
+Cellphone: 614-390-7234
+2015 Neil Avenue
+Ohio State University
+Columbus, Ohio
+U.S.A.
+43210
+"
+Reynold Xin <rxin@apache.org>,"Sun, 3 Nov 2013 00:50:49 -0700",Re: SPARK-942,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","It's not a very elegant solution, but one possibility is for the
+CacheManager to check whether it will have enough space. If it is running
+out of space, skips buffering the output of the iterator & directly write
+the output of the iterator to disk (if storage level allows that).
+
+But it is still tricky to know whether we will run out of space before we
+previous partitions to estimate the size of the current partition (i.e.
+estimated in memory size = avg of current in-memory size / current input
+size).
+
+Do you have any ideas on this one, Kyle?
+
+
+
+"
+Evan Chan <ev@ooyala.com>,"Sun, 3 Nov 2013 15:55:26 -0800",Re: Getting failures in FileServerSuite,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Mark:  I'm using JDK 1.6. --
+
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+"
+Evan Chan <ev@ooyala.com>,"Sun, 3 Nov 2013 16:05:14 -0800",Re: Getting failures in FileServerSuite,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Oops, hit enter too soon.
+
+Mark: 1.6.0_51.   I'm hesitant to upgrade to JDK 1.7, as several folks
+reported problems on OSX.   Also, I have no problems building the
+assembly, and it only takes me about 2 minutes (I'm running on SSD's
+though  :)
+
+I might bite the bullet and upgrade to JDK 1.7 for other reasons though.
+
+Patrick:  I know the branch with my config overhaul, last merged from
+master Oct-10th, doesn't exhibit this problem.  (Note that I tend to
+set SPARK_LOCAL_IP to ""localhost"", which I don't think affects this,
+and it fails either with it set or not, i believe)  We could
+potentially run a git bisect starting roughly 2-3 weeks ago.
+
+
+
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+"
+"""Liu, Raymond"" <raymond.liu@intel.com>","Mon, 4 Nov 2013 07:46:08 +0000","issue regarding akka, protobuf and Hadoop version","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi
+
+	I am working on porting spark onto Hadoop 2.2.0, With some renaming and call into new YARN API works done. I can run up the spark master. While I encounter the issue that Executor Actor could not connecting to Driver actor.
+
+	After some investigation, I found the root cause is that the akka-remote do not support protobuf 2.5.0 before 2.3. And hadoop move to protobuf 2.5.0 from 2.1-beta.
+
+	The issue is that if I exclude the akka dependency from hadoop and force protobuf dependency to 2.4.1, the compile/packing will fail since hadoop common jar require a new interface from protobuf 2.5.0.
+
+	 So any suggestion on this?
+
+Best Regards,
+Raymond Liu
+
+"
+"""Liu, Raymond"" <raymond.liu@intel.com>","Mon, 4 Nov 2013 09:04:03 +0000","what's the strategy for code sync between branches e.g. scala-2.10
+ v.s. master?","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi
+	It seems to me that dev branches are sync with master by keep merging trunk codes. E.g. scala-2.10 branches continuously merge latest master code into itself for update.
+
+	While I am wondering, what's the general guide line on doing this? It seems to me that not every code in master are merged into scala-2.10 branch. Say, on OCT 10, there are a merge from master to scala-2.10 branch. While some commit in OCT.4 not included. E.g. StandaloneX rename to CoarseGrainedX. So I am puzzled, how do we track which commit is already merged into scala-2.10 branch and which is not? And how do we plan to merge scala-2.10 branch back to master? And is there any good way to find out that any changes are done by 2.10 branch or by master through merge operation. It seems to me pretty hard to identify them and sync codes.
+
+	It seems to me that a rebase on master won't lead to the above issues, since all branch changes will stay on the top. So any reason that merging is chosen instead of rebase other than not want a force update on checked out source?
+
+
+Best Regards,
+Raymond Liu
+
+
+
+"
+Umar Javed <umarj.javed@gmail.com>,"Mon, 4 Nov 2013 09:09:24 -0800",hadoop configuration,dev@spark.incubator.apache.org,"In 'SparkHadoopUtil.scala'
+in /core/src/main/scala/org/apache/spark/deploy/, there is a method:
+
+ def newConfiguration(): Configuration = new Configuration()
+
+There is a header that imports Configuration : import
+org.apache.hadoop.conf.Configuration
+
+But I'm unable to find the definition of Configuration under
+/core/src/main/scala/org/apache/hadoop/
+The only subdirectories in this directory are mapred and mapreduce. Does
+anybody know where 'Configuration' is defined?
+"
+Mark Hamstra <mark@clearstorydata.com>,"Mon, 4 Nov 2013 09:09:30 -0800","Re: what's the strategy for code sync between branches e.g.
+ scala-2.10 v.s. master?",dev@spark.incubator.apache.org,"Rebasing changes the SHAs, which isn't a good idea in a public and
+heavily-used repository.
+
+
+
+"
+dachuan <hdc1112@gmail.com>,"Mon, 4 Nov 2013 12:42:59 -0500",Re: hadoop configuration,dev@spark.incubator.apache.org,"I guess it's defined in Hadoop library. You can try to download the Hadoop
+source code, or use some IDE to solve the dependency issue automatically, I
+am using IntelliJ Idea community version.
+
+
+
+
+
+
+-- 
+Dachuan Huang
+Cellphone: 614-390-7234
+2015 Neil Avenue
+Ohio State University
+Columbus, Ohio
+U.S.A.
+43210
+"
+Reynold Xin <rxin@apache.org>,"Mon, 4 Nov 2013 16:33:37 -0800","Re: issue regarding akka, protobuf and Hadoop version","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","I chatted with Matt Massie about this, and here are some options:
+
+1. Use dependency injection in google-guice to make Akka use one version of
+protobuf, and YARN use the other version.
+
+2. Look into OSGi to accomplish the same goal.
+
+3. Rewrite the messaging part of Spark to use a simple, custom RPC library
+instead of Akka. We are really only using a very simple subset of Akka
+features, and we can probably implement a simple RPC library tailored for
+Spark quickly. We should only do this as the last resort.
+
+4. Talk to Akka guys and hope they can make a maintenance release of Akka
+that supports protobuf 2.5.
+
+
+None of these are ideal, but we'd have to pick one. It would be great if
+you have other suggestions.
+
+
+
+"
+Meisam Fathi <meisam.fathi@gmail.com>,"Mon, 4 Nov 2013 19:45:02 -0500",Spark job terminates with an error message but the results seem to be correct,dev@spark.incubator.apache.org,"Hi Community,
+
+I checked out Spark v0.7.3 tag from github and I am the using it in
+standalone mode on a small cluster with 2 nodes. My Spark application
+reads files from hdfs and I writes the results back to hdfs.
+Everything seems to be working fine except that at the very end of
+execution I get this line on my log files:
+
+ERROR executor.StandaloneExecutorBackend: Driver or worker
+disconnected! Shutting down.
+
+The last line in my spark application calls rdd.saveAsTextFile to save
+the results to hdfs. It seems that it this call works fine because
+hadoop _SUCCESS files are being generated on my hdfs.
+
+When I run the same task in spark-repl on one node, I don't get the
+error line. I've compared the output from spark-repl with the output
+from my spark application and there is no difference.
+
+Looking at StandaloneExecutorBackend code, it seems that
+StandaloneExecutorBackend should receive a StopExecutor message but it
+is getting a Terminated or RemoteClientDisconnected or
+RemoteClientShutdown message.
+
+Is it normal for Spark applications to terminated abruptly at the end
+of their execution? Or am I missing something? or is it this the
+intended behavior of Spark with two nodes in standalone mode?
+
+Thanks,
+Meisam
+
+"
+Reynold Xin <rxin@apache.org>,"Mon, 4 Nov 2013 17:05:35 -0800","Re: issue regarding akka, protobuf and Hadoop version","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Adding in a few guys so they can chime in.
+
+
+
+"
+"""Liu, Raymond"" <raymond.liu@intel.com>","Tue, 5 Nov 2013 01:53:15 +0000","RE: issue regarding akka, protobuf and Hadoop version","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","I plan to do the work on scala-2.10 branch, which already move to akka 2.2.3, hope that to move to akka 2.3-M1 (which support protobuf 2.5.x) will not cause many problem and make it a test to see is there further issues, then wait for the formal release of akka 2.3.x
+
+While the issue is that I can see many commits on master branch is not merged into scala-2.10 branch yet. The latest merge seems to happen on OCT.11, while as I mentioned in the dev branch merge/sync thread, seems that many earlier commit is not included and which will surely bring extra works on future code merging/rebase. So again, what's the code sync strategy and what's the plan of merge back into master? 
+
+Best Regards,
+Raymond Liu
+
+
+-----Original Message-----
+From: Reynold Xin [mailto:rxin@apache.org] 
+Sent: Tuesday, November 05, 2013 8:34 AM
+To: dev@spark.incubator.apache.org
+Subject: Re: issue regarding akka, protobuf and Hadoop version
+
+I chatted with Matt Massie about this, and here are some options:
+
+1. Use dependency injection in google-guice to make Akka use one version of protobuf, and YARN use the other version.
+
+2. Look into OSGi to accomplish the same goal.
+
+3. Rewrite the messaging part of Spark to use a simple, custom RPC library instead of Akka. We are really only using a very simple subset of Akka features, and we can probably implement a simple RPC library tailored for Spark quickly. We should only do this as the last resort.
+
+4. Talk to Akka guys and hope they can make a maintenance release of Akka that supports protobuf 2.5.
+
+
+None of these are ideal, but we'd have to pick one. It would be great if you have other suggestions.
+
+
+On Sun, Nov 3, 2013 at 11:46 PM, Liu, Raymond <raymond.liu@intel.com> wrote:
+
+> Hi
+>
+>         I am working on porting spark onto Hadoop 2.2.0, With some 
+> renaming and call into new YARN API works done. I can run up the spark 
+> master. While I encounter the issue that Executor Actor could not 
+> connecting to Driver actor.
+>
+>         After some investigation, I found the root cause is that the 
+> akka-remote do not support protobuf 2.5.0 before 2.3. And hadoop move 
+> to protobuf 2.5.0 from 2.1-beta.
+>
+>         The issue is that if I exclude the akka dependency from hadoop 
+> and force protobuf dependency to 2.4.1, the compile/packing will fail 
+> since hadoop common jar require a new interface from protobuf 2.5.0.
+>
+>          So any suggestion on this?
+>
+> Best Regards,
+> Raymond Liu
+>
+"
+Reynold Xin <rxin@apache.org>,"Mon, 4 Nov 2013 18:06:43 -0800","Re: issue regarding akka, protobuf and Hadoop version","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","I think we are near the end of Scala 2.9.3 development, and will merge the
+Scala 2.10 branch into master and make it the future very soon (maybe next
+week).  This problem will go away.
+
+Meantime, we are relying on periodically merging the master into the Scala
+2.10 branch.
+
+
+
+"
+"""Liu, Raymond"" <raymond.liu@intel.com>","Tue, 5 Nov 2013 08:12:03 +0000","RE: issue regarding akka, protobuf and Hadoop version","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Just pushed a pull request which based on scala 2.10 branch for hadoop 2.2.0.
+Yarn-standalone mode workable, but need a few more fine tune works.
+Not really for pull, but as a placeholder, and for someone who want to take a look.
+
+Best Regards,
+Raymond Liu
+
+
+-----Original Message-----
+From: Reynold Xin [mailto:rxin@apache.org] 
+Sent: Tuesday, November 05, 2013 10:07 AM
+To: dev@spark.incubator.apache.org
+Subject: Re: issue regarding akka, protobuf and Hadoop version
+
+I think we are near the end of Scala 2.9.3 development, and will merge the Scala 2.10 branch into master and make it the future very soon (maybe next week).  This problem will go away.
+
+Meantime, we are relying on periodically merging the master into the Scala
+2.10 branch.
+
+
+On Mon, Nov 4, 2013 at 5:53 PM, Liu, Raymond <raymond.liu@intel.com> wrote:
+
+> I plan to do the work on scala-2.10 branch, which already move to akka 
+> 2.2.3, hope that to move to akka 2.3-M1 (which support protobuf 2.5.x) 
+> will not cause many problem and make it a test to see is there further 
+> issues, then wait for the formal release of akka 2.3.x
+>
+> While the issue is that I can see many commits on master branch is not 
+> merged into scala-2.10 branch yet. The latest merge seems to happen on 
+> OCT.11, while as I mentioned in the dev branch merge/sync thread, 
+> seems that many earlier commit is not included and which will surely 
+> bring extra works on future code merging/rebase. So again, what's the 
+> code sync strategy and what's the plan of merge back into master?
+>
+> Best Regards,
+> Raymond Liu
+>
+>
+> -----Original Message-----
+> From: Reynold Xin [mailto:rxin@apache.org]
+> Sent: Tuesday, November 05, 2013 8:34 AM
+> To: dev@spark.incubator.apache.org
+> Subject: Re: issue regarding akka, protobuf and Hadoop version
+>
+> I chatted with Matt Massie about this, and here are some options:
+>
+> 1. Use dependency injection in google-guice to make Akka use one 
+> version of protobuf, and YARN use the other version.
+>
+> 2. Look into OSGi to accomplish the same goal.
+>
+> 3. Rewrite the messaging part of Spark to use a simple, custom RPC 
+> library instead of Akka. We are really only using a very simple subset 
+> of Akka features, and we can probably implement a simple RPC library 
+> tailored for Spark quickly. We should only do this as the last resort.
+>
+> 4. Talk to Akka guys and hope they can make a maintenance release of 
+> Akka that supports protobuf 2.5.
+>
+>
+> None of these are ideal, but we'd have to pick one. It would be great 
+> if you have other suggestions.
+>
+>
+> On Sun, Nov 3, 2013 at 11:46 PM, Liu, Raymond <raymond.liu@intel.com>
+> wrote:
+>
+> > Hi
+> >
+> >         I am working on porting spark onto Hadoop 2.2.0, With some 
+> > renaming and call into new YARN API works done. I can run up the 
+> > spark master. While I encounter the issue that Executor Actor could 
+> > not connecting to Driver actor.
+> >
+> >         After some investigation, I found the root cause is that the 
+> > akka-remote do not support protobuf 2.5.0 before 2.3. And hadoop 
+> > move to protobuf 2.5.0 from 2.1-beta.
+> >
+> >         The issue is that if I exclude the akka dependency from 
+> > hadoop and force protobuf dependency to 2.4.1, the compile/packing 
+> > will fail since hadoop common jar require a new interface from protobuf 2.5.0.
+> >
+> >          So any suggestion on this?
+> >
+> > Best Regards,
+> > Raymond Liu
+> >
+>
+"
+Imran Rashid <imran@quantifind.com>,"Tue, 5 Nov 2013 12:44:48 -0600",appId is no longer in the command line args for StandaloneExecutor,dev@spark.incubator.apache.org,"Hi,
+
+a while back, ExecutorRunner was changed so the command line args included
+the appId.
+
+https://github.com/mesos/spark/pull/467
+
+Those changes seem to be gone from the latest code.  Was that intentional,
+or just an oversight?  I'll add it back in if it was removed accidentally,
+but wanted to check in case there is some reason it shouldn't be there.
+
+thanks,
+Imran
+"
+Reynold Xin <rxin@apache.org>,"Tue, 5 Nov 2013 14:36:42 -0800",Re: appId is no longer in the command line args for StandaloneExecutor,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>",#NAME?
+Aaron Davidson <aaron@databricks.com>,"Tue, 5 Nov 2013 15:40:17 -0800",Re: appId is no longer in the command line args for StandaloneExecutor,Reynold Xin <rxin@apache.org>,"Looks like the appId thing was removed accidentally quite a while ago:
+https://github.com/apache/incubator-spark/commit/85a35c68401e171df0b72b172a689d8c4e412199
+and has gone unnoticed since. I have no objections to adding it back in...
+
+
+
+"
+Sandy Ryza <sandy.ryza@cloudera.com>,"Wed, 6 Nov 2013 00:29:05 -0800","Re: issue regarding akka, protobuf and Hadoop version",dev@spark.incubator.apache.org,"For my own understanding, is this summary correct?
+Spark will move to scala 2.10, which means it can support akka 2.3-M1,
+which supports protobuf 2.5, which will allow Spark to run on Hadoop 2.2.
+
+What will be the first Spark version with these changes?  Are the Akka
+features that Spark relies on stable in 2.3-M1?
+
+thanks,
+Sandy
+
+
+
+
+"
+Reynold Xin <rxin@apache.org>,"Wed, 6 Nov 2013 00:32:41 -0800","Re: issue regarding akka, protobuf and Hadoop version","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","That is correct. However, there is no guarantee right now that Akka 2.3
+will work correctly for us. We haven't tested it enough yet (or rather, we
+haven't tested it at all) E.g. see:
+https://github.com/apache/incubator-spark/pull/131
+
+We want to make Spark 0.9.0 based on Scala 2.10, but we have also been
+discussing ideas to make a Scala 2.10 version of Spark 0.8.x so it enables
+users to move to Scala 2.10 earlier if they want.
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 6 Nov 2013 12:31:00 -0500",Re: appId is no longer in the command line args for StandaloneExecutor,dev@spark.incubator.apache.org,"Yeah, true. It would be good to add it back.
+
+Matei
+
+
+https://github.com/apache/incubator-spark/commit/85a35c68401e171df0b72b172a689d8c4e412199
+in...
+is
+included
+intentional,
+accidentally,
+there.
+
+
+"
+Kyle Ellrott <kellrott@soe.ucsc.edu>,"Wed, 6 Nov 2013 10:58:55 -0800",Re: SPARK-942,dev@spark.incubator.apache.org,"I think the usage has to be calculated as the iterator is being put into
+the arraybuffer.
+Right now, the BlockManager, in it's put method when it gets an iterator
+named 'values' uses the simple stanza of:
+
+def put(blockId: BlockId, values: Iterator[Any], level: StorageLevel,
+tellMaster: Boolean)
+    : Long = {
+    val elements = new ArrayBuffer[Any]
+    elements ++= values
+    put(blockId, elements, level, tellMaster)
+}
+
+
+Completely unrolling the iterator in a single line.  Above it, the
+CacheManager does the exact same thing with:
+
+val elements = new ArrayBuffer[Any]
+elements ++= computedValues
+blockManager.put(key, elements, storageLevel, tellMaster = true)
+
+
+We would probably have to implement some sort of 'IteratorBuffer' class,
+which would wrap an iterator. It would include a method to unroll an
+iterator into a buffer up to a point, something like
+
+def unroll(maxMem:Long) : Boolean ={ ...}
+
+And it would return True if the maxMem was hit. At which point BlockManager
+could read through the already cached values, then continue on through the
+rest of the iterators dumping all the values to file. If it unrolled
+without hitting maxMem (which would probably be most of the time), the
+class would simply wrap the ArrayBuffer of cached values.
+
+Kyle
+
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 6 Nov 2013 21:13:04 -0500","Re: issue regarding akka, protobuf and Hadoop version",dev@spark.incubator.apache.org,"Moving to Akka 2.3 won’t solve this problem unfortunately, because people still want to run Spark with older Hadoop versions too, which will have Protobuf 2.4.1. Have you tested it with those?
+
+Matei
+
+
+2.3
+rather, we
+enables
+2.3-M1,
+2.2.
+Akka
+hadoop
+to
+merge
+(maybe
+akka
+2.5.x)
+further
+not
+on
+surely
+the
+subset
+library
+resort.
+of
+great
+<raymond.liu@intel.com>
+could
+the
+
+
+"
+"""Liu, Raymond"" <raymond.liu@intel.com>","Thu, 7 Nov 2013 02:30:43 +0000","RE: issue regarding akka, protobuf and Hadoop version","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","r versions. And with different akka/protobuf version dependency.
+
+
+Best Regards,
+Raymond Liu
+
+till want to run Spark with older Hadoop versions too, which will have Protobuf 2.4.1. Have you tested it with those?
+
+Matei
+
+
+te:
+doop 2.2.
+ into master?
+ resort.
+
+
+"
+Josh Rosen <rosenville@gmail.com>,"Wed, 6 Nov 2013 19:03:28 -0800",Re: [PySpark]: reading arbitrary Hadoop InputFormats,"""Spark Dev (Apache Incubator)"" <dev@spark.incubator.apache.org>","I opened a pull request to add custom serializer support to PySpark:
+https://github.com/apache/incubator-spark/pull/146
+
+My pull request adds the plumbing for transferring data from Java to Python
+using formats other than Pickle.  For example, look at how textFile() uses
+MUTF8Deserializer to read strings from Java.  Hopefully this provides all
+of the functionality needed to support MsgPack.
+
+- Josh
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Thu, 7 Nov 2013 11:32:28 -0800","Re: issue regarding akka, protobuf and Hadoop version",dev@spark.incubator.apache.org,"I don’t think we can maintain separate branches with different versions of Akka, because there are often API changes in Akka. Maybe that would be a short-term solution, but any release we make should ideally support all versions of Hadoop.
+
+Matei
+
+
+older versions. And with different akka/protobuf version dependency.
+people still want to run Spark with older Hadoop versions too, which will have Protobuf 2.4.1. Have you tested it with those?
+
+
+been 
+on Hadoop 2.2.
+<raymond.liu@intel.com>
+
+the
+<raymond.liu@intel.com>
+
+
+
+
+
+merge/sync 
+
+back into master?
+
+
+RPC 
+last resort.
+
+
+
+compile/packing 
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Thu, 7 Nov 2013 12:09:07 -0800",Documenting the release process for Apache Spark,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Patrick,
+
+Did you end up writing up the steps you were taking to generate the
+Apache Spark release to provide help to the next Apache Spark RE?
+
+I remember you were trying to create one after we released 0.8
+
+Thanks,
+
+- Henry
+
+"
+Imran Rashid <imran@quantifind.com>,"Thu, 7 Nov 2013 14:57:57 -0600",master can double-register workers,dev@spark.incubator.apache.org,"Hi,
+
+I've noticed a bug where the master can double-register workers.  I've got
+a patch for it, but my patch has some conflicts w/ an open PR (the
+whiltelist+spreadout one), so instead I modified on top of that, and
+created a PR to our fork:
+
+https://github.com/quantifind/incubator-spark/pull/2
+
+(does anybody know of a better way to deal w/ pull requests on top of open
+pull requests?)
+
+Since its a bug fix, I'd like to get discussion going on it even though it
+can't be merged until the other PR is merged.  Also, if you think there is
+any hesitation on the other PR, I can instead apply the fix to master, and
+then just update the other PR later.
+
+thanks
+
+imran
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Thu, 7 Nov 2013 14:30:34 -0800",Spark Summit agenda posted,"user@spark.incubator.apache.org,
+ spark-users@googlegroups.com,
+ dev@spark.incubator.apache.org","Hi everyone,
+
+We're glad to announce the agenda of the Spark Summit, which will happen on December 2nd and 3rd in San Francisco. We have 5 keynotes and 24 talks lined up, from 18 different companies. Check out the agenda here: http://spark-summit.org/agenda/.
+
+This will be the biggest Spark event yet, with some very cool use case talks, so we hope to see you there! Sign up now to still get access to the early-bird registration rate.
+
+Matei
+
+
+"
+"""Liu, Raymond"" <raymond.liu@intel.com>","Fri, 8 Nov 2013 01:11:22 +0000","RE: issue regarding akka, protobuf and Hadoop version","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Ok, so how about put different code into separate dir, and build separate packages depending on user config.
+
+Best Regards,
+Raymond Liu
+
+
+Akka, because there are often API changes in Akka. Maybe that would be a short-term solution, but any release we make should ideally support all versions of Hadoop.
+
+Matei
+
+
+der versions. And with different akka/protobuf version dependency.
+ still want to run Spark with older Hadoop versions too, which will have Protobuf 2.4.1. Have you tested it with those?
+ote:
+adoop 2.2.
+e plan of merge back into master?
+ last resort.
+
+
+"
+Nick Pentreath <nick.pentreath@gmail.com>,"Fri, 8 Nov 2013 12:20:20 +0200",Re: [PySpark]: reading arbitrary Hadoop InputFormats,dev@spark.incubator.apache.org,"Wow Josh, that looks great. I've been a bit swamped this week but as soon
+as I get a chance I'll test out the PR in more detail and port over the
+InputFormat stuff to use the new framework (including the changes you
+suggested).
+
+I can then look deeper into the MsgPack functionality to see if it can be
+made to work in a generic enough manner without requiring huge amounts of
+custom Templates to be written by users.
+
+Will feed back asap.
+N
+
+
+
+"
+"""R. Revert"" <rafarevertf22@gmail.com>","Fri, 8 Nov 2013 06:27:54 -0500",Re: Spark Summit agenda posted,user@spark.incubator.apache.org,"would the pdf sliderÂ´s or video talks, be posted for the people that can't
+attend to the conference?
+
+thanks
+
+
+
+
+
+
+*#__________________*
+*Atte.*
+*Rafael R.*
+
+
+
+2013/11/7 Matei Zaharia <matei.zaharia@gmail.com>
+
+e
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Fri, 8 Nov 2013 10:47:07 -0800",Re: Spark Summit agenda posted,user@spark.incubator.apache.org,"Yes, we do plan to make them available after.
+
+Matei
+
+
+can't attend to the conference?
+happen on December 2nd and 3rd in San Francisco. We have 5 keynotes and 24 talks lined up, from 18 different companies. Check out the agenda here: http://spark-summit.org/agenda/.
+talks, so we hope to see you there! Sign up now to still get access to the early-bird registration rate.
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Fri, 8 Nov 2013 11:33:50 -0800",Re: Spark Summit agenda posted,"""spark-users@googlegroups.com"" <spark-users@googlegroups.com>","Hey folks, one more thing,
+
+As Matei mentioned, early bird rates are still available. However, we want
+to let everybody know that these rates will only last through next Fri, Nov
+15. So register soon to save on your ticket price.
+
+See you at the Summit,
+Andy
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Fri, 8 Nov 2013 13:28:52 -0800",Re: Documenting the release process for Apache Spark,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey Henry,
+
+I did create release notes for this. However, I wanted to ""dogfood""
+them for the 0.8.1 release before I push them publicly, just so I know
+the thing is actually comprehensive. It's quite complicated and I
+don't want to publish something that leads people down the wrong path.
+
+My thought was I would use these personally for the 0.8.1 release to
+verify them, then publish them and try to have someone else do the
+0.9.0 release (perhaps wishful thinking!).
+
+- Patrick
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Fri, 8 Nov 2013 13:38:44 -0800",Re: Documenting the release process for Apache Spark,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Sweet! Sounds good to me.
+
+Thanks for the awesome work Patrick.
+
+- Henry
+
+
+"
+dachuan <hdc1112@gmail.com>,"Fri, 8 Nov 2013 22:01:54 -0500",a question about RDD.checkpoint(),dev@spark.incubator.apache.org,"Hello,
+
+I have a quick question about RDD.checkpoint().
+
+If the user calls RDD.checkpoint() and after the job finishes, the Spark
+would call RDD.doCheckpoint() to do the real physical checkpointing, that
+is to say, dump this RDD's partitions into HDFS.
+
+Does this mean that all its parents RDD scala objects and RDD's data (which
+is managed by BlockManager) will be garbage collected?
+
+And could you please point me to the relevant source code region, if
+possible?
+
+thanks,
+dachuan.
+
+-- 
+Dachuan Huang
+Cellphone: 614-390-7234
+2015 Neil Avenue
+Ohio State University
+Columbus, Ohio
+U.S.A.
+43210
+"
+"""Xia, Junluan"" <junluan.xia@intel.com>","Mon, 11 Nov 2013 13:18:25 +0000",RE: SPARK-942,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi 
+
+I think it is bad user experience to throw OOM exception when user only persist the RDD with DISK_ONLY or MEMORY_ADN_DISK.
+
+As Kyle mentioned below, Key point is that CacheManager has unrolled the total Iterator into ArrayBuffer without free memory check, we should estimate size of unrolled iterator object and check if it is beyond current free memory size.
+
+We could separate into three scenarios
+
+1. For MEMORY_ONLY, I think it is normal case to throw OOM exception and need user to adjust its application
+2. For MEMORY_AND_DISK, we should check if free memory could hold unrolled Arraybuffer, if yes, then it will go with usual path, if no, we will degrade it to DISK_ONLY
+3. For DIS_ONLY, I think that we need not to unroll total iterator into ArrayBuffer, because we could write this iterator one by one to disk.
+
+So this issue is how to judge if free memory size could hold size of unrolled iterator before it become Arraybuffer.
+
+Is there any solution for this case? Could we just unroll first 10% of total iterator into ArrayBuffer, and estimate this size, and total size is equal to 10* size of 10%? apparently it is not perfect.
+
+e arraybuffer.
+Right now, the BlockManager, in it's put method when it gets an iterator named 'values' uses the simple stanza of:
+
+def put(blockId: BlockId, values: Iterator[Any], level: StorageLevel,
+tellMaster: Boolean)
+    : Long = {
+    val elements = new ArrayBuffer[Any]
+    elements ++= values
+    put(blockId, elements, level, tellMaster) }
+
+
+Completely unrolling the iterator in a single line.  Above it, the CacheManager does the exact same thing with:
+
+val elements = new ArrayBuffer[Any]
+elements ++= computedValues
+blockManager.put(key, elements, storageLevel, tellMaster = true)
+
+
+We would probably have to implement some sort of 'IteratorBuffer' class, which would wrap an iterator. It would include a method to unroll an iterator into a buffer up to a point, something like
+
+def unroll(maxMem:Long) : Boolean ={ ...}
+
+And it would return True if the maxMem was hit. At which point BlockManager could read through the already cached values, then continue on through the rest of the iterators dumping all the values to file. If it unrolled without hitting maxMem (which would probably be most of the time), the class would simply wrap the ArrayBuffer of cached values.
+
+Kyle
+
+
+
+
+s that).
+on (i.e.
+
+"
+dachuan <hdc1112@gmail.com>,"Mon, 11 Nov 2013 15:50:13 -0500",a question about FetchFailed,dev@spark.incubator.apache.org,"Hello, community,
+
+I noticed one surprising code region in Spark. It's in DAGScheduler -->
+handleTaskCompletion --> case FetchFailed --> failed += magStage. (I am in
+branch-0.8)
+
+That is to say, if one task failed to fetch its input from
+shuffledependency, this task's stage and its parent stage will both need to
+be re-executed.
+
+If my understanding is correct, then why does Spark need to materialize the
+intermediate data? This is ""restart"" fault tolerance mechanism.
+
+thanks for your help,
+dachuan.
+
+-- 
+Dachuan Huang
+Cellphone: 614-390-7234
+2015 Neil Avenue
+Ohio State University
+Columbus, Ohio
+U.S.A.
+43210
+"
+Kyle Ellrott <kellrott@soe.ucsc.edu>,"Mon, 11 Nov 2013 14:28:21 -0800",Re: SPARK-942,dev@spark.incubator.apache.org,"The problem is that the iterator interface only defines 'hasNext' and
+'next' methods. So I don't think that there is really anyway to estimate
+the total count until the iterator is done traversing. In my particular
+case, I'm wrapping a OpenRDF RIO iterator, that is parsing a gzipfile
+stream. And one of the files just happens to be several gigabytes large.
+Each of the individual elements spit out by the iterator are all the same,
+just sometimes it spits out a few million more then normal.
+
+It's not a normal occurrence. 99.9% of the time, when people call 'flatMap'
+they will probably be producing arrays that fit nicely into memory. Trying
+to do a bunch of extra book keeping (ie unrolling the iterator one at a
+time, trying to figure out if it's gotten too big yet), may be an extra
+complication that makes the code much more complicated while only providing
+a solution for extreme edge cases.
+
+I think the 'best' way to go would to leave the 'MEMORY_ONLY' and
+'MEMORY_AND_DISK' behaviors the same. If the user knows that their code
+could produce these 'mega-iterators' then they pass a 'DISK_ONLY' and that
+iterator gets passed straight to the BlockManager to be written straight to
+disk. Then all we have to do is change ""def put(blockId: BlockId, values:
+Iterator[Any], level: StorageLevel, tellMaster: Boolean)""
+(BlockManager.scala:452), to call 'diskStore.putValues' directly, rather
+then unrolling the iterator and passing it onto the stardard 'doPut' like
+it does now.
+
+Kyle
+
+
+
+
+
+"
+Umar Javed <umarj.javed@gmail.com>,"Mon, 11 Nov 2013 14:54:12 -0800",problems with sbt,"user@spark.incubator.apache.org, dev@spark.incubator.apache.org","I keep getting these io.Exception Permission denied errors when building
+with sbt assembly:
+
+java.io.IOException: Permission denied
+        at java.io.FileOutputStream.close0(Native Method)
+        at java.io.FileOutputStream.close(FileOutputStream.java:393)
+        at java.io.FilterOutputStream.close(FilterOutputStream.java:160)
+        at
+java.util.zip.DeflaterOutputStream.close(DeflaterOutputStream.java:241)
+        at java.util.zip.ZipOutputStream.close(ZipOutputStream.java:360)
+        at sbt.IO$$anonfun$withZipOutput$1.apply(IO.scala:497)
+        at sbt.IO$$anonfun$withZipOutput$1.apply(IO.scala:482)
+        at sbt.Using.apply(Using.scala:25)
+        at sbt.IO$.withZipOutput(IO.scala:482)
+        at sbt.IO$.archive(IO.scala:401)
+        at sbt.IO$.jar(IO.scala:384)
+        at sbt.Package$.makeJar(Package.scala:107)
+        at sbt.Package$$anonfun$3$$anonfun$apply$3.apply(Package.scala:72)
+        at sbt.Package$$anonfun$3$$anonfun$apply$3.apply(Package.scala:70)
+        at sbt.Tracked$$anonfun$outputChanged$1.apply(Tracked.scala:57)
+        at sbt.Tracked$$anonfun$outputChanged$1.apply(Tracked.scala:52)
+        at sbt.Package$.apply(Package.scala:80)
+        at sbtassembly.Plugin$Assembly$.makeJar$1(Plugin.scala:174)
+        at
+sbtassembly.Plugin$Assembly$$anonfun$4$$anonfun$apply$3.apply(Plugin.scala:181)
+        at
+sbtassembly.Plugin$Assembly$$anonfun$4$$anonfun$apply$3.apply(Plugin.scala:177)
+        at sbt.Tracked$$anonfun$outputChanged$1.apply(Tracked.scala:57)
+        at sbt.Tracked$$anonfun$outputChanged$1.apply(Tracked.scala:52)
+        at sbtassembly.Plugin$Assembly$.apply(Plugin.scala:189)
+        at
+sbtassembly.Plugin$.sbtassembly$Plugin$$assemblyTask(Plugin.scala:157)
+        at
+sbtassembly.Plugin$$anonfun$baseAssemblySettings$6.apply(Plugin.scala:369)
+        at
+sbtassembly.Plugin$$anonfun$baseAssemblySettings$6.apply(Plugin.scala:368)
+        at sbt.Scoped$$anonfun$hf10$1.apply(Structure.scala:586)
+        at sbt.Scoped$$anonfun$hf10$1.apply(Structure.scala:586)
+        at scala.Function1$$anonfun$compose$1.apply(Function1.scala:49)
+        at
+sbt.Scoped$Reduced$$anonfun$combine$1$$anonfun$apply$12.apply(Structure.scala:311)
+        at
+sbt.Scoped$Reduced$$anonfun$combine$1$$anonfun$apply$12.apply(Structure.scala:311)
+        at
+sbt.$tilde$greater$$anonfun$$u2219$1.apply(TypeFunctions.scala:41)
+        at sbt.std.Transform$$anon$5.work(System.scala:71)
+        at
+sbt.Execute$$anonfun$submit$1$$anonfun$apply$1.apply(Execute.scala:232)
+        at
+sbt.Execute$$anonfun$submit$1$$anonfun$apply$1.apply(Execute.scala:232)
+        at sbt.ErrorHandling$.wideConvert(ErrorHandling.scala:18)
+        at sbt.Execute.work(Execute.scala:238)
+        at sbt.Execute$$anonfun$submit$1.apply(Execute.scala:232)
+        at sbt.Execute$$anonfun$submit$1.apply(Execute.scala:232)
+        at
+sbt.ConcurrentRestrictions$$anon$4$$anonfun$1.apply(ConcurrentRestrictions.scala:160)
+        at sbt.CompletionService$$anon$2.call(CompletionService.scala:30)
+        at java.util.concurrent.FutureTask.run(FutureTask.java:262)
+        at
+java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)
+        at java.util.concurrent.FutureTask.run(FutureTask.java:262)
+        at
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+        at
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+        at java.lang.Thread.run(Thread.java:744)
+[error] (assembly/*:assembly) java.io.IOException: Permission denied
+
+Can somebody help me out?
+thanks,
+Umar
+"
+"""Xia, Junluan"" <junluan.xia@intel.com>","Tue, 12 Nov 2013 01:14:50 +0000",RE: SPARK-942,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Kyle
+
+I totally agree with you. 'best' solution currently is to only handle ""DISK_ONLY"" scenario and put iterator directly to BlockManager.
+
+It is so expensive for us to make code complicated for only 0.1% possibility before we get perfect solution.
+
+' methods. So I don't think that there is really anyway to estimate the total count until the iterator is done traversing. In my particular case, I'm wrapping a OpenRDF RIO iterator, that is parsing a gzipfile stream. And one of the files just happens to be several gigabytes large.
+Each of the individual elements spit out by the iterator are all the same, just sometimes it spits out a few million more then normal.
+
+It's not a normal occurrence. 99.9% of the time, when people call 'flatMap'
+they will probably be producing arrays that fit nicely into memory. Trying to do a bunch of extra book keeping (ie unrolling the iterator one at a time, trying to figure out if it's gotten too big yet), may be an extra complication that makes the code much more complicated while only providing a solution for extreme edge cases.
+
+I think the 'best' way to go would to leave the 'MEMORY_ONLY' and 'MEMORY_AND_DISK' behaviors the same. If the user knows that their code could produce these 'mega-iterators' then they pass a 'DISK_ONLY' and that iterator gets passed straight to the BlockManager to be written straight to disk. Then all we have to do is change ""def put(blockId: BlockId, values:
+Iterator[Any], level: StorageLevel, tellMaster: Boolean)""
+(BlockManager.scala:452), to call 'diskStore.putValues' directly, rather then unrolling the iterator and passing it onto the stardard 'doPut' like it does now.
+
+Kyle
+
+
+
+
+:
+
+ed values.
+
+"
+Koert Kuipers <koert@tresata.com>,"Tue, 12 Nov 2013 09:52:14 -0500",Re: SPARK-942,dev@spark.incubator.apache.org,"if spark wants to compete as an alternative for mapreduce on hadoop
+clusters, then the assumption should not be that 99.9% of time data will
+fit in memory. it will not.
+
+however that said, i am fine with a solution where one has to use DISK_ONLY
+for this, since that is exactly what mapreduce does too anyhow.
+
+
+
+"
+<Hussam_Jarada@Dell.com>,"Tue, 12 Nov 2013 10:53:31 -0600","Any setting or configuration that I can use in spark that would
+ dump more info on job errors",<dev@spark.incubator.apache.org>,"Hi,
+
+Using spark 0.8 and hadoop 1.2.1 with cluster of 2 node each have 16 CPU and allocated 8G of RAM
+
+I am running into a use case that if I try to save a very large JavaRDD<String> that was created using paralleize from Java List<String> my job workers are failing as follows
+
+13/11/11 19:23:48 INFO Worker: Executor app-20131111191414-0001/2 finished with state FAILED message Command exited with code 1 exitStatus 1
+
+Looks like the spark driver trying 5 times to execute the  then decide to kill the process
+
+Any help on how to get more info on the reason of failure or what code 1 existStatus 1 would means here?
+
+Any setting or configuration that I can use in spark that would dump more info on error?
+
+Here's my logs
+
+13/11/11 19:14:50 INFO Worker: Asked to launch executor app-20131111190659-0000/0 for OMDBQueryService
+13/11/11 19:14:50 INFO ExecutorRunner: Launch command: ""java"" ""-cp"" "":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""0"" ""poc3"" ""16""
+13/11/11 19:16:47 INFO Worker: Executor app-20131111190659-0000/0 finished with state FAILED message Command exited with code 1 exitStatus 1
+13/11/11 19:16:47 INFO Worker: Asked to launch executor app-20131111190659-0000/2 for OMDBQueryService
+13/11/11 19:16:47 INFO ExecutorRunner: Launch command: ""java"" ""-cp"" "":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""2"" ""poc3"" ""16""
+13/11/11 19:16:53 INFO Worker: Executor app-20131111190659-0000/2 finished with state FAILED message Command exited with code 1 exitStatus 1
+13/11/11 19:16:53 INFO Worker: Asked to launch executor app-20131111190659-0000/4 for OMDBQueryService
+13/11/11 19:16:53 INFO ExecutorRunner: Launch command: ""java"" ""-cp"" "":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""4"" ""poc3"" ""16""
+13/11/11 19:17:02 INFO Worker: Executor app-20131111190659-0000/4 finished with state FAILED message Command exited with code 1 exitStatus 1
+13/11/11 19:17:02 INFO Worker: Asked to launch executor app-20131111190659-0000/6 for OMDBQueryService
+13/11/11 19:17:02 INFO ExecutorRunner: Launch command: ""java"" ""-cp"" "":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""6"" ""poc3"" ""16""
+13/11/11 19:17:09 INFO Worker: Executor app-20131111190659-0000/6 finished with state FAILED message Command exited with code 1 exitStatus 1
+13/11/11 19:17:09 INFO Worker: Asked to launch executor app-20131111190659-0000/8 for OMDBQueryService
+13/11/11 19:17:09 INFO ExecutorRunner: Launch command: ""java"" ""-cp"" "":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""8"" ""poc3"" ""16""
+13/11/11 19:17:17 INFO Worker: Executor app-20131111190659-0000/8 finished with state FAILED message Command exited with code 1 exitStatus 1
+13/11/11 19:17:17 INFO Worker: Asked to launch executor app-20131111190659-0000/10 for OMDBQueryService
+13/11/11 19:17:17 INFO ExecutorRunner: Launch command: ""java"" ""-cp"" "":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""10"" ""poc3"" ""16""
+13/11/11 19:17:20 INFO Worker: Asked to kill executor app-20131111190659-0000/10
+13/11/11 19:17:20 INFO ExecutorRunner: Killing process!
+13/11/11 19:17:20 INFO ExecutorRunner: Runner thread for executor app-20131111190659-0000/10 interrupted
+13/11/11 19:17:21 INFO Worker: Executor app-20131111190659-0000/10 finished with state KILLED
+
+Thanks,
+Hussam
+"
+Stephen Haberman <stephen.haberman@gmail.com>,"Tue, 12 Nov 2013 13:07:26 -0600",Re: SPARK-942,dev@spark.incubator.apache.org,"
+
+Just a comment from the peanut gallery, but FWIW it seems like being
+able to ask ""how much data is here"" would be a useful thing for Spark
+to know, even if that means moving away from Iterator itself, or
+something like IteratorWithSizeEstimate/something/something.
+
+Not only for this, but so that, ideally, Spark could basically do
+dynamic partitioning.
+
+E.g. when we load a month's worth of data, it's X GB, but after a few
+maps and filters, it's X/100 GB, so could use X/100 partitions instead.
+
+But right now all partitioning decisions are made up-front,
+via .coalesce/etc. type hints from the programmer, and it seems if
+Spark could delay making partitioning decisions each until RDD could
+like lazily-eval/sample a few lines (hand waving), that would be super
+sexy from our respective, in terms of doing automatic perf/partition
+optimization.
+
+Huge disclaimer that this is probably a big pita to implement, and
+could likely not be as worthwhile as I naively think it would be.
+
+- Stephen
+
+"
+Alex Boisvert <alex.boisvert@gmail.com>,"Tue, 12 Nov 2013 11:35:41 -0800",Re: SPARK-942,dev@spark.incubator.apache.org,"
+
+My perspective on this is it's already big pita of Spark users today.
+
+In the absence of explicit directions/hints, Spark should be able to make
+ballpark estimates and conservatively pick # of partitions, storage
+strategies (e.g., memory vs disk) and other runtime parameters that fit the
+deployment architecture/capacities.   If this requires code and extra
+runtime resources for sampling/measuring data, guestimating job size, and
+so on, so be it.
+
+Users want working jobs first.  Optimal performance / resource utilization
+follow from that.
+"
+Kyle Ellrott <kellrott@soe.ucsc.edu>,"Tue, 12 Nov 2013 16:44:23 -0800",Re: SPARK-942,dev@spark.incubator.apache.org,"I've posted a patch that I think produces the correct behavior at
+https://github.com/kellrott/incubator-spark/commit/efe1102c8a7436b2fe112d3bece9f35fedea0dc8
+
+It works fine on my programs, but if I run the unit tests, I get errors
+like:
+
+[info] - large number of iterations *** FAILED ***
+[info]   org.apache.spark.SparkException: Job aborted: Task 4.0:0 failed
+more than 0 times; aborting job java.lang.ClassCastException:
+scala.collection.immutable.StreamIterator cannot be cast to
+scala.collection.mutable.ArrayBuffer
+[info]   at
+org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:818)
+[info]   at
+org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:816)
+[info]   at
+scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:60)
+[info]   at
+scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)
+[info]   at
+org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:816)
+[info]   at
+org.apache.spark.scheduler.DAGScheduler.processEvent(DAGScheduler.scala:431)
+[info]   at org.apache.spark.scheduler.DAGScheduler.org
+$apache$spark$scheduler$DAGScheduler$$run(DAGScheduler.scala:493)
+[info]   at
+org.apache.spark.scheduler.DAGScheduler$$anon$1.run(DAGScheduler.scala:158)
+
+
+I can't figure out the line number of where the original error occurred. Or
+why I can't replicate them in my various test programs.
+Any help would be appreciated.
+
+Kyle
+
+
+
+
+
+
+
+"
+"""Xia, Junluan"" <junluan.xia@intel.com>","Wed, 13 Nov 2013 01:59:27 +0000",RE: SPARK-942,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi kely 
+
+I also build a patch for this issue, and pass the test, you could help me to review if you are free.
+
+https://github.com/kellrott/incubator-spark/commit/efe1102c8a7436b2fe112d3bece9f35fedea0dc8
+
+It works fine on my programs, but if I run the unit tests, I get errors
+like:
+
+[info] - large number of iterations *** FAILED ***
+[info]   org.apache.spark.SparkException: Job aborted: Task 4.0:0 failed
+more than 0 times; aborting job java.lang.ClassCastException:
+scala.collection.immutable.StreamIterator cannot be cast to scala.collection.mutable.ArrayBuffer
+[info]   at
+org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:818)
+[info]   at
+org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:816)
+[info]   at
+scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:60)
+[info]   at
+scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)
+[info]   at
+org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:816)
+[info]   at
+org.apache.spark.scheduler.DAGScheduler.processEvent(DAGScheduler.scala:431)
+[info]   at org.apache.spark.scheduler.DAGScheduler.org
+$apache$spark$scheduler$DAGScheduler$$run(DAGScheduler.scala:493)
+[info]   at
+org.apache.spark.scheduler.DAGScheduler$$anon$1.run(DAGScheduler.scala:158)
+
+
+I can't figure out the line number of where the original error occurred. Or why I can't replicate them in my various test programs.
+Any help would be appreciated.
+
+Kyle
+
+
+
+
+
+
+ote:
+
+at fit the
+
+"
+Kyle Ellrott <kellrott@soe.ucsc.edu>,"Tue, 12 Nov 2013 18:21:02 -0800",RE: SPARK-942,dev@spark.incubator.apache.org,"Sure, do you have a URL for your patch?
+
+Kyle
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 12 Nov 2013 19:32:22 -0800",Re: problems with sbt,user@spark.incubator.apache.org,"It’s hard to tell, but maybe you’ve run out of space in your working directory? The assembly command will try to write stuff in assembly/target.
+
+Matei
+
+
+building with sbt assembly:
+java.io.FilterOutputStream.close(FilterOutputStream.java:160)
+java.util.zip.DeflaterOutputStream.close(DeflaterOutputStream.java:241)
+java.util.zip.ZipOutputStream.close(ZipOutputStream.java:360)
+sbt.Package$$anonfun$3$$anonfun$apply$3.apply(Package.scala:72)
+sbt.Package$$anonfun$3$$anonfun$apply$3.apply(Package.scala:70)
+sbt.Tracked$$anonfun$outputChanged$1.apply(Tracked.scala:57)
+sbt.Tracked$$anonfun$outputChanged$1.apply(Tracked.scala:52)
+sbtassembly.Plugin$Assembly$$anonfun$4$$anonfun$apply$3.apply(Plugin.scala:181)
+sbtassembly.Plugin$Assembly$$anonfun$4$$anonfun$apply$3.apply(Plugin.scala:177)
+sbt.Tracked$$anonfun$outputChanged$1.apply(Tracked.scala:57)
+sbt.Tracked$$anonfun$outputChanged$1.apply(Tracked.scala:52)
+sbtassembly.Plugin$.sbtassembly$Plugin$$assemblyTask(Plugin.scala:157)
+sbtassembly.Plugin$$anonfun$baseAssemblySettings$6.apply(Plugin.scala:369)
+sbtassembly.Plugin$$anonfun$baseAssemblySettings$6.apply(Plugin.scala:368)
+scala.Function1$$anonfun$compose$1.apply(Function1.scala:49)
+sbt.Scoped$Reduced$$anonfun$combine$1$$anonfun$apply$12.apply(Structure.scala:311)
+sbt.Scoped$Reduced$$anonfun$combine$1$$anonfun$apply$12.apply(Structure.scala:311)
+sbt.$tilde$greater$$anonfun$$u2219$1.apply(TypeFunctions.scala:41)
+sbt.Execute$$anonfun$submit$1$$anonfun$apply$1.apply(Execute.scala:232)
+sbt.Execute$$anonfun$submit$1$$anonfun$apply$1.apply(Execute.scala:232)
+sbt.ConcurrentRestrictions$$anon$4$$anonfun$1.apply(ConcurrentRestrictions.scala:160)
+sbt.CompletionService$$anon$2.call(CompletionService.scala:30)
+java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+
+
+"
+Aaron Davidson <ilikerps@gmail.com>,"Wed, 13 Nov 2013 09:51:32 -0800",Re: SPARK-942,dev@spark.incubator.apache.org,"By the way, there are a few places one can look for logs while testing:
+Unit test runner logs (should contain driver and worker
+logs): core/target/unit-tests.log
+Executor logs: work/app-*
+
+This should help find the root exception when you see one caught by the
+DAGScheduler, such as in this case.
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 13 Nov 2013 19:37:02 -0800",[ANNOUNCE] Welcoming two new Spark committers: Tom Graves and Prashant Sharma,user@spark.incubator.apache.org,"Hi folks,
+
+The Apache Spark PPMC is happy to welcome two new PPMC members and committers: Tom Graves and Prashant Sharma.
+
+Tom has been maintaining and expanding the YARN support in Spark over the past few months, including adding big features such as support for YARN security, and recently contributed a major patch that adds security to all of Spark’s internal communication services as well (https://github.com/apache/incubator-spark/pull/120). It will be great to have him continue expanding these and other features as a committer.
+
+Prashant created and has maintained the Scala 2.10 branch of Spark for 6+ months now, including tackling the hairy task of porting the Spark interpreter to 2.10, and debugging all the issues raised by that with third-party libraries. He's also contributed bug fixes and new input sources to Spark Streaming. The Scala 2.10 branch will be merged into master soon.
+
+We’re very excited to have both Tom and Prashant join the project as committers.
+
+The Apache Spark PPMC
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 13 Nov 2013 20:39:48 -0800",Re: Any setting or configuration that I can use in spark that would dump more info on job errors,dev@spark.incubator.apache.org,"Hi Hussam,
+
+Have you looked at the stdout and stderr files from the worker process? You can find them in the “work” directory under SPARK_HOME on the slave node. They might have some information about why it crashed. Otherwise, I’d recommend profiling the workers with tools like jmap or jstack to see what objects take up memory. Commonly the problem may be having too low a level of parallelism set.
+
+Matei
+
+
+CPU and allocated 8G of RAM
+JavaRDD<String> that was created using paralleize from Java List<String> my job workers are failing as follows
+finished with state FAILED message Command exited with code 1 exitStatus 1
+to kill the process
+1 existStatus 1 would means here?
+more info on error?
+app-20131111190659-0000/0 for OMDBQueryService
+"":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""0"" ""poc3"" ""16""
+finished with state FAILED message Command exited with code 1 exitStatus 1
+app-20131111190659-0000/2 for OMDBQueryService
+"":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""2"" ""poc3"" ""16""
+finished with state FAILED message Command exited with code 1 exitStatus 1
+app-20131111190659-0000/4 for OMDBQueryService
+"":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""4"" ""poc3"" ""16""
+finished with state FAILED message Command exited with code 1 exitStatus 1
+app-20131111190659-0000/6 for OMDBQueryService
+"":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""6"" ""poc3"" ""16""
+finished with state FAILED message Command exited with code 1 exitStatus 1
+app-20131111190659-0000/8 for OMDBQueryService
+"":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""8"" ""poc3"" ""16""
+finished with state FAILED message Command exited with code 1 exitStatus 1
+app-20131111190659-0000/10 for OMDBQueryService
+"":/opt/spark-0.8.0/conf:/opt/spark-0.8.0/assembly/target/scala-2.9.3/spark-assembly_2.9.3-0.8.0-incubating-hadoop1.0.4.jar"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Dspark.executor.memory=8g"" ""-Dspark.local.dir=/tmp/spark"" ""-XX:+UseParallelGC"" ""-XX:+UseParallelOldGC"" ""-XX:+DisableExplicitGC"" ""-XX:MaxPermSize=1024m"" ""-Xms512M"" ""-Xmx512M"" ""org.apache.spark.executor.StandaloneExecutorBackend"" ""akka://spark@poc1:54482/user/StandaloneScheduler"" ""10"" ""poc3"" ""16""
+app-20131111190659-0000/10
+app-20131111190659-0000/10 interrupted
+finished with state KILLED
+
+
+"
+karthik tunga <karthik.tunga@gmail.com>,"Wed, 13 Nov 2013 21:21:01 -0800","Re: [ANNOUNCE] Welcoming two new Spark committers: Tom Graves and
+ Prashant Sharma",dev <dev@spark.incubator.apache.org>,"Congrats Tom and Prashant :)
+
+Cheers,
+Karthik
+
+l
+ as
+"
+Evan Chan <ev@ooyala.com>,"Thu, 14 Nov 2013 09:45:03 -0800","Re: [ANNOUNCE] Welcoming two new Spark committers: Tom Graves and
+ Prashant Sharma","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Congrats!
+
+ote:
+e
+ll
++
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+"
+Evan Chan <ev@ooyala.com>,"Thu, 14 Nov 2013 09:48:07 -0800",Re: SPARK-942,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","+1 for IteratorWithSizeEstimate.
+
+I believe today only HadoopRDDs are able to give fine grained
+progress;  with an enhanced iterator interface (which can still expose
+the base Iterator trait) we can extend the possibility of fine grained
+progress to all R"
+Marek Kolodziej <mkolod@gmail.com>,"Thu, 14 Nov 2013 12:57:31 -0500","Re: [ANNOUNCE] Welcoming two new Spark committers: Tom Graves and
+ Prashant Sharma",dev@spark.incubator.apache.org,"Congratulations Tom and Prashant!
+
+By the way, Prashant co-authored a very nice intro book about SBT, it was
+just published by Packt in September.
+
+Marek
+
+
+
+
+ote:
+
+he
+o
+6+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Thu, 14 Nov 2013 16:49:45 -0800","Re: [ANNOUNCE] Welcoming two new Spark committers: Tom Graves and
+ Prashant Sharma","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Congrats and welcome Tom and Prashant!
+
+
+
+RN
+o
+r
+s
+"
+Prashant Sharma <scrapcodes@gmail.com>,"Fri, 15 Nov 2013 11:43:49 +0530","Re: [ANNOUNCE] Welcoming two new Spark committers: Tom Graves and
+ Prashant Sharma",dev@spark.incubator.apache.org,"Congratulations Tom, and thanks a lot everyone and especially all the
+voters.
+
+
+ote:
+
+:
+as
+m
+er
+.
+th
+t
+to
+ as
+
+
+
+-- 
+s
+"
+Prashant Sharma <scrapcodes@gmail.com>,"Fri, 15 Nov 2013 11:45:59 +0530","Re: [ANNOUNCE] Welcoming two new Spark committers: Tom Graves and
+ Prashant Sharma",dev@spark.incubator.apache.org,"Hey Marek,
+
+I did not co-auther that book, I was just one of the reviewers.
+
+Thanks
+
+
+
+RN
+o
+r
+s
+
+
+
+-- 
+s
+"
+Marek Kolodziej <mkolod@gmail.com>,"Fri, 15 Nov 2013 05:47:12 -0500","Re: [ANNOUNCE] Welcoming two new Spark committers: Tom Graves and
+ Prashant Sharma",Prashant Sharma <scrapcodes@gmail.com>,"Oh sorry, I misspoke. Indeed, the author was Shiti Saxena. However,
+reviewers often make such significant contributions to the final version of
+a publication that one could treat them as co-authors. At least that's how
+I viewed my reviewers when publishing peer-reviewed papers.
+
+Marek
+
+
+e:
+
+:
+s
+r
+to
+h
+o
+as
+"
+Rohit Rai <rohit@tuplejump.com>,"Fri, 15 Nov 2013 19:54:47 +0530","Re: [ANNOUNCE] Welcoming two new Spark committers: Tom Graves and
+ Prashant Sharma",dev@spark.incubator.apache.org,"Congratulations Tom and Prashant! :)
+
+*Founder & CEO, **Tuplejump, Inc.*
+____________________________
+www.tuplejump.com
+*The Data Engineering Platform*
+
+
+
+of
+w
+y
+r.
+ut
+t as
+"
+Tom Graves <tgraves_cs@yahoo.com>,"Fri, 15 Nov 2013 11:57:27 -0800 (PST)",Re: [ANNOUNCE] Welcoming two new Spark committers: Tom Graves and Prashant Sharma,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>,
+  Prashant Sharma <scrapcodes@gmail.com>","rry, I misspoke. Indeed, the author was Shiti Saxena. However,
+reviewers often make such significant contributions to the final version of
+a publication that one could treat them as co-authors. At least that's how
+I viewed my reviewers when publishing peer-reviewed papers.
+
+Marek
+
+
+rote:
+
+> Hey Marek,
+>
+> I did not co-auther that book, I was just om and Prashant!
+>>
+>> By the way, Prashant co-authored a very nice intro book about SBT, it was
+>> just published by Packt in September.
+>>
+ > Hi folks,
+>> > >
+>> > > The Apache Spark PPMC is happy to welcome two new PPMC
+ members and
+>> > > committers: Tom Graves and Prashant Sharma.
+>> > >
+>> > > Tom has been maintaining and expanding the YARN support in Spark over
+>> the
+>> > > past few months, including adding big features such as support for
+>> YARN
+>> > > security, and recently contributed a major patch that adds security to
+>> > all
+>> > > of Sparkâ€™s internal communication services as well (
+>> > > https://github.com/apache/incubator-spark/pull/120). It will be
+>> great to
+>> > > have him continue expanding these and other features as a committer.
+>> > >
+>> > > Prashant created and has maintained the Scala 2.10 branch of Spark
+>> for 6+
+>> > > months now, including tackling the hairy task of porting the Spark
+>> > > interpreter to 2.10, and debugging all the issues raised by that with
+>> > > third-party libraries. He's also contributed bug fixes and new input
+>> > > sources to Spark Streaming. The Scala 2.10 branch will be merged into
+>> > > master soon.
+>> > >
+>> > > Weâ€™re very excited to have both Tom and Prashant join the project as
+>> > > committers.
+>> > >
+>> > > The Apache Spark PPMC
+>> > >
+>> > >
+"
+Umar Javed <umarj.javed@gmail.com>,"Sun, 17 Nov 2013 23:24:41 -0800",configuring final partition length,"user@spark.incubator.apache.org, dev@spark.incubator.apache.org","I'm using pyspark. I was wondering how to modify the number of partitions
+for the result task (reduce in my case). I'm running Spark on a cluster of
+two machines (each with 16 cores). Here's the relevant log output for my
+result stage:
+
+13/11/17 23:16:47 INFO SparkContext: time: 18851958895218046
+*13/11/17 23:16:47 INFO SparkContext: partition length: 2*
+13/11/17 23:16:47 DEBUG DAGScheduler: Got event of type
+org.apache.spark.scheduler.JobSubmitted
+13/11/17 23:16:47 INFO DAGScheduler: class of RDD: class
+org.apache.spark.api.python.PythonRDD PythonRDD[6] at RDD at
+PythonRDD.scala:34
+13/11/17 23:16:47 INFO DAGScheduler: number of dependencies: 1
+13/11/17 23:16:47 INFO DAGScheduler: class of dep: class
+org.apache.spark.rdd.MappedRDD MappedRDD[5] at values at
+NativeMethodAccessorImpl.java:-2
+13/11/17 23:16:47 INFO DAGScheduler: class of RDD: class
+org.apache.spark.rdd.MappedRDD MappedRDD[5] at values at
+NativeMethodAccessorImpl.java:-2
+13/11/17 23:16:47 INFO DAGScheduler: number of dependencies: 1
+13/11/17 23:16:47 INFO DAGScheduler: class of dep: class
+org.apache.spark.rdd.ShuffledRDD ShuffledRDD[4] at partitionBy at
+NativeMethodAccessorImpl.java:-2
+13/11/17 23:16:47 INFO DAGScheduler: class of RDD: class
+org.apache.spark.rdd.ShuffledRDD ShuffledRDD[4] at partitionBy at
+NativeMethodAccessorImpl.java:-2
+13/11/17 23:16:47 INFO DAGScheduler: number of dependencies: 1
+
+
+In this case, Spark seems to automatically configure the number of
+partitions for the result tasks to be 2. The result is that only two reduce
+tasks run (one on each machine). Is there a way to modify this number? More
+generally how do you configure the number of reduce tasks?
+
+thanks!
+Umar
+"
+Umar Javed <umarj.javed@gmail.com>,"Tue, 19 Nov 2013 13:44:44 -0800",addSparkListener in python,dev@spark.incubator.apache.org,"Is there a way to write the addSparkListener() api call for pyspark, or
+should I switch to writing my scripts in scala in order to use this api
+call?
+
+thanks!
+Umar
+"
+Josh Rosen <rosenville@gmail.com>,"Tue, 19 Nov 2013 14:29:55 -0800",Re: configuring final partition length,user@spark.incubator.apache.org,"I think that the reduce() action is implemented as
+mapPartitions.collect().reduce(), so the number of result tasks is
+determined by the degree of parallelism of the RDD being reduced.
+
+Some operations, like reduceByKey(), accept a `numPartitions` argument for
+configuring the number of reducers:
+https://spark.incubator.apache.org/docs/0.8.0/api/pyspark/index.html
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 19 Nov 2013 16:25:46 -0800",Re: addSparkListener in python,dev@spark.incubator.apache.org,"Sorry, this is currently not available in Python, though you might be able to do it through Py4J by accessing the private Java SparkContext member of the Python SparkContext. I’m curious, which pieces of the API do you want to use?
+
+Matei
+
+
+or
+api
+
+
+"
+Umar Javed <umarj.javed@gmail.com>,"Tue, 19 Nov 2013 17:32:25 -0800",Re: addSparkListener in python,dev@spark.incubator.apache.org,"It takes a SparkListener() as the argument. Any idea how I construct a
+scala object (a SparkListener() in this case) inside python and then pass
+it on to the Java SparkContext member? This is the only API call I need
+right now.
+
+
+te:
+
+e
+f
+nt
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 19 Nov 2013 18:46:18 -0800",Re: addSparkListener in python,dev@spark.incubator.apache.org,"Take a look at http://py4j.sourceforge.net/advanced_topics.html#implementing-java-interfaces-from-python-callback. Not 100% sure this will work, but this would be the way to do it.
+
+Matei
+
+
+pass
+need
+able
+member of
+you want
+or
+api
+
+
+"
+Umar Javed <umarj.javed@gmail.com>,"Wed, 20 Nov 2013 15:02:35 -0800",difference between 'fetchWaitTime' and 'remoteFetchTime',dev@spark.incubator.apache.org,"In the class ShuffleReadMetrics in executor/TaskMetrics.scala, there are
+two variables:
+
+1) fetchWaitTime: /**
+
+
+   * Total time that is spent blocked waiting for shuffle to fetch data
+
+
+   */
+
+2) remoteFetchTime
+
+/**
+
+
+   * The total amount of time for all the shuffle fetches.  This adds up
+time from overlapping
+
+   *     shuffles, so can be longer than task time
+
+
+   */
+
+As I understand it, the difference between these two is that fetchWaitTime
+is remoteFetchTime without the overlapped time counted exactly once. Is
+that right? Can somebody explain the difference better?
+
+thanks!
+"
+Umar Javed <umarj.javed@gmail.com>,"Wed, 20 Nov 2013 21:20:26 -0800",time taken to fetch input partition by map,"user@spark.incubator.apache.org, dev@spark.incubator.apache.org","Hi,
+
+The metrics provide information for the reduce (i.e. shuffleReaders) tasks
+about the time taken to fetch the shuffle outputs. Is there a way I can
+find out the the time taken by a map task (ie shuffleWriter) on a remote
+machine to read its input partition from disk?
+
+I believe I should look in HadoopRDD.scala where there is the
+getRecordReader, and the headers show that it should be
+in org.apache.hadoop.mapred.RecordReader, but I can't find that file
+anywhere.
+
+Any help would be appreciated.
+
+thanks!
+Umar
+"
+Nathan Kronenfeld <nkronenfeld@oculusinfo.com>,"Fri, 22 Nov 2013 15:56:02 -0500",Problem with tests,dev@spark.incubator.apache.org,"Hi there.
+
+I have a problem with the unit tests on a pull request I'm trying to tie
+up.  The changes deal with partition-related functions.
+
+In particular, the tests I have that test an append-to-partition function
+work fine on my own machine, but fail on the build machine (
+https://amplab.cs.berkeley.edu/jenkins/job/SparkPullRequestBuilder/2152/console
+).
+
+The failure seems to stem from pulling a single partition out of the set.
+In either case, when I work on the full dataset:
+
+UnionRDD[11] at apply at FunSuite.scala:1265 (4 partitions)
+  UnionRDD[9] at apply at FunSuite.scala:1265 (3 partitions)
+    ParallelCollectionRDD[8] at apply at FunSuite.scala:1265 (1 partitions)
+    MapPartitionsWithContextRDD[7] at apply at FunSuite.scala:1265 (2
+partitions)
+      ParallelCollectionRDD[4] at apply at FunSuite.scala:1265 (2 partitions)
+  ParallelCollectionRDD[10] at apply at FunSuite.scala:1265 (1 partitions)
+
+
+It seems to work.  When I pull one partition out of this, by wrapping
+a PartitionPruningRDD around it (pruning out everything but partition
+2):
+
+PartitionPruningRDD[12] at apply at FunSuite.scala:1265 (1 partitions)
+  UnionRDD[11] at apply at FunSuite.scala:1265 (4 partitions)
+    UnionRDD[9] at apply at FunSuite.scala:1265 (3 partitions)
+      ParallelCollectionRDD[8] at apply at FunSuite.scala:1265 (1 partitions)
+      MapPartitionsWithContextRDD[7] at apply at FunSuite.scala:1265
+(2 partitions)
+        ParallelCollectionRDD[4] at apply at FunSuite.scala:1265 (2 partitions)
+    ParallelCollectionRDD[10] at apply at FunSuite.scala:1265 (1 partitions)
+
+
+In this case, my local machine and the build machine seem to act
+differently.
+
+build machine, this same partition shows up in the later RDD as partition
+#0 - presumably because everything else is pruned out, but that pruning
+should happen at an outer level, shouldn't it?
+
+Does anyone know why the build machine would act different from locally
+here?
+
+Also, sadly, this worked fine two days ago.
+
+My only thought is that perhaps the PullRequestBuilder does a merge with
+current code, and someone broke this in the last day or two?  Past that,
+I'm at a bit of a loss.
+
+Thanks,
+                    -Nathan
+
+
+-- 
+
+Nathan Kronenfeld
+Senior Visualization Developer
+Oculus Info Inc
+2 Berkeley Street, Suite 600,
+Phone:  +1-416-203-3003 x 238
+Email:  nkronenfeld@oculusinfo.com
+"
+Nathan Kronenfeld <nkronenfeld@oculusinfo.com>,"Fri, 22 Nov 2013 16:02:31 -0500",Re: Problem with tests,dev@spark.incubator.apache.org,"Actually, looking into recent commits, it looks like my hunch may be
+exactly correct:
+https://github.com/apache/incubator-spark/commit/f639b65eabcc8666b74af8f13a37c5fdf7e0185f
+""PartitionPruningRDD is using index from parent""
+
+Is there anyone who can explain why this new behavior is preferable?  And,
+if it's staying, can suggest a way to fix my tests for this case?
+
+Thanks again,
+                 Nathan
+
+
+
+
+
+
+-- 
+Nathan Kronenfeld
+Senior Visualization Developer
+Oculus Info Inc
+2 Berkeley Street, Suite 600,
+Phone:  +1-416-203-3003 x 238
+Email:  nkronenfeld@oculusinfo.com
+"
+Reynold Xin <rxin@apache.org>,"Sat, 23 Nov 2013 07:36:09 +0800",Re: Problem with tests,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Can you provide a link to your pull request?
+
+
+
+"
+Reynold Xin <reynoldx@gmail.com>,"Sat, 23 Nov 2013 07:35:35 +0800",Re: Problem with tests,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Can you provide a link to your pull request?
+
+
+
+"
+Nathan Kronenfeld <nkronenfeld@oculusinfo.com>,"Sat, 23 Nov 2013 08:00:27 -0500",Re: Problem with tests,dev@spark.incubator.apache.org,"https://github.com/apache/incubator-spark/pull/18
+
+
+
+
+
+
+-- 
+Nathan Kronenfeld
+Senior Visualization Developer
+Oculus Info Inc
+2 Berkeley Street, Suite 600,
+Phone:  +1-416-203-3003 x 238
+Email:  nkronenfeld@oculusinfo.com
+"
+Nathan Kronenfeld <nkronenfeld@oculusinfo.com>,"Sat, 23 Nov 2013 09:01:01 -0500",Re: Problem with tests,dev@spark.incubator.apache.org,"Though I think it's a more general problem...
+
+Take the following:
+
+val data = sc.parallelize(Range(0, 8), 2)
+val data2 = data.mapPartitionsWithIndex((index, i) => i.map(x => (x,
+index)))
+
+data2.collect
+  res0: Array[(Int, Int)] = Array((0,0), (1,0), (2,0), (3,0), (4,1), (5,1),
+(6,1), (7,1))
+
+new org.apache.spark.rdd.PartitionPruningRDD(data2, n => 1 == n).collect
+  res1: Array[(Int, Int)] = Array((4,0), (5,0), (6,0), (7,0))
+
+So, in this case, pruning the RDD has changed the data within it.  This
+seems to be what is causing my errors.
+
+
+
+
+
+
+
+-- 
+Nathan Kronenfeld
+Senior Visualization Developer
+Oculus Info Inc
+2 Berkeley Street, Suite 600,
+Phone:  +1-416-203-3003 x 238
+Email:  nkronenfeld@oculusinfo.com
+"
+Reynold Xin <rxin@apache.org>,"Sun, 24 Nov 2013 18:02:43 +0800",Re: Problem with tests,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Take a look at this pull request and see if it fixes your problem:
+https://github.com/apache/incubator-spark/pull/201
+
+I changed the semantics of the index from the output partition index back
+to the rdd partition index.
+
+
+
+
+"
+Umar Javed <umarj.javed@gmail.com>,"Mon, 25 Nov 2013 13:23:55 -0800",Re: difference between 'fetchWaitTime' and 'remoteFetchTime',dev@spark.incubator.apache.org,"Any clarification on this? thanks.
+
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Mon, 25 Nov 2013 22:55:57 -0800",Re: difference between 'fetchWaitTime' and 'remoteFetchTime',"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey Umar,
+
+I dug into this a bit today out of curiosity since I also wasn't sure.
+
+I updated the in-line documentation here:
+https://github.com/apache/incubator-spark/pull/209/files
+
+The more important metric is `fetchWaitTime` which indicates how much
+of the task runtime was spent waiting for input data.
+
+remoteFetchTime is an aggregation of all of the fetch delays for each
+block... this second metric is a bit more convoluted because those
+fetches can actually overlap, so if this is high it doesn't
+necessarily indicate any latency hit.
+
+- Patrick
+
+
+"
+Umar Javed <umarj.javed@gmail.com>,"Tue, 26 Nov 2013 01:48:08 -0800",Re: difference between 'fetchWaitTime' and 'remoteFetchTime',dev@spark.incubator.apache.org,"Patrick: inline
+
+
+
+
+Instead of each block, I think it is each fetch request. A fetch request
+can ask for multiple blocks. I don't remember off the top of my head when a
+second request is made, but I think there is a max limit on the number of
+blocks a fetch can ask for. The result is that if all required fetch blocks
+are asked for in the same request, 'remoteFetchTime' is the time the task
+is blocked over network requests.
+
+"
+Evan Chan <ev@ooyala.com>,"Tue, 26 Nov 2013 16:12:33 -0800",Re: time taken to fetch input partition by map,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Umar,
+
+It's fine to look into hooking into HadoopRDD, though I think we need a
+general purpose way to provide metrics and progress for non-Hadoop RDDs (ie
+RDDs that aren't based on an InputFormat).   Any ideas would be great.  :)
+
+-Evan
+
+
+
+
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+<http://www.ooyala.com/>
+<http://www.facebook.com/ooyala><http://www.linkedin.com/company/ooyala><http://www.twitter.com/ooyala>
+"
+Nick Pentreath <nick.pentreath@gmail.com>,"Wed, 27 Nov 2013 08:48:47 +0200","Re: [Scikit-learn-general] Spark-backed implementations of
+ scikit-learn estimators",scikit-learn-general@lists.sourceforge.net,"CC'ing Spark Dev list
+
+I have been thinking about this for quite a while and would really love to
+see this happen.
+
+Most of my pipeline ends up in Scala/Spark these days - which I love, but
+it is partly because I am reliant on custom Hadoop input formats that are
+just way easier to use from Scala/Java - but I still use Python a lot for
+data analysis and interactive work. There is some good stuff happening with
+Breeze in Scala and MLlib in Spark (and IScala) but the breadth just
+doesn't compare as yet - not to mention IPython and plotting!
+
+There is a PR that was just merged into PySpark to allow arbitrary
+serialization protocols between the Java and Python layers. I hope to try
+to use this to allow PySpark users to pull data from arbitrary Hadoop
+InputFormats with minimum fuss. This I believe will open the way for many
+(including me!) to use PySpark directly for virtually all distributed data
+processing without ""needing"" to use Java (
+https://github.com/apache/incubator-spark/pull/146) (
+http://mail-archives.apache.org/mod_mbox/incubator-spark-dev/201311.mbox/browser
+).
+
+Linked to this is what I believe is huge potential to add distributed
+PySpark versions of many algorithms in scikit-learn (and elsewhere). The
+idea as intimated above, would be to have estimator classes with sklearn
+compatible APIs. They may in turn use sklearn algorithms themselves (eg:
+this shows how easy it would be for linear models:
+https://gist.github.com/MLnick/4707012).
+
+I'd be very happy to try to find some time to work on such a library (I had
+started one in Scala that was going to contain a Python library also, but
+I've just not had the time available and with Spark MLlib appearing and the
+Hadoop stuff I had what I needed for my systems).
+
+The main benefit I see is that sklearn already has:
+- many algorithms to work with
+- great, simple API
+- very useful stuff like preprocessing, vectorizing and feature hashing
+(very important for large scale linear models)
+- obviously the nice Python ecosystem stuff like plotting, IPython
+notebook, pandas, scikit-statsmodels and so on.
+
+The easiest place to start in my opinion is to take a few of the basic
+models in the PySpark examples and turn them into production-ready code
+that utilises sklearn or other good libraries as much as possible.
+
+(I think this library would live outside of both Spark and sklearn, at
+least until it is clear where it should live).
+
+I would be happy to help and provide Spark-related advice even if I cannot
+find enough time to work on many algorithms. Though I do hope to find more
+time toward the end of the year and early next year.
+
+N
+
+
+
+"
+Olivier Grisel <olivier.grisel@ensta.org>,"Wed, 27 Nov 2013 09:34:21 +0100","Re: [Scikit-learn-general] Spark-backed implementations of
+ scikit-learn estimators",scikit-learn-general <scikit-learn-general@lists.sourceforge.net>,"
+This is very interesting, thanks for the heads up.
+
+
+-- 
+Olivier
+http://twitter.com/ogrisel - http://github.com/ogrisel
+
+"
+Zuhair Khayyat <zuhair.khayyat@gmail.com>,"Wed, 27 Nov 2013 18:22:23 +0300",Modifying RDD.scala,dev@spark.incubator.apache.org,"Dear SPARK members,
+
+I am trying to start developing on SPARK source code. I have added a new
+dummy function in RDD.scala to test if it compiles and runs. The modified
+Spark compiled correctly but when I execute my code I got the following
+error:
+
+java.io.InvalidClassException: spark.RDD; local class incompatible: stream
+classdesc serialVersionUID = 5151096093324583655, local class
+serialVersionUID = 9012954318378784201
+        at
+java.io.ObjectStreamClass.initNonProxy(ObjectStreamClass.java:617)
+        at
+java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:1620)
+        at
+java.io.ObjectInputStream.readClassDesc(ObjectInputStream.java:1515)
+        at
+java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:1620)
+        at
+java.io.ObjectInputStream.readClassDesc(ObjectInputStream.java:1515)
+        at
+java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:1769)
+        at
+java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1348)
+        at java.io.ObjectInputStream.readObject(ObjectInputStream.java:370)
+        at
+spark.JavaDeserializationStream.readObject(JavaSerializer.scala:23)
+        at
+spark.scheduler.ShuffleMapTask$.deserializeInfo(ShuffleMapTask.scala:54)
+        at
+spark.scheduler.ShuffleMapTask.readExternal(ShuffleMapTask.scala:111)
+        at
+java.io.ObjectInputStream.readExternalData(ObjectInputStream.java:1835)
+        at
+java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:1794)
+        at
+java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1348)
+        at java.io.ObjectInputStream.readObject(ObjectInputStream.java:370)
+        at
+spark.JavaDeserializationStream.readObject(JavaSerializer.scala:23)
+        at spark.JavaSerializerInstance.deserialize(JavaSerializer.scala:45)
+        at spark.executor.Executor$TaskRunner.run(Executor.scala:96)
+        at
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+        at
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+        at java.lang.Thread.run(Thread.java:724)
+13/11/27 17:47:43 ERROR executor.StandaloneExecutorBackend: Driver or
+worker disconnected! Shutting down.
+
+Can you please help me to find out what went wrong? Thank you
+
+Zuhair Khayyat
+"
+Gerard Maas <gerard.maas@gmail.com>,"Wed, 27 Nov 2013 16:29:20 +0100",Re: Modifying RDD.scala,dev@spark.incubator.apache.org,"forgot to deploy those local changes to the cluster. This error msg:
+classdesc serialVersionUID = 5151096093324583655, local class
+serialVersionUID = 9012954318378784201
+
+indicates that a version being de-serialized is different from the local
+version. Make sure you deploy your changes across your Spark cluster.
+
+-kr, Gerard.
+
+
+
+"
+Zuhair Khayyat <zuhair.khayyat@gmail.com>,"Wed, 27 Nov 2013 19:00:36 +0300",Re: Modifying RDD.scala,dev@spark.incubator.apache.org,"Dear Gerard,
+
+All servers share the spark binaries through NFS; It is unlikly that other servers contains the old class. I will test later with one server and see if I got the same problem..
+
+Regards,
+Zuhair Khayyat
+
+
+you
+local
+new
+modified
+following
+stream
+java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:1620)
+java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:1620)
+java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:1769)
+java.io.ObjectInputStream.readObject(ObjectInputStream.java:370)
+spark.scheduler.ShuffleMapTask$.deserializeInfo(ShuffleMapTask.scala:54)
+java.io.ObjectInputStream.readExternalData(ObjectInputStream.java:1835)
+java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:1794)
+java.io.ObjectInputStream.readObject(ObjectInputStream.java:370)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+
+
+"
+Nathan Kronenfeld <nkronenfeld@oculusinfo.com>,"Wed, 27 Nov 2013 16:15:16 -0500",Re: Problem with tests,dev@spark.incubator.apache.org,"Thanks.  Now that that's checked into HEAD, it all seems to work again.
+
+
+
+
+
+
+-- 
+Nathan Kronenfeld
+Senior Visualization Developer
+Oculus Info Inc
+2 Berkeley Street, Suite 600,
+Phone:  +1-416-203-3003 x 238
+Email:  nkronenfeld@oculusinfo.com
+"
+Evan Chan <ev@ooyala.com>,"Wed, 27 Nov 2013 22:01:10 -0800",Mesos not working on head of master,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","1) zk:// URIs can no longer be passed to SparkContext as the first
+argument, as the MESOS_REGEX was changed to take only mesos:// URIs.
+This essentially renders Spark incompatible with real production Mesos
+setups.
+
+2) Spinning up tasks on a Mesos cluster, all of them fail right away,
+with no log message visible.  This might possibly be me, but this was
+working with 0.8.0.
+
+I can submit a pull request for #1, but a better fix would be to have
+some kind of MesosSuite so that any kind of breakages can be caught
+systematically.   Maybe some kind of VM, but ideas are welcome.  What
+do you guys think?
+
+(I've cc'ed two folks from Mesosphere, esp on setting up a test suite)
+
+-Evan
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+"
+Gerard Maas <gerard.maas@gmail.com>,"Thu, 28 Nov 2013 12:29:58 +0100",Re: Modifying RDD.scala,dev@spark.incubator.apache.org,"Hi Zuhair,
+
+Following the exception, you have two different versions somewhere. Do you
+get the same behavior if you use it in a single node?
+Maybe Spark veterans have more specific tips for you.
+
+kr, Gerard.
+
+
+
+"
+Zuhair Khayyat <zuhair.khayyat@gmail.com>,"Thu, 28 Nov 2013 15:35:46 +0300",Re: Modifying RDD.scala,dev@spark.incubator.apache.org,"Dear Gerard,
+
+I don’t have the problem when running on a single machine.
+
+I think I found the problem; since I build my project using maven, the old Spark copy is still cached in my home directory (~/.m2/repository/org…). Every time I modify my local spark and build it, I have to clean whatever Maven is caching in my home directory.
+
+Thank you
+Zuhair Khayyat
+
+
+you
+other
+see
+but you
+local
+cluster.
+a new
+following
+java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:1620)
+java.io.ObjectInputStream.readClassDesc(ObjectInputStream.java:1515)
+java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:1620)
+java.io.ObjectInputStream.readClassDesc(ObjectInputStream.java:1515)
+java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:1769)
+spark.scheduler.ShuffleMapTask$.deserializeInfo(ShuffleMapTask.scala:54)
+spark.scheduler.ShuffleMapTask.readExternal(ShuffleMapTask.scala:111)
+java.io.ObjectInputStream.readExternalData(ObjectInputStream.java:1835)
+java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:1794)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+or
+
+
+"
+Aaron Davidson <ilikerps@gmail.com>,"Thu, 28 Nov 2013 20:48:55 -0800",Re: Mesos not working on head of master,dev@spark.incubator.apache.org,"Hey Evan,
+
+Sorry about the issue with the Mesos urls. I submitted the patch that broke
+it originally -- at the time, I did not know about the zk:// urls mapping
+to Mesos. I went ahead and started PR
+#217<https://github.com/apache/incubator-spark/pull/217> to
+correct this, which also includes a unit test for creating the schedulers
+to hopefully avoid this type of issue in the future (at least at this most
+basic level).
+
+I cannot speak for #2, though, which seems to be the more serious issue.
+
+
+
+
+"
+=?UTF-8?Q?Grega_Ke=C5=A1pret?= <grega@celtra.com>,"Fri, 29 Nov 2013 11:02:05 +0100",spark.task.maxFailures,dev@spark.incubator.apache.org,"Looking at http://spark.incubator.apache.org/docs/latest/configuration.html
+docs says:
+Number of individual task failures before giving up on the job. Should be
+greater than or equal to 1. Number of allowed retries = this value - 1.
+
+However, looking at the code
+https://github.com/apache/incubator-spark/blob/master/core/src/main/scala/org/apache/spark/scheduler/cluster/ClusterTaskSetManager.scala#L532
+
+if I set spark.task.maxFailures to 1, this means that job will fail after
+task fails for the second time. Shouldn't this line be corrected to if (
+numFailures(index) >= MAX_TASK_FAILURES) {
+?
+
+I can open a pull request if this is the case.
+
+Thanks,
+Grega
+--
+[image: Inline image 1]
+*Grega KeÅ¡pret*
+Analytics engineer
+
+Celtra â€” Rich Media Mobile Advertising
+celtra.com <http://www.celtra.com/> |
+@celtramobile<http://www.twitter.com/celtramobile>
+"
+Reynold Xin <rxin@apache.org>,"Fri, 29 Nov 2013 09:24:30 -0800",Re: spark.task.maxFailures,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Looks like a bug to me. Can you submit a pull request?
+
+
+
+e:
+
+/org/apache/spark/scheduler/cluster/ClusterTaskSetManager.scala#L532
+m/celtramobile>
+"

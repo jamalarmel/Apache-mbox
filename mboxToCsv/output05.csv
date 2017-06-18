@@ -1,0 +1,2036 @@
+Martin Weindel <martin.weindel@arcor.de>,"Fri, 04 Oct 2013 17:01:08 +0200",Experimental Scala-2.10.3 branch based on master,dev@spark.incubator.apache.org,"Here you can find an experimental branch of Spark for Scala 2.10.
+
+https://github.com/MartinWeindel/incubator-spark/tree/0.9_Scala-2.10.3
+
+I have also updated Akka to version 2.1.4.
+
+The branch compiles with both sbt and mvn, but there are a few tests 
+which are failing and even more worse producing deadlocks.
+
+Also there are a lot of warnings, most related to usage of 
+ClassManifest, which should be replaced with ClassTag.
+But I don't think it is a good idea to fix these warnings at the moment, 
+as this would make merging with the master branch harder.
+
+I would like to know about the official road map for supporting Scala 2.10.
+Does it make sense to investigate the test problems in more details on 
+my experimental branch?
+
+Best regards,
+Martin
+
+
+P.S.: Below are the failing tests (probably not complete because of the 
+deadlocks)
+
+
+DriverSuite:
+- driver should exit after finishing *** FAILED ***
+   TestFailedDueToTimeoutException was thrown during property 
+evaluation. (DriverSuite.scala:36)
+   Message: The code passed to failAfter did not complete within 30 seconds.
+   Location: (DriverSuite.scala:37)
+   Occurred at table row 0 (zero based, not counting headings), which 
+had values (
+     master = local
+   )
+
+UISuite:
+- jetty port increases under contention *** FAILED ***
+   java.net.BindException: Die Adresse wird bereits verwendet
+   at sun.nio.ch.Net.bind0(Native Method)
+   at sun.nio.ch.Net.bind(Net.java:444)
+   at sun.nio.ch.Net.bind(Net.java:436)
+   at 
+sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:214)
+   at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
+   at 
+org.eclipse.jetty.server.nio.SelectChannelConnector.open(SelectChannelConnector.java:187)
+   at 
+org.eclipse.jetty.server.AbstractConnector.doStart(AbstractConnector.java:316)
+   at 
+org.eclipse.jetty.server.nio.SelectChannelConnector.doStart(SelectChannelConnector.java:265)
+   at 
+org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:64)
+   at org.eclipse.jetty.server.Server.doStart(Server.java:286)
+   ...
+
+AccumulatorSuite:
+- add value to collection accumulators *** FAILED ***
+   org.apache.spark.SparkException: Job failed: Task not serializable: 
+java.io.NotSerializableException: org.scalatest.Engine
+   at 
+org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:762)
+   at 
+org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:760)
+   at 
+scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)
+   at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)
+   at 
+org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:760)
+   at 
+org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$submitMissingTasks(DAGScheduler.scala:555)
+   at 
+org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$submitStage(DAGScheduler.scala:502)
+   at 
+org.apache.spark.scheduler.DAGScheduler.processEvent(DAGScheduler.scala:360)
+   at 
+org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$run(DAGScheduler.scala:440)
+   at 
+org.apache.spark.scheduler.DAGScheduler$$anon$1.run(DAGScheduler.scala:148)
+   ...
+- localValue readable in tasks *** FAILED ***
+   org.apache.spark.SparkException: Job failed: Task not serializable: 
+java.io.NotSerializableException: org.scalatest.Engine
+   at 
+org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:762)
+   at 
+org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:760)
+   at 
+scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)
+   at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)
+   at 
+org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:760)
+   at 
+org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$submitMissingTasks(DAGScheduler.scala:555)
+   at 
+org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$submitStage(DAGScheduler.scala:502)
+   at 
+org.apache.spark.scheduler.DAGScheduler.processEvent(DAGScheduler.scala:360)
+   at 
+org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$run(DAGScheduler.scala:440)
+   at 
+org.apache.spark.scheduler.DAGScheduler$$anon$1.run(DAGScheduler.scala:148)
+   ...
+
+ShuffleNettySuite:
+*deadlock* on ""shuffle serializer""
+
+FileServerSuite:
+*deadlock* on ""Distributing files on a standalone cluster""
+
+"
+Reynold Xin <rxin@apache.org>,"Fri, 4 Oct 2013 10:34:35 -0700",Re: Experimental Scala-2.10.3 branch based on master,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Martin,
+
+Thanks for updating us. Prashant has also been updating the scala 2.10
+branch at https://github.com/mesos/spark/tree/scala-2.10
+
+Did you take a look at his work?
+
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Fri, 4 Oct 2013 10:41:04 -0700",Re: Experimental Scala-2.10.3 branch based on master,dev@spark.incubator.apache.org,"Yeah, sorry to say, but I think you've largely or completely duplicated
+work that has already been done.  If anything, the state of Prashant's
+current work is mostly ahead of yours since, among other things, he has
+already incorporated the changes I made to use ClassTag.
+
+
+
+
+"
+Vadim Chekan <kot.begemot@gmail.com>,"Fri, 4 Oct 2013 10:54:11 -0700",Re: Experimental Scala-2.10.3 branch based on master,dev@spark.incubator.apache.org,"
+I missed it completely because I thought that mesos/spark is decommissioned
+and apache/incubator-spark is where work is being done. No?
+
+Vadim.
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Fri, 4 Oct 2013 10:55:44 -0700",Re: Experimental Scala-2.10.3 branch based on master,dev@spark.incubator.apache.org,"Yeah, that's too bad. I've now pushed the scala-2.10 branch from the old repo to Apache. It should show up on the Apache GitHub mirror soon.
+
+Matei
+
+
+
+2.10
+decommissioned
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Fri, 4 Oct 2013 10:59:19 -0700",Re: Experimental Scala-2.10.3 branch based on master,dev@spark.incubator.apache.org,"That's the idea.  The fact is that there are still some significant chunks
+of pending development that are still over in the old repo.  For at least a
+little while longer, it's probably a good idea to post your intentions here
+before embarking on any large project.  That way we can point out any
+potential duplication or conflict.
+
+
+
+
+"
+hilfi alkaff <hilfialkaff@gmail.com>,"Fri, 4 Oct 2013 15:09:13 -0500",Re: Want to Contribute to spark,dev@spark.incubator.apache.org,"Hi,
+
+Related to this thread, I would also like to start contributing to
+open-source but I currently do not have a lot of time to spare. I plan to
+tackle the minor and trivial features for now. In this case, how should I
+go about doing this? Should I just email whoever is opening the tickets?
+
+Thanks,
+
+
+
+
+
+
+-- 
+~Hilfi Alkaff~
+"
+Mark Hamstra <mark@clearstorydata.com>,"Fri, 4 Oct 2013 13:18:23 -0700",Re: Want to Contribute to spark,dev@spark.incubator.apache.org,"Whether you are contributing large or small changes, pull requests through
+github (as outlined previously) are by far the preferred method.
+
+
+
+"
+hilfi alkaff <hilfialkaff@gmail.com>,"Fri, 4 Oct 2013 19:20:40 -0500",Re: Want to Contribute to spark,dev@spark.incubator.apache.org,"No, I mean, is there any logistic stuff I need to do before I work on a
+specific bug in the JIRA tickets (e.g. do I need to send notification to
+the mailing list that I am working in this bug, etc)? Sorry if this is an
+obvious question.
+
+
+
+
+
+
+-- 
+~Hilfi Alkaff~
+"
+Mark Hamstra <mark@clearstorydata.com>,"Fri, 4 Oct 2013 17:45:53 -0700",Re: Want to Contribute to spark,dev@spark.incubator.apache.org,"Ah, okay -- sorry for misunderstanding.  Coordinating development is
+actually something that we haven't done a really good job of in the past.
+ Mostly that is because so many of the important efforts were done in the
+AMPLab, and there were enough small-scale projects that we haven't really
+had a lot of trouble with conflicting or duplicative development.  That's
+bound to change as more work gets done outside of the Lab and more
+contributors come on board.
+
+In the discussions we've had previously, we pretty much decided to give
+JIRA a go as a place to rendezvous and coordinate efforts -- and then many
+of us didn't do a very good job of following through on that intention.
+ The Berkeley developers have done a better job than most at adhering to
+this ""Use JIRA"" policy, and probably the rest of us should start emulating
+them by finding or opening tickets for things we want to work on and then
+using those tickets for design discussions and tracking who is currently
+working on the issue.
+
+Unless somebody has a better idea....
+
+
+
+
+"
+Mike <spark@good-with-numbers.com>,"Sat, 5 Oct 2013 05:30:53 +0000",Re: Want to Contribute to spark,hilfi alkaff <hilfialkaff@gmail.com>,"
+
+
+If there's no open issue, and the changes are small, then code is the 
+clearest way to convey intentions, so I just go straight to creating a 
+pull request.
+
+
+The person who opened the issue isn't necessarily ""in charge of"" the 
+issue, though he/she probably has opinions on it.  Use the usual JIRA 
+mechanisms: assign it to yourself, or, if you can't, comment in the 
+issue that you're working on it.  Anyone who's interested in the issue 
+will get e-mail, through the usual JIRA mechanisms.
+
+"
+Marvin <no-reply@apache.org>,"Sun,  6 Oct 2013 16:05:27 +0000 (UTC)",Incubator PMC/Board report for Oct 2013 ([ppmc]),dev@spark.incubator.apache.org,"
+
+Dear podling,
+
+This email was sent by an automated system on behalf of the Apache Incubator PMC.
+It is an initial reminder to give you plenty of time to prepare your quarterly
+board report.
+
+The board meeting is scheduled for Wed, 16 October 2013, 10:30:00:00 PST. The report 
+for your podling will form a part of the Incubator PMC report. The Incubator PMC 
+requires your report to be submitted 2 weeks before the board meeting, to allow 
+sufficient time for review and submission (Wed, Oct 2nd).
+
+Please submit your report with sufficient time to allow the incubator PMC, and 
+subsequently board members to review and digest. Again, the very latest you 
+should submit your report is 2 weeks prior to the board meeting.
+
+Thanks,
+
+The Apache Incubator PMC
+
+Submitting your Report
+----------------------
+
+Your report should contain the following:
+
+ * Your project name
+ * A brief description of your project, which assumes no knowledge of the project
+   or necessarily of its field
+ * A list of the three most important issues to address in the move towards 
+   graduation.
+ * Any issues that the Incubator PMC or ASF Board might wish/need to be aware of
+ * How has the community developed since the last report
+ * How has the project developed since the last report.
+ 
+This should be appended to the Incubator Wiki page at:
+
+  http://wiki.apache.org/incubator/October2013
+
+Note: This manually populated. You may need to wait a little before this page is
+      created from a template.
+
+Mentors
+-------
+Mentors should review reports for their project(s) and sign them off on the 
+Incubator wiki page. Signing off reports shows that you are following the 
+project - projects that are not signed may raise alarms for the Incubator PMC.
+
+Incubator PMC
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Sun, 6 Oct 2013 18:44:40 -0700",Re: Incubator PMC/Board report for Oct 2013 ([ppmc]),dev@spark.incubator.apache.org,"Hey folks, sorry for the delay, but I've now written a report at https://wiki.apache.org/incubator/October2013. I saw Dave Fisher, who was assigned to oversee the project, already looked at the page earlier today. Dave, please take another look.
+
+Matei
+
+
+Incubator PMC.
+quarterly
+PST. The report 
+Incubator PMC 
+to allow 
+PMC, and 
+latest you 
+the project
+towards 
+aware of
+this page is
+on the 
+the 
+Incubator PMC.
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Sun, 6 Oct 2013 20:12:49 -0700",Re: Incubator PMC/Board report for Oct 2013 ([ppmc]),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Thanks Matei, I also have signed off the Spark
+
+- Henry
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Mon, 7 Oct 2013 03:40:38 +0000",Re: Incubator PMC/Board report for Oct 2013 ([ppmc]),"""<dev@spark.incubator.apache.org>"" <dev@spark.incubator.apache.org>","Me too :)
+
+Sent from my iPhone
+
+te:
+/wiki.apache.org/incubator/October2013. I saw Dave Fisher, who was assigned to oversee the project, already looked at the page earlier today. Dave, please take another look.
+bator PMC.
+arterly
+T. The report
+bator PMC
+to allow
+MC, and
+ you
+e project
+rds
+aware of
+s page is
+ the
+he
+or PMC.
+
+"
+Roman Shaposhnik <rvs@apache.org>,"Sun, 6 Oct 2013 21:29:39 -0700",Re: Incubator PMC/Board report for Oct 2013 ([ppmc]),dev@spark.incubator.apache.org,"Same here.
+
+Thanks,
+Roman.
+
+
+"
+"""Markus Losoi"" <markus.losoi@gmail.com>","Mon, 7 Oct 2013 15:31:30 +0300",Development environments,<dev@spark.incubator.apache.org>,"Hi
+
+Are there any guides to set up a development environment, e.g., Eclipse, to
+develop Spark (i.e., not programs that utilize Spark but Spark itself)?
+
+Best regards,
+Markus Losoi (markus.losoi@gmail.com)
+
+
+"
+Andre Schumacher <schumach@icsi.berkeley.edu>,"Mon, 07 Oct 2013 07:50:17 -0700",Re: Development environments,dev@spark.incubator.apache.org,"
+Hi Markus,
+
+have a look at the bottom of this wiki page:
+
+https://cwiki.apache.org/confluence/display/SPARK/Contributing+to+Spark
+
+IntelliJ IDEA seems to be quite popular (that I am using myself)
+although Eclipse should work fine, too. There is another sbt plugin for
+generating Eclipse project files.
+
+Andre
+
+
+
+"
+Mike <spark@good-with-numbers.com>,"Mon, 7 Oct 2013 17:37:38 +0000",Re: Development environment,Markus Losoi <markus.losoi@gmail.com>,"
+For Eclipse, you check out the repository, run ""sbt/sbt eclipse"", and 
+import the projects (with sub-projects) into your workspace.  I think 
+this is standard for Git+SBT+Eclipse.
+
+Eclipse is a trade-off: Scala IDE has useful search features as of 
+3.0.1, which requires Scala 2.10, which isn't mainstream in Spark yet.
+
+"
+"""Markus Losoi"" <markus.losoi@gmail.com>","Tue, 8 Oct 2013 16:29:08 +0300",Re: Development environments,<dev@spark.incubator.apache.org>,"
+
+
+
+The IDE seems to work nicely, but what is the fastest way to build Spark? If
+I make a change to the ""core"" module and choose ""Make Module 'core'"" from
+the ""Build"" menu in IntelliJ Idea, then the IDE compiles the source code. To
+create the ""spark-assembly-0.8.0-incubating-hadoop1.0.4.jar"" JAR file, I
+have run ""sbt assembly"" on the command line. However, this takes an
+impractically long time (843 s when I last ran it on my workstation with an
+Intel Core 2 Quad Q9400 and 8 GB of RAM). Is there any faster way?
+
+Best regards,
+Markus Losoi (markus.losoi@gmail.com)
+
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Tue, 8 Oct 2013 15:58:09 -0700","Announcing the first Spark Summit, Mon Dec 2, 2013","users@spark.incubator.apache.org, 
+	""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","We are excited to announce the *first Spark
+Summit<http://www.spark-summit.org>on Dec 2, 2013 in Downtown San
+Francisco
+*. Come hear from leading production users of Spark, Shark, Spark Streaming
+and related projects. Also find out where development is going and learn
+how to use the Spark stack in a variety of applications. The summit is
+being organized and sponsored by leading organizations in the Spark
+community.
+
+You can also sign up to attend a half-day *Spark Training on December 3*,
+the day after the summit.
+
+Visit *www.spark-summit.org* to find more details, register to attend, or
+submit a talk of your own to give at the summit.
+
+See you at the summit!
+Andy & the summit planning team
+"
+Murali Raju <murali.raju@infrastacks.com>,"Tue, 8 Oct 2013 20:02:44 -0400","Re: Announcing the first Spark Summit, Mon Dec 2, 2013","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Great to see this!
+
+Murali
+
+
+"
+Evan Chan <ev@ooyala.com>,"Wed, 9 Oct 2013 00:45:57 -0700",Re: Development environments,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","do that for you), successive runs of assembly are much faster.  I just did
+it on my MacBook Pro in about 36 seconds.
+
+Running builds using IntelliJ or an IDE is wasted time, because the
+compiled classes go to a different place than SBT.   Maybe there's some way
+to symlink them.
+
+-Evan
+
+
+
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+<http://www.ooyala.com/>
+<http://www.facebook.com/ooyala><http://www.linkedin.com/company/ooyala><http://www.twitter.com/ooyala>
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 9 Oct 2013 00:54:34 -0700",Re: Development environments,dev@spark.incubator.apache.org,"For most development, you might not need to do assembly. You can run most of the unit tests if you just do sbt compile -- only the ones that spawn processes, like DistributedSuite, won't work. That said, we are looking to optimize assembly by maybe having it only package the dependencies rather than Spark itself -- there were some messages on this earlier. For now I'd just recommend doing it in a RAMFS if possible (symlink the assembly/target directory to be a RAMFS).
+
+Matei
+
+
+will
+did
+some way
+https://cwiki.apache.org/confluence/display/SPARK/Contributing+to+Spark
+for
+Spark?
+from
+code.
+file, I
+with an
+<http://www.facebook.com/ooyala><http://www.linkedin.com/company/ooyala><http://www.twitter.com/ooyala>
+
+
+"
+"""Markus Losoi"" <markus.losoi@gmail.com>","Wed, 9 Oct 2013 14:36:43 +0300",A quick note about spark-class (the launch script),<dev@spark.incubator.apache.org>,"Hi
+
+Should the strings ""spark.deploy.x.y"" be ""org.apache.spark.deploy.x.y""
+(e.g., x = ""master"" & y = ""Master"") in spark-class on lines 52-64? (Perhaps
+I should have used JIRA for this message, but this time I was unwilling to
+create yet another account on a service I may not use regularly.)
+
+Best regards,
+Markus Losoi (markus.losoi@gmail.com)
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Wed, 9 Oct 2013 08:06:12 -0700",Re: A quick note about spark-class (the launch script),dev@spark.incubator.apache.org,"https://github.com/apache/incubator-spark/commit/f3c60c9c0ce1f0c94174ecb903519b5fc4c696cd#diff-96515a7165082eff6dfecf69581c7349
+
+Already fixed for 0.8.1
+
+
+
+
+"
+Evan Chan <ev@ooyala.com>,"Wed, 9 Oct 2013 09:21:13 -0700",Re: Development environments,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Matei,
+
+I wonder if we can further optimize / reduce the size of the assembly.
+produce their own assemblies which exclude the core dependencies.
+
+Also, DistributedSuite is pretty slow.  would it make sense to tag certain
+tests as the ""core"" tests and give it a separate build target?     The
+overall tests that include DistributedSuite can trigger assembly, but then
+it would be much faster to run the core tests.
+
+-Evan
+
+
+
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+<http://www.ooyala.com/>
+<http://www.facebook.com/ooyala><http://www.linkedin.com/company/ooyala><http://www.twitter.com/ooyala>
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 9 Oct 2013 10:36:05 -0700",Re: Propose to Re-organize the scripts and configurations,dev@spark.incubator.apache.org,"Hey Shane, I don't know if you saw my message on GitHub, but I did review this a few days ago: https://github.com/apache/incubator-spark/pull/21. Make sure you're allowing emails from GitHub to get comments. It looks good overall but I had some suggestions in there.
+
+Matei
+
+
+customer
+review.
+one
+administrators
+by
+system
+rule
+system
+maybe
+It's
+options
+and
+a
+de-/serialized
+and
+from
+firstly
+The
+any
+want to
+such as
+version
+SPARK-544
+
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Thu, 10 Oct 2013 12:08:51 -0700",First spark summit,"dev@community.apache.org, 
+	""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi,
+
+We are planning the first Spark Summit (Spark is an incubator project) for
+Dec 2-3 2013. Can you add it to the event calendar (
+http://community.apache.org/calendars/conferences.html) please?
+
+Thanks!
+Andy Konwinski
+"
+"""Xia, Junluan"" <junluan.xia@intel.com>","Fri, 11 Oct 2013 04:47:58 +0000",RE: Propose to Re-organize the scripts and configurations,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Metei
+
+Shane is on vacation now. I will take charge of this pull request.
+
+Hey Shane, I don't know if you saw my message on GitHub, but I did review this a few days ago: https://github.com/apache/incubator-spark/pull/21. Make sure you're allowing emails from GitHub to get comments. It looks good overall but I had some suggestions in there.
+
+Matei
+
+
+ote:
+
+
+"
+=?UTF-8?B?0KDQvtC80LDQvSDQotC60LDQu9C10L3QutC+?= <tkalenkoroman@gmail.com>,"Sat, 12 Oct 2013 23:48:26 +0300",Test coverage of Spark,dev@spark.incubator.apache.org,"Hello.
+I'm trying to dive into Spark's sources on a deeper-than-mere-glance level
+and I find beginning with writing unit tests a good way to do it. So,
+basically, I'm wondering if there are points to which I could specifically
+apply my enthusiasm, i. e. are there some un- or not enough covered parts
+for which I could write some tests?
+I'm wondering as well about the state of Apache-hosted JIRA for Spark - I
+currently can't see any entry in there. Should I look for them in Github
+mirror or still in the antecedent JIRA instance on
+http://spark-project.atlassian.net/?
+Regards,
+Roman.
+"
+Christopher Nguyen <ctn@adatao.com>,"Sat, 12 Oct 2013 14:22:16 -0700",Re: Test coverage of Spark,dev@spark.incubator.apache.org,"Roman, an area I think would (a) have high impact, and (b) is relatively
+not well covered is performance analysis. I'm sure most teams are doing
+this internally at their respective companies, but there is no shared code
+base and shared wisdom about what we're finding/improving.
+
+For example, consider the task of loading a table from disk into memory by
+Shark. We're getting conflicting data about how much of this is cpu-bound
+vs I/O-bound. Our effort to track this down should be sharable somehow, and
+would benefit from others' findings. Of course this is dependent on the
+particular configuration, but there is a lot of test harness code/scripts
+that can be shared. And individual findings, even if/especially if they are
+conflicting, are very valuable if well documented.
+
+There is a Benchmark effort covered here
+https://amplab.cs.berkeley.edu/benchmark/, but it addresses a slightly
+different goal. You could consider this Perf-Analysis as part of that, or
+as its own effort.
+
+This may be more than you were looking to own, but given your stated
+enthusiasm :) I want to throw the idea out there.
+
+--
+Christopher T. Nguyen
+Co-founder & CEO, Adatao <http://adatao.com>
+linkedin.com/in/ctnguyen
+
+
+
+
+l
+y
+"
+Mark Hamstra <mark@clearstorydata.com>,"Sat, 12 Oct 2013 14:31:36 -0700",Re: Test coverage of Spark,dev@spark.incubator.apache.org,"There is also spark-perf <https://github.com/amplab/spark-perf>.
+
+
+
+e
+y
+nd
+re
+∫–∞–ª–µ–Ω–∫–æ <tkalenkoroman@gmail.com
+ts
+ I
+b
+"
+Christopher Nguyen <ctn@adatao.com>,"Sat, 12 Oct 2013 14:44:20 -0700",Re: Test coverage of Spark,dev@spark.incubator.apache.org,"Perfect. This is a great start of what I'm looking for.
+
+--
+Christopher T. Nguyen
+Co-founder & CEO, Adatao <http://adatao.com>
+linkedin.com/in/ctnguyen
+
+
+
+e:
+
+y
+nd
+ts
+or
+–∫–∞–ª–µ–Ω–∫–æ <tkalenkoroman@gmail.com
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Sat, 12 Oct 2013 16:35:10 -0700",Re: Test coverage of Spark,dev@spark.incubator.apache.org,"Adding more tests to spark-perf is a good idea. It would be great if it covered some of the ML algorithms for example. In addition, for correctness, the test suites in core can also be enhanced. In particular I'd like to make sure we're testing all methods in the RDD API in all of Java, Python and Scala -- we recently found some methods that don't quite work in Java for example.
+
+Our JIRA is currently still at https://spark-project.atlassian.net/secure/MyJiraHome.jspa but it's hopefully going to be imported into Apache really soon so I'd recommend holding off of creating new issues for a bit to see if the import succeeds. This is the task to import it into Apache: https://issues.apache.org/jira/browse/INFRA-6419.
+
+Matei
+
+
+relatively
+doing
+shared
+memory
+cpu-bound
+somehow,
+the
+code/scripts
+they
+slightly
+that, or
+–¢–∫–∞–ª–µ–Ω–∫–æ <tkalenkoroman@gmail.com
+deeper-than-mere-glance
+So,
+Spark
+
+
+"
+karthik tunga <karthik.tunga@gmail.com>,"Mon, 14 Oct 2013 00:50:58 -0700",Assigning issue,dev <dev@spark.incubator.apache.org>,"Hi,
+
+I was looking at some starter issues. How do I assign an issue to myself ?
+I was looking at
+SPARK-627<https://spark-project.atlassian.net/browse/SPARK-627> .
+Its a simple change to the scripts, so I thought I will start with that.
+
+Can someone assign the issue to me ? User name is karthik.tunga
+
+Thanks.
+
+Cheers,
+Karthik
+"
+Aaron Davidson <ilikerps@gmail.com>,"Mon, 14 Oct 2013 09:38:02 -0700",Re: Assigning issue,dev@spark.incubator.apache.org,"Done -- have fun! :)
+
+
+
+"
+Laksh Gupta <glaksh09@gmail.com>,"Mon, 14 Oct 2013 10:42:24 -0700",Suggestion/Recommendation for language bindings,dev@spark.incubator.apache.org,"Hi
+
+I am interested in contributing to the project and want to start with
+supporting a new programming language on Spark. I can see that Spark
+already support Java and Python. Would someone provide me some
+suggestion/references to start with? I think this would be a great learning
+experince for me. Thank you in advance.
+
+-- 
+- Laksh Gupta
+"
+Aaron Babcock <aaron.babcock@gmail.com>,"Mon, 14 Oct 2013 14:07:28 -0500",Re: Suggestion/Recommendation for language bindings,dev@spark.incubator.apache.org,"Hey Laksh,
+
+Not sure if you are interested in groovy at all, but I've got the
+beginning of a project here:
+https://github.com/bunions1/groovy-spark-example
+
+The idea is to map groovy idioms: myRdd.collect{ row -> newRow } to
+spark api calls myRdd.map( row => newRow)  and support a good repl.
+
+Its not officially related to spark at all and is very early stage but
+maybe it will be a point of reference for you.
+
+
+
+
+
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Mon, 14 Oct 2013 13:54:07 -0700",Does ExecutorRunner.buildJavaOpts work the way we want it to?,dev@spark.incubator.apache.org,"I'm busy working on upgrading an application stack of which Spark and Shark
+are components.  The 0.8.0 changes in how configuration, environment
+variables, and SPARK_JAVA_OPTS are handled are giving me some trouble, but
+I'm not sure whether it is just my trouble or a more general trouble with
+ExecutorRunner.buildJavaOpts.
+
+The essence of the problem is that workerLocalOpts and userOpts are both
+ending up with the same options set -- usually with the same value, but not
+always.  Having particular options set twice with the same values is, at
+best, pointless.  Having a particular option set twice with different
+values is causing my shark-server to fail to start.
+
+Now, at least in my circumstances, it wouldn't seem to ever make sense for
+any option to be inherited from both workerLocalOpts and userOpts; and that
+the value associated with any duplicate key in userOpts should override the
+value from workerLocalOpts.  I can customize ExecutorRunner for my
+environment (or look for some other work around), but what I am really
+wondering is whether the userOpts-override behavior is what we actually
+want in Spark instead of the current union of workerLocalOpts and userOpts?
+"
+karthik tunga <karthik.tunga@gmail.com>,"Mon, 14 Oct 2013 23:53:47 -0700",Re: Assigning issue,dev <dev@spark.incubator.apache.org>,"Awesome. Thanks Aaron. :)
+
+Cheers,
+Karthik
+
+
+
+"
+Ryan Weald <ryan@weald.com>,"Tue, 15 Oct 2013 09:45:44 -0700",Re: Suggestion/Recommendation for language bindings,dev@spark.incubator.apache.org,"Writing a JRuby wrapper around the existing Java bindings would be pretty
+cool. Could help to get some of the Ruby community to start using the Spark
+platform.
+
+-Ryan
+
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Tue, 15 Oct 2013 10:13:02 -0700",Re: Suggestion/Recommendation for language bindings,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","I think Ruby integration via JRuby would be a great idea.
+
+
+"
+prabeesh k <prabsmails@gmail.com>,"Wed, 16 Oct 2013 14:00:01 +0530",MQTT Streaming adapter,dev@spark.incubator.apache.org,"MQTT is a machine-to-machine (M2M)/Internet of Things connectivity
+protocol.
+It was designed as an extremely lightweight publish/subscribe messaging
+transport. You may read more about it herehttp://mqtt.org/
+I have added the mqtt adapter for spark streaming with one example
+
+https://github.com/apache/incubator-spark/pull/64
+"
+prabeesh k <prabsmails@gmail.com>,"Wed, 16 Oct 2013 14:16:47 +0530",MQTT Adapter for Spark Streaming,dev@spark.incubator.apache.org," We do a project on Internet of Things (IoT) at Amrita Center for Cyber
+Security, Amrita University.
+
+We started using spark streaming for handling data from sensors.
+
+MQTT is a machine-to-machine (M2M)/Internet of Things connectivity
+protocol.
+It was designed as an extremely lightweight publish/subscribe messaging
+transport. You may read more about it here http://mqtt.org/
+
+I have added the mqtt adapter for spark streaming with one example.
+
+https://github.com/apache/incubator-spark/pull/64
+
+I am a newbie in contributing to open source projects, so if you experts
+can guide me on this, much appreciate it. Thanks
+"
+Han JU <ju.han.felix@gmail.com>,"Wed, 16 Oct 2013 12:28:30 +0200",System property for Kryo's setRegistrationRequired,dev@spark.incubator.apache.org,"Hi,
+
+I think maybe it's better to have an option to force class registration
+when using Kryo, mainly to prevent human errors.
+Kryo has a setRegistrationRequired method and by default the check is false
+(in kryo and in chill). Maybe we can have a system property for setting
+this? Like:
+
+System.setProperty(""spark.kryo.registrationRequired"", true)
+
+What you say about this?
+-- 
+*JU Han*
+
+Data Engineer @ Botify.com
+
++33 0619608888
+"
+Evan Chan <ev@ooyala.com>,"Wed, 16 Oct 2013 14:01:14 -0700",Re: Suggestion/Recommendation for language bindings,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","+1 for Ruby, as Ruby already has a functional-ish collection API, so
+mapping the RDD functional transforms over would be pretty idiomatic.
+Would love to review this.
+
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 16 Oct 2013 16:28:45 -0700","Re: Announcing the first Spark Summit, Mon Dec 2, 2013","""user@spark.incubator.apache.org"" <user@spark.incubator.apache.org>,
+ ""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>,
+ spark-users@googlegroups.com","Hey folks, FYI, the talk submission deadline for this is October 25th. We've gotten a lot of great submissions already. If you'd like to submit one, go to http://www.spark-summit.org/submit/. It can be about anything -- projects you're doing with Spark, open source development within the project, tips / tutorials, etc. Demos are also welcome.
+
+Matei
+
+
+Downtown San Francisco. Come hear from leading production users of Spark, Shark, Spark Streaming and related projects. Also find out where development is going and learn how to use the Spark stack in a variety of applications. The summit is being organized and sponsored by leading organizations in the Spark community.
+3, the day after the summit.
+or submit a talk of your own to give at the summit.
+Groups ""Spark Users"" group.
+an email to spark-users+unsubscribe@googlegroups.com.
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 16 Oct 2013 19:37:56 -0700",Re: System property for Kryo's setRegistrationRequired,dev@spark.incubator.apache.org,"This is a good idea, though you may also be able to do it in your KryoRegistrator by just calling kryo.setRegistrationOptional there. (You get full access to the Kryo object.)
+
+Omitting to register a class is not an error by the way, it just leads to bigger data.
+
+Matei
+
+
+registration
+false
+setting
+
+
+"
+karthik tunga <karthik.tunga@gmail.com>,"Wed, 16 Oct 2013 22:23:52 -0700",Code Review,dev <dev@spark.incubator.apache.org>,"Hi,
+
+How is a code fix for an issue reviewed ? By a pull request ?
+
+Cheers,
+Karthik
+"
+Henry Saputra <henry.saputra@gmail.com>,"Wed, 16 Oct 2013 22:32:59 -0700",Re: Code Review,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Yes it is =)
+
+Please submit pull request against
+https://github.com/apache/incubator-spark ASF git mirror in GitHub.
+
+Here is the link to ""How to contribute"" wiki page by Matei:
+https://cwiki.apache.org/confluence/display/SPARK/Contributing+to+Spark
+
+- Henry
+
+
+"
+karthik tunga <karthik.tunga@gmail.com>,"Wed, 16 Oct 2013 23:09:44 -0700",Re: Code Review,dev <dev@spark.incubator.apache.org>,"Thanks. I just did :)
+
+Cheers,
+Karthik
+
+
+
+"
+karthik tunga <karthik.tunga@gmail.com>,"Thu, 17 Oct 2013 00:43:48 -0700",SPARK-883,dev <dev@spark.incubator.apache.org>,"Hi,
+
+Is SPARK-883 <https://spark-project.atlassian.net/browse/SPARK-883> still
+open ? I already see lift-json dependency in pom.xml and didn't find any
+reference to ""scala.util.parsing.json"".
+
+Cheers,
+Karthik
+"
+Gurvinder Singh <gurvinder.singh@uninett.no>,"Thu, 17 Oct 2013 08:50:35 +0200","Re: Announcing the first Spark Summit, Mon Dec 2, 2013","user@spark.incubator.apache.org, 
+ ""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>,
+ spark-users@googlegroups.com","Hi,
+
+Will the talk will be recorded?streamed. It would be great to atleast 
+record them and put it online for people who can not come to SF to 
+attend in person.
+
+Regards,
+Gurvinder Singh
+
+"
+Han JU <ju.han.felix@gmail.com>,"Thu, 17 Oct 2013 23:57:09 +0200",Re: System property for Kryo's setRegistrationRequired,dev@spark.incubator.apache.org,"Matei, thanks for the reply.
+I've tried setting kryo.setRegistrationOptional by KryoRegistrator but it
+seems that some spark's internal class, such as
+o.a.spark.scheduler.MapStatus, need to be registered.
+
+
+2013/10/17 Matei Zaharia <matei.zaharia@gmail.com>
+
+
+
+-- 
+*JU Han*
+
+Data Engineer @ Botify.com
+
++33 0619608888
+"
+Reynold Xin <rxin@apache.org>,"Thu, 17 Oct 2013 18:41:40 -0700",Re: SPARK-883,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Thanks. I just closed the issue.
+
+
+
+"
+=?GB2312?B?t+u/obfl?= <junfeng.feng@gmail.com>,"Sun, 20 Oct 2013 20:31:39 -0400",Join the spark community,dev@spark.incubator.apache.org,"Hello world,
+
+I would like to join the Spark community and look forward to working
+together.
+
+
+-- 
+Sincerely,
+Junfeng Feng
+"
+"""Xia, Junluan"" <junluan.xia@intel.com>","Tue, 22 Oct 2013 01:39:41 +0000",RE: Join the spark community,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Welcome!
+
+-----Original Message-----
+From: ∑Îø°∑Â [mailto:junfeng.feng@gmail.com] 
+Sent: Monday, October 21, 2013 8:32 AM
+To: dev@spark.incubator.apache.org
+Subject: Join the spark community
+
+Hello world,
+
+I would like to join the Spark community and look forward to working together.
+
+
+--
+Sincerely,
+Junfeng Feng
+"
+Sarath P R <sarath.amrita@gmail.com>,"Tue, 22 Oct 2013 11:07:58 +0530",Is there any MLlib SVM Reference Paper,dev@spark.incubator.apache.org,"Hi All,
+
+I Would like to know if there is any reference paper for SVM, which is
+implemented in MLlib.
+
+Please help. Thanks in Advance
+
+-- 
+Thank You
+Sarath P R
+Technical Lead
+Amrita Center for Cyber Security | Amrita Vishwa Vidyapeetham | Amritapuri
+Campus
+Contact +91 99 95 02 4287 | Twitter <http://twitter.com/sarathpr> |
+Blog<http://sprism.blogspot.in>
+"
+Reynold Xin <rxin@apache.org>,"Mon, 21 Oct 2013 22:40:54 -0700",Re: Is there any MLlib SVM Reference Paper,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","It is fairly simple and just runs mini-batch sgd. You can actually just
+look at the code.
+
+https://github.com/apache/incubator-spark/blob/master/mllib/src/main/scala/org/apache/spark/mllib/classification/SVM.scala
+
+
+
+
+"
+Sarath P R <sarath.amrita@gmail.com>,"Tue, 22 Oct 2013 13:38:38 +0530",Re: Is there any MLlib SVM Reference Paper,dev@spark.incubator.apache.org,"Thanks Reynold.
+
+
+
+
+
+
+-- 
+Thank You
+Sarath P R
+Technical Lead
+Amrita Center for Cyber Security | Amrita Vishwa Vidyapeetham | Amritapuri
+Campus
+Contact +91 99 95 02 4287 | Twitter <http://twitter.com/sarathpr> |
+Blog<http://sprism.blogspot.in>
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 22 Oct 2013 11:01:33 -0700",Heads-up: Scala 2.10 merge,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi folks,
+
+Just as a heads-up, I think we're getting close to the major features to make a Spark 0.8.1 release, and we'd like to merge the Scala 2.10 branch into master to facilitate work on Spark 0.9. I'm thinking of doing this in the next week. This won't mean that development on Scala 2.9 will stop -- that will keep going on in the spark-0.8 branch, where we've been cherry-picking nearly every change from master. But it will make it easier to do the next phase of development (configuration system, changes to run scripts, etc) for Scala 2.10 and Spark 0.9. Let me know if you have any concerns about this.
+
+By the way, there's been a lot of stuff contributed to 0.8.1 in the month since we released 0.8! Here are some of the things either merged or close to merging:
+
+- Standalone master fault tolerance
+- Shuffle file consolidation (improves performance of big shuffles)
+- Better P2P broadcast (improves speed and stability of big broadcasts)
+- Optimized hashtable classes
+- Sending of large task results through block manager (improves performance)
+- Sort() function in PySpark
+- New ALS variant for implicit feedback
+- Task and job killing
+
+Matei
+"
+=?GBK?B?1ty93A==?= <zhoujie338@126.com>,"Wed, 23 Oct 2013 16:21:08 +0800 (CST)",how to contribute,dev@spark.incubator.apache.org,"Hi, I want to know how to contribute to spark"
+Josh Rosen <rosenville@gmail.com>,"Wed, 23 Oct 2013 08:31:32 -0700",Re: how to contribute,"""Spark Dev (Apache Incubator)"" <dev@spark.incubator.apache.org>","Check out the replies in this thread:
+https://mail-archives.apache.org/mod_mbox/spark-dev/201310.mbox/%3CCAAsvFPnhwnX0ShHzkLcZ9_KfSw_6hxtwRWoXaJsOjCDGkiQ5Zw@mail.gmail.com%3E
+
+
+ote:
+
+"
+"""Guillaume Pitel (eXenSa)"" <guillaume.pitel@exensa.com>","Wed, 23 Oct 2013 21:32:45 +0200",Re: how to contribute,dev@spark.incubator.apache.org,"Hi,
+
+I would also like to give a hand in the development of Spark, and more especially on the Mllib subproject. There are plenty of things we could port from other similar projects (mahout, graphlab, scikit-learn), but I'm pretty sure someone has already thought about all of this. 
+
+As a starting point I was thinking about implementing some evaluation methods for recommender systems (RMSE,NDCG or more simply hit rate@k and precision@k).  
+
+I suspect there is someone I should contact before writing my stuff and submitting a pull request ? 
+
+Guillaume Pitel - eXenSa 
+
+Josh Rosen <rosenville@gmail.com> a √©crit¬†:
+
+>Check out the replies in this thread:
+>https://mail-archives.apache.org/mod_mbox/spark-dev/201310.mbox/%3CCAAsvFPnhwnX0ShHzkLcZ9_KfSw_6hxtwRWoXaJsOjCDGkiQ5Zw@mail.gmail.com%3E
+>
+>
+>On Wed, Oct 23, 2013 at 1:21 AM, Âë®Êù∞ <zhoujie338@126.com> wrote:
+>
+>> Hi, I want to know how to contribute to spark
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 23 Oct 2013 13:13:11 -0700",Re: how to contribute,dev@spark.incubator.apache.org,"Hi Guillaume,
+
+Just sending the pull request is fine, but if you'd like to tell people what you're working up before you post it, this is a good list. You can also open an issue on our JIRA (https://spark-project.atlassian.net/browse/SPARK) to say you're working on something. In any case, we appreciate your interest in contributing!
+
+Matei
+
+
+especially on the Mllib subproject. There are plenty of things we could port from other similar projects (mahout, graphlab, scikit-learn), but I'm pretty sure someone has already thought about all of this. 
+methods for recommender systems (RMSE,NDCG or more simply hit rate@k and precision@k).  
+and submitting a pull request ? 
+https://mail-archives.apache.org/mod_mbox/spark-dev/201310.mbox/%3CCAAsvFPnhwnX0ShHzkLcZ9_KfSw_6hxtwRWoXaJsOjCDGkiQ5Zw@mail.gmail.com%3E
+
+
+"
+Alex Boisvert <alex.boisvert@gmail.com>,"Wed, 23 Oct 2013 14:33:53 -0700",MBrace: Cloud Computing with Monads,dev@spark.incubator.apache.org,"(Resending to @apache list instead of old google-group)
+
+A bit of a random question but I was wondering if there were efforts
+underway to generalize / expand the Spark API towards something that would
+be similar to the MBrace [1] model ... there's certainly an overlap between
+the features of the systems already ... so I guess I'm thinking about an
+API that's less centered around RDDs (as a collection) and more towards
+distributed dataflow that would feel more like composing Promises/Futures
+... or even generalizing to support various sorts of container/context
+monads.
+
+[1] ""MBrace: Cloud Computing with Monads""
+http://plosworkshop.org/2013/preprint/dzik.pdf
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 23 Oct 2013 16:20:13 -0700",Re: MBrace: Cloud Computing with Monads,dev@spark.incubator.apache.org,"If this could be compiled to run on a Spark-like engine, it would be interesting, from a quick look this doesn't seem easy because this model has arbitrary graphs of fine-grained tasks (more similar to something like Cilk) rather than parallel operations on collections. I think it would require a different engine with different properties about fault tolerance, locality, etc.
+
+Matei
+
+
+would
+between
+an
+towards
+Promises/Futures
+
+
+"
+Christopher Nguyen <ctn@adatao.com>,"Wed, 23 Oct 2013 18:54:00 -0700",Re: MBrace: Cloud Computing with Monads,dev@spark.incubator.apache.org,"Re MBrace: very interesting work. I'm a bit surprised though that the paper
+makes no mention of DryadLINQ (
+http://research.microsoft.com/en-us/projects/dryadlinq/dryadlinq.pdf).
+
+Architecturally it's a lot easier to see an MBrace implementation
+specialized to a MapReduce (or more generically, a BSP) computation, than
+to have a Spark implement the fully async DAG model of an MBrace/Dryad
+engine.
+
+More practically, as interesting as it might be as a side effort, I think
+for the core Spark effort to attempt something like that would be ""off
+mission"". Spark's success to date has been more due to beautiful
+implementation of a known architecture, than beautiful new architecture.
+Basically, Spark does MapReduce 10-100x faster than Hadoop, and more people
+by now understand how to get MapReduce to solve their problems than any
+other parallel model. Spark sits natively on HDFS so that makes adoption a
+lot easier to swallow. So at present, for Spark to mature quickly along
+that successful trajectory, the key problems to address are more practical
+""user interface"" or ""productivity"" things like manageability,
+deployability, fault-tolerance improvements, multi-user access, a bigger
+library of pre-packaged algorithms, etc.
+
+Whether MapReduce's own success is an accident of history or something more
+fundamental is subject to interesting debate. I remember being constantly
+amazed by the number of problems that when squinted at the right way
+becomes an MR-soluble problem at Google (starting ironically with PageRank
+itself). Yes, apparently sometimes it does pay to see many things as a nail
+when you have invested in a powerful hammer.
+
+Along those lines, here are some interesting perspectives on the beauty of
+Dryad/DryadLINQ, and at least one practical reason why it didn't succeed as
+an implementation.
+
+   -
+   http://blogs.msdn.com/b/dryad/archive/2010/02/15/some-dryad-and-dryadlinq-history.aspx
+   -
+   http://geekswithblogs.net/johnsPerfBlog/archive/2011/12/12/rip-dryadlinq-or-long-live-linq-to-hadoop.aspx
+
+
+
+--
+Christopher T. Nguyen
+Co-founder & CEO, Adatao <http://adatao.com>
+linkedin.com/in/ctnguyen
+
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 23 Oct 2013 19:06:01 -0700",Re: MBrace: Cloud Computing with Monads,dev@spark.incubator.apache.org,"Just to be clear, Spark actually *does* support general task graphs, similar to Dryad (though a bit simpler in that there's a notion of ""stages"" and a fixed set of connection patterns between them). However, MBrace goes a step beyond that, in that the graphs can be modified dynamically based on user code. It's also not clear what the granularity of task spawns in MBrace is -- can you spawn stuff that runs for 1 millisecond, or 1 second, or 1 hour? The choice there greatly affects system design.
+
+Matei
+
+
+paper
+than
+think
+architecture.
+people
+any
+adoption a
+along
+practical
+bigger
+more
+constantly
+PageRank
+nail
+beauty of
+succeed as
+http://blogs.msdn.com/b/dryad/archive/2010/02/15/some-dryad-and-dryadlinq-history.aspx
+http://geekswithblogs.net/johnsPerfBlog/archive/2011/12/12/rip-dryadlinq-or-long-live-linq-to-hadoop.aspx
+would
+between
+an
+towards
+Promises/Futures
+container/context
+
+
+"
+Christopher Nguyen <ctn@adatao.com>,"Wed, 23 Oct 2013 19:41:17 -0700",Fwd: MBrace: Cloud Computing with Monads,dev@spark.incubator.apache.org,"Yes, that's what I was trying to (briefly & imprecisely) distinguish with
+the words ""fully async DAG"" referring to Dryad, and generalizing MR to BSP.
+I should have referred to Dryad as ""a general DAG with a rich composition
+algebra that the user can directly manipulate"".
+
+Spark is more than just MapReduce, so the clarification is helpful; I've
+flinched each time I use the shorthand ""really fast MapReduce"". The
+practical point here is that it's actually how Spark has become so
+successful---that map*() and reduce*() abstraction is well known by people
+looking for a speedy way out of the ""batch-oriented Hadoop MapReduce""
+problem but still take advantage of that strong ecosystem.
+
+--
+Christopher T. Nguyen
+Co-founder & CEO, Adatao <http://adatao.com>
+linkedin.com/in/ctnguyen
+
+
+
+
+"
+Josh Rosen <rosenville@gmail.com>,"Wed, 23 Oct 2013 20:57:25 -0700",Documentation of Java API and PySpark internals,"""Spark Dev (Apache Incubator)"" <dev@spark.incubator.apache.org>","I've created two new pages on the Spark wiki to document the internals of
+the Java and Python APIs:
+
+https://cwiki.apache.org/confluence/display/SPARK/Java+API+Internals
+https://cwiki.apache.org/confluence/display/SPARK/PySpark+Internals
+
+These are only rough drafts; please let me know if there's anything that
+you'd like me to document (or feel free to add it yourself!).
+
+- Josh
+"
+Reynold Xin <rxin@apache.org>,"Wed, 23 Oct 2013 22:15:10 -0700",Re: Documentation of Java API and PySpark internals,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Thanks, Josh. These are very useful for people to understand the APIs and
+to write new language bindings.
+
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Wed, 23 Oct 2013 22:25:19 -0700",Re: Documentation of Java API and PySpark internals,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>",#NAME?
+Henry Saputra <henry.saputra@gmail.com>,"Wed, 23 Oct 2013 22:33:41 -0700",Re: Documentation of Java API and PySpark internals,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Thanks Josh, this is really great!
+
++1
+
+- Henry
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Thu, 24 Oct 2013 15:55:55 -0700",Re: Documentation of Java API and PySpark internals,dev@spark.incubator.apache.org,"Yeah, very cool, thanks for writing these up.
+
+
+
+
+"
+Christopher Nguyen <ctn@adatao.com>,"Thu, 24 Oct 2013 17:01:10 -0700",Re: Documentation of Java API and PySpark internals,dev@spark.incubator.apache.org,"+1 thanks, I learned a lot more about Spark's JavaAPI motivations from this
+documentation. We've run into many of these issues in our own mixed code
+base, particularly with implicit manifests and JVM type erasure.
+
+Sent while mobile. Pls excuse typos etc."
+Nick Pentreath <nick.pentreath@gmail.com>,"Fri, 25 Oct 2013 08:18:03 +0200",[PySpark]: reading arbitrary Hadoop InputFormats,dev@spark.incubator.apache.org,"Hi Spark Devs
+
+I was wondering what appetite there may be to add the ability for PySpark
+users to create RDDs from (somewhat) arbitrary Hadoop InputFormats.
+
+In my data pipeline for example, I'm currently just using Scala (partly
+because I love it but also because I am heavily reliant on quite custom
+Hadoop InputFormats for reading data). However, many users may prefer to
+use PySpark as much as possible (if not for everything). Reasons might
+include the need to use some Python library. While I don't do it yet, I can
+certainly see an attractive use case for using say scikit-learn / numpy to
+do data analysis & machine learning in Python. Added to this my cofounder
+knows Python well but not Scala so it can be very beneficial to do a lot of
+stuff in Python.
+
+For text-based data this is fine, but reading data in from more complex
+Hadoop formats is an issue.
+
+The current approach would of course be to write an ETL-style Java/Scala
+job and then process in Python. Nothing wrong with this, but I was thinking
+about ways to allow Python to access arbitrary Hadoop InputFormats.
+
+Here is a quick proof of concept: https://gist.github.com/MLnick/7150058
+
+This works for simple stuff like SequenceFile with simple Writable
+key/values.
+
+To work with more complex files, perhaps an approach is to manipulate
+Hadoop JobConf via Python and pass that in. The one downside is of course
+that the InputFormat (well actually the Key/Value classes) must have a
+toString that makes sense so very custom stuff might not work.
+
+I wonder if it would be possible to take the objects that are yielded via
+the InputFormat and convert them into some representation like ProtoBuf,
+MsgPack, Avro, JSON, that can be read relatively more easily from Python?
+
+Another approach could be to allow a simple ""wrapper API"" such that one can
+write a wrapper function T => String and pass that into an
+InputFormatWrapper that takes an arbitrary InputFormat and yields Strings
+for the keys and values. Then all that is required is to compile that
+function and add it to the SPARK_CLASSPATH and away you go!
+
+Thoughts?
+
+Nick
+"
+Nick Pentreath <nick.pentreath@gmail.com>,"Fri, 25 Oct 2013 08:41:21 +0200",Julia bindings,dev@spark.incubator.apache.org,"Hi Spark Devs
+
+If you could pick one language binding to add to Spark what would it be?
+Probably Clojure or JRuby if JVM is of interest.
+
+I'm quite excited about Julia as a language for scientific computing (
+http://julialang.org). The Julia community have been very focused on things
+like interop with R, Matlab, and probably mostly Python (see
+https://github.com/stevengj/PyCall.jl and
+https://github.com/stevengj/PyPlot.jl for example).
+
+Anyway, this is a bit of a thought experiment but I'd imagine a Julia API
+sticking point would be serialisation (eg PyCloud equivalent code).
+
+I actually played around with PyCall and was able to call PySpark from the
+Julia console. You're able to run arbitrary Python PySpark code (though the
+syntax is a bit ugly) and it seemed to mostly work.
+
+However, when I tried to pass in a Julia function or closure, it failed at
+the serialization step.
+
+So one option would be to figure out how to serialize the required things
+on the Julia side and to use PyCall for interop. This could add a fair bit
+of overhead Julia <-> Python <-> Java so perhaps not worth it, but still
+the idea of being able to use Spark for the distributed computing part and
+to be able to mix n match Python code/libraries and Julia code/libraries
+for things like stats/machine learning is very appealing!
+
+Thoughts?
+
+Nick
+"
+Josh Rosen <rosenville@gmail.com>,"Fri, 25 Oct 2013 11:00:27 -0700",Re: [PySpark]: reading arbitrary Hadoop InputFormats,"""Spark Dev (Apache Incubator)"" <dev@spark.incubator.apache.org>","Hi Nick,
+
+I've seen several requests for SequenceFile support in PySpark, so there's
+definitely demand for this feature.
+
+I like the idea of passing MsgPack'ed data (or some other structured
+format) from Java to the Python workers.  My early prototype of custom
+serializers (described at
+https://cwiki.apache.org/confluence/display/SPARK/PySpark+Internals#PySparkInternals-customserializers)
+might be useful for implementing this.  Proper custom serializer support
+would handle the bookkeeping for tracking each stage's input and output
+formats and supplying the appropriate deserialization functions to the
+Python worker, so the Python worker would be able to directly read the
+MsgPack'd data that's sent to it.
+
+Regarding a wrapper API, it's actually possible to initially transform data
+using Scala/Java and perform the remainder of the processing in PySpark.
+ This involves adding the appropriate compiled to the Java classpath and a
+bit of work in Py4J to create the Java/Scala RDD and wrap it for use by
+PySpark.  I can hack together a rough example of this if anyone's
+interested, but it would need some work to be developed into a
+user-friendly API.
+
+If you wanted to extend your proof-of-concept to handle the cases where
+keys and values have parseable toString() values, I think you could remove
+the need for a delimiter by creating a PythonRDD from the newHadoopFile
+JavaPairRDD and adding a new method to writeAsPickle (
+https://github.com/apache/incubator-spark/blob/master/core/src/main/scala/org/apache/spark/api/python/PythonRDD.scala#L224)
+to dump its contents as a pickled pair of strings.  (Aside: most of
+writeAsPickle() would probably need be eliminated or refactored when adding
+general custom serializer support).
+
+- Josh
+
+
+"
+Umar Javed <umarj.javed@gmail.com>,"Fri, 25 Oct 2013 12:30:33 -0700",beginning to develop,dev@spark.incubator.apache.org,"Hi,
+
+I want to build an extension to spark that needs me to understand the
+existing spark components. Does anybody have an idea where to start? Should
+I use a debugger, or are print statements the way to go? I'm using pyspark
+btw.
+
+cheers,
+Umar
+"
+Patrick Wendell <pwendell@gmail.com>,"Fri, 25 Oct 2013 14:03:14 -0700",Re: [PySpark]: reading arbitrary Hadoop InputFormats,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","As a starting point, a version where people just write their own ""wrapper""
+functions to convert various HadoopFiles into String <K, V> files could go
+a long way. We could even have a few built-in versions, such as dealing
+with Sequence files that are <String, String>. Basically, the user needs to
+write a translator in Java/Scala that produces textual records from
+whatever format that want. Then, they make sure this is included in the
+classpath when running PySpark.
+
+As Josh is saying, I'm pretty sure this is already possible, but we may
+want to document it for users. In many organizations they might have 1-2
+people who can write the Java/Scala to do this but then many more people
+who are comfortable using python once it's setup.
+
+- Patrick
+
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Fri, 25 Oct 2013 18:35:27 -0700",Certificate error at https://spark.incubator.apache.org,"""infrastructure@apache.org"" <infrastructure@apache.org>","When i go to https://spark.incubator.apache.org/<https://www.google.com/url?q=https%3A%2F%2Fspark.incubator.apache.org%2F&sa=D&sntz=1&usg=AFQjCNEZ3zucVSu4dok7gGb0J4OHehm1Pw>,
+I get a certificate error. Is there something we need to do with the
+website content perhaps, or maybe is this know issue?
+
+Andy
+"
+Kyle Ellrott <kellrott@soe.ucsc.edu>,"Sat, 26 Oct 2013 10:53:18 -0700",SPARK-942,dev@spark.incubator.apache.org,"I was wondering if anybody had any thoughts on the best way to tackle
+SPARK-942 ( https://spark-project.atlassian.net/browse/SPARK-942 ).
+Basically, Spark takes an iterator from a flatmap call and because I tell
+it that it needs to persist Spark proceeds to push it all into an array
+before deciding that it doesn't have enough memory and trying to serialize
+it to disk, and somewhere along the line it runs out of memory. For my
+particular operation, the function return an iterator that reads data out
+of a file, and the size of the files passed to that function can vary
+greatly (from a few kilobytes to a few gigabytes). The funny thing is that
+if I do a strait 'map' operation after the flat map, everything works,
+because Spark just passes the iterator forward and never tries to expand
+the whole thing into memory. But I need do a reduceByKey across all the
+records, so I'd like to persist to disk first, and that is where I hit this
+snag.
+I've already setup a unit test to replicate the problem, and I know the
+area of the code that would need to be fixed.
+I'm just hoping for some tips on the best way to fix the problem.
+
+Kyle
+"
+Roman Shaposhnik <rvs@apache.org>,"Sat, 26 Oct 2013 11:47:19 -0700",Re: Certificate error at https://spark.incubator.apache.org,dev@spark.incubator.apache.org,"This could be worthy of an INFRA jira -- seems like
+all the *.incubator.apache.org sites are affected.
+
+Thanks,
+Roman.
+
+
+"
+"""Markus Losoi"" <markus.losoi@gmail.com>","Sat, 26 Oct 2013 23:19:29 +0300",A quick note about SPARK_WORKER_OPTS and ExecutorRunner,<dev@spark.incubator.apache.org>,"Hi
+
+I was wondering why my SPARK_WORKER_OPTS at conf/spark-env.sh was not passed
+to the executors and noticed the following line in ExecutorRunner.scala
+(Spark 0.8.0):
+
+116: val workerLocalOpts =
+Option(getenv(""SPARK_JAVA_OPTS"")).map(Utils.splitCommandString).getOrElse(Ni
+l)
+
+Is SPARK_JAVA_OPTS supposed to be SPARK_WORKER_OPTS in this line? The next
+line adds the options in SPARK_JAVA_OPTS:
+
+117: val userOpts =
+getAppEnv(""SPARK_JAVA_OPTS"").map(Utils.splitCommandString).getOrElse(Nil)
+
+The options in both the variables workerLocalOpts and userOpts are
+aggregated into the executor options in the line:
+
+126: Seq(""-cp"", classPath) ++ libraryOpts ++ workerLocalOpts ++ userOpts ++
+memoryOpts
+
+Best regards,
+Markus Losoi (markus.losoi@gmail.com)
+
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Sat, 26 Oct 2013 15:14:43 -0700",Re: Certificate error at https://spark.incubator.apache.org,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Created an INFRA ticket: https://issues.apache.org/jira/browse/INFRA-6938
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Sun, 27 Oct 2013 18:17:12 -0700",Re: Julia bindings,dev@spark.incubator.apache.org,"Hi Nick,
+
+This would definitely be interesting to explore, especially if the Julia folks are open to supporting other parallel compute engines. In terms of technical work, the toughest part will likely be capturing Julia functions and shipping them across the network, as you said. It all depends on how easy that is within that language. Beyond that, you may want to ask them for JVM bindings. There is lots of software that uses the JVM so it might not be a bad idea to add it. I would avoid going through Python if possible unless you specifically think mixing those libraries is important (but even then it might be possible to do that in a different way, e.g. call Python from Julia).
+
+Matei
+
+
+be?
+things
+API
+side, it
+major
+the
+(though the
+failed at
+things
+bit
+still
+and
+code/libraries
+
+
+"
+dachuan <hdc1112@gmail.com>,"Sun, 27 Oct 2013 23:31:28 -0400",help me with setting up IntelliJ Idea development IDE for Spark,dev@spark.incubator.apache.org,"Hi, all,
+
+Could anybody help me set up the dev IDE for spark in IntelliJ idea IDE?
+
+I have already installed the scala plugin, and imported the
+incubator-spark/ project. The syntax highlight works for now.
+
+The problem is: It can not resolve symbol such as SparkEnv, which is
+internal object for spark.
+
+I count on this for jumping, otherwise I can simply use Vim.
+
+And I am pretty new to maven, embarrassing to say.
+
+thanks,
+dachuan.
+
+-- 
+Dachuan Huang
+Cellphone: 614-390-7234
+2015 Neil Avenue
+Ohio State University
+Columbus, Ohio
+U.S.A.
+43210
+"
+Reynold Xin <rxin@apache.org>,"Sun, 27 Oct 2013 20:32:41 -0700",Re: help me with setting up IntelliJ Idea development IDE for Spark,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Just generate the IntelliJ project file using
+
+sbt/sbt gen-idea
+
+And then open the folder in IntelliJ (no need to import anything).
+
+
+
+
+"
+Nan Zhu <zhunanmcgill@gmail.com>,"Sun, 27 Oct 2013 23:44:36 -0400","Re: help me with setting up IntelliJ Idea development IDE for
+ Spark",dev@spark.incubator.apache.org,"for generating idea file  
+
+you may need this plugin for sbt
+
+https://github.com/mpeltonen/sbt-idea 
+
+-- 
+Nan Zhu
+School of Computer Science,
+McGill University
+
+
+
+
+
+
+
+"
+Josh Rosen <rosenville@gmail.com>,"Sun, 27 Oct 2013 20:37:56 -0700",Re: help me with setting up IntelliJ Idea development IDE for Spark,"""Spark Dev (Apache Incubator)"" <dev@spark.incubator.apache.org>","You don't have to install the sbt-idea plugin to generate the .idea file
+(although it can be useful for building Spark once you've imported the
+.idea project).
+
+Instead, you can use the version of SBT that's bundled with Spark:
+
+cd $SPARK_HOME; sbt/sbt update gen-idea.
+
+This is also documented on
+https://cwiki.apache.org/confluence/display/SPARK/Contributing+to+Spark
+
+
+
+"
+dachuan <hdc1112@gmail.com>,"Sun, 27 Oct 2013 23:51:05 -0400",Re: help me with setting up IntelliJ Idea development IDE for Spark,dev@spark.incubator.apache.org,"thanks for the help!
+
+sbt/sbt gen-idea works perfectly in RHEL6, but it doesn't work in my cygwin
+(which is the machine I run IntelliJ Idea ..)
+
+It reports:
+$ sbt/sbt gen-idea
+Error: Unable to access jarfile
+/home/Dachuan/incubator-spark/sbt/sbt-launch-0.11.3-2.jar
+
+and sbt/sbt assembly, sbt/sbt update gen-idea reports the same error.
+
+And I have copied the .idea/ and .idea_modules/ folders into my cygwin
+machine, it still cannot resolve the SparkEnv symbol
+
+
+
+
+
+
+-- 
+Dachuan Huang
+Cellphone: 614-390-7234
+2015 Neil Avenue
+Ohio State University
+Columbus, Ohio
+U.S.A.
+43210
+"
+dachuan <hdc1112@gmail.com>,"Mon, 28 Oct 2013 08:40:12 -0400",Re: help me with setting up IntelliJ Idea development IDE for Spark,dev@spark.incubator.apache.org,"it turns out it's cygwin's path problem.
+
+Just type the sbt command in windows cmd, then eveyrthing is good. I can
+jump to some obj's implementation in IntelliJ Idea now.
+
+It seems spark doesn't have a portable path separator for now, so it's a
+good idea just don't use cygwin for these jobs.
+
+cheers.
+
+
+
+
+
+
+-- 
+Dachuan Huang
+Cellphone: 614-390-7234
+2015 Neil Avenue
+Ohio State University
+Columbus, Ohio
+U.S.A.
+43210
+"
+Mark Hamstra <mark@clearstorydata.com>,"Mon, 28 Oct 2013 15:22:28 -0700",Are we moving too fast or too far on 0.8.1-SNAPSHOT?,dev@spark.incubator.apache.org,"Or more to the point: What is our commitment to backward compatibility in
+point releases?
+
+Many Java developers will come to a library or platform versioned as x.y.z
+with the expectation that if their own code worked well using x.y.(z-1) as
+a dependency, then moving up to x.y.z will be painless and trivial.  That
+is not looking like it will be the case for Spark 0.8.0 and 0.8.1.
+
+We only need to look at Shark as an example of code built with a dependency
+on Spark to see the problem.  Shark 0.8.0 works with Spark 0.8.0.  Shark
+0.8.0 does not build with Spark 0.8.1-SNAPSHOT.  Presumably that lack of
+backwards compatibility will continue into the eventual release of Spark
+0.8.1, and that makes life hard on developers using Spark and Shark.  For
+example, a developer using the released version of Shark but wanting to
+pick up the bug fixes in Spark doesn't have a good option anymore since
+0.8.1-SNAPSHOT (or the eventual 0.8.1 release) doesn't work, and moving to
+the wild and woolly development on the master branches of Spark and Shark
+is not a good idea for someone trying to develop production code.  In other
+words, all of the bug fixes in Spark 0.8.1 are not accessible to this
+developer until such time as there are available 0.8.1-compatible versions
+of Shark and anything else built on Spark that this developer is using.
+
+The only other option is trying to cherry-pick commits from, e.g., Shark
+0.9.0-SNAPSHOT into Shark 0.8.0 until Shark 0.8.0 has been brought up to a
+point where it works with Spark 0.8.1.  But an application developer
+shouldn't need to do that just to get the bug fixes in Spark 0.8.1, and it
+is not immediately obvious just which Shark commits are necessary and
+sufficient to produce a correct, Spark-0.8.1-compatible version of Shark
+(indeed, there is no guarantee that such a thing is even possible.)  Right
+now, I believe that 67626ae3eb6a23efc504edf5aedc417197f072cf,
+488930f5187264d094810f06f33b5b5a2fde230a and
+bae19222b3b221946ff870e0cee4dba0371dea04 are necessary to get Shark to work
+with Spark 0.8.1-SNAPSHOT, but that those commits are not sufficient (Shark
+builds against Spark 0.8.1-SNAPSHOT with those cherry-picks, but I'm still
+seeing runtime errors.)
+
+In short, this is not a good situation, and we probably need a real 0.8
+maintenance branch that maintains backward compatibility with 0.8.0,
+because (at least to me) the current branch-0.8 of Spark looks more like
+another active development branch (in addition to the master and scala-2.10
+branches) than it does a maintenance branch.
+"
+Reynold Xin <rxin@apache.org>,"Mon, 28 Oct 2013 18:25:14 -0400",Re: Are we moving too fast or too far on 0.8.1-SNAPSHOT?,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Mark,
+
+I can't comment much on the Spark part right now (because I have to run in
+3 mins), but we will make Shark 0.8.1 work with Spark 0.8.1 for sure. Some
+of the changes will get cherry picked into branch-0.8 of Shark.
+
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Mon, 28 Oct 2013 15:29:07 -0700",Re: Are we moving too fast or too far on 0.8.1-SNAPSHOT?,dev@spark.incubator.apache.org,"While that is good, it really isn't good enough.  Requiring updated source
+code for everything that uses Spark every time Spark goes from x.y.z to
+x.y.(z+1) is not going to win many friends among developers building on top
+of Spark.  Quite the opposite.
+
+
+
+"
+Mingxi Wu <send2mingxiwu@gmail.com>,"Mon, 28 Oct 2013 15:39:30 -0700",Re: Are we moving too fast or too far on 0.8.1-SNAPSHOT?,dev@spark.incubator.apache.org,"that's a valid concern. If api backward compatibility is not maintained or
+minimized, it will be painful for production code upgrade.
+
+
+
+"
+Jon Hartlaub <jhartlaub@gmail.com>,"Mon, 28 Oct 2013 15:47:20 -0700",Re: Are we moving too fast or too far on 0.8.1-SNAPSHOT?,dev@spark.incubator.apache.org,"Usually something like APR or SEMVER are useful when thinking about library
+versioning and compatibility- helps to standardize things a bit.
+
+http://apr.apache.org/versioning.html
+http://semver.org/
+
+
+
+
+"
+Sebastian Schelter <ssc.open@googlemail.com>,"Mon, 28 Oct 2013 23:49:18 +0100",Re: Are we moving too fast or too far on 0.8.1-SNAPSHOT?,dev@spark.incubator.apache.org,"Common practice at Apache is to provide backwards compatibility starting
+with 1.x releases.
+
+--sebastian
+
+
+
+"
+Jey Kottalam <jey@cs.berkeley.edu>,"Mon, 28 Oct 2013 15:50:11 -0700",Re: Are we moving too fast or too far on 0.8.1-SNAPSHOT?,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","I agree that we should strive to maintain full backward compatibility
+between patch releases (i.e. incrementing the ""z"" in ""version x.y.z"").
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Mon, 28 Oct 2013 16:02:20 -0700",Re: Are we moving too fast or too far on 0.8.1-SNAPSHOT?,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>, Jey Kottalam <jey@cs.berkeley.edu>","Shark is not a great example in general because it uses semi-private
+internal interfaces that are not guaranteed to be compatible within
+minor releases.
+
+Spark's public, documented API has always (AFAIK) maintained
+compatibility within minor versions. In fact, we've been diligent to
+maintain compatibility with major versions as well and there have only
+been very minute changes in that API.
+
+Over time it would be good for Shark to migrate to using higher API's
+(and we may need to build these).
+
+But my point is that the public API has maintained compatibility
+consistent with the norms discussed here.
+
+- Patrick
+
+
+"
+Konstantin Boudnik <cos@apache.org>,"Mon, 28 Oct 2013 16:04:20 -0700",Re: Are we moving too fast or too far on 0.8.1-SNAPSHOT?,dev@spark.incubator.apache.org,"+1 on it, Mark.
+
+Compatibility between minor (X.something) nor subminor (X.Y.something)
+releases shouldn't be an issues.
+
+There are multiple examples of not following this simple principle in the
+world of OSS. And that - arguably - makes the adoption to b"
+Matei Zaharia <matei.zaharia@gmail.com>,"Mon, 28 Oct 2013 16:06:21 -0700",Re: Are we moving too fast or too far on 0.8.1-SNAPSHOT?,"dev@spark.incubator.apache.org,
+ jey@cs.berkeley.edu","So far we've maintained backwards compatibility for point releases in for example, is when Twitter removed its username/password authentication method, which required us to change the Spark Streaming API (but that was actually alpha). Which APIs did you see broken?
+
+The problem is likely that Shark calls into on some internal APIs, which we should fix in the future to put it on more equal footing with other clients. But you can expect that Shark releases from our team will work with the corresponding Spark release, and user programs written for Spark 0.8.0 will definitely work for 0.8.1.
+
+Matei
+
+
+compatibility in
+x.y.z
+x.y.(z-1) as
+That
+dependency
+Shark
+of
+Spark
+For
+to
+since
+moving to
+Shark
+other
+versions
+using.
+Shark
+to a
+and it
+Shark
+Right
+to work
+(Shark
+still
+0.8
+like
+scala-2.10
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Mon, 28 Oct 2013 16:26:31 -0700",Re: Are we moving too fast or too far on 0.8.1-SNAPSHOT?,dev@spark.incubator.apache.org,"I'd contend that you're playing pretty fast and loose with the notion of a
+public API.  Sure, there's a lot of stuff in Spark that you don't expect
+user programs to actually be using directly unless they are ""special"" code,
+such as Shark.  But the fact of the matter is that much of that stuff could
+be called by user code since it is not protected and is, strictly speaking,
+part of the public API -- even though it is not part of the published API
+or the expected-to-be-used API.
+
+There is a lot of room for cleanup and greater protection.
+
+If there is to be ""special"" code like Shark that can access Spark's
+internals, then arguable it should be rolled into and maintained as a
+standard part of Spark -- as are Streaming and MLlib.  Relying upon what is
+effectively a single platform of Spark + ""special"" code where the two
+pieces are frequently out of sync with each other is not fun.
+
+
+
+
+"
+Guillaume Pitel <guillaume.pitel@exensa.com>,"Tue, 29 Oct 2013 17:31:27 +0100",Current master doesn't compile against CDH 4.4.0,dev@spark.incubator.apache.org,"Hi,
+
+I'm trying to compile spark (both 0.8 and master) against CDH-4.4.0 with YARN
+
+Unfortunately it fails because of an API change introduced between CDH-4.3.0 and 
+CDH-4.4.0
+
+The API has changed since hadoop 2.1.0-beta
+
+The AllocateResponse now directly expose a getAllocatedContainers() method 
+http://hadoop.apache.org/docs/r2.2.0/api/org/apache/hadoop/yarn/api/protocolrecords/AllocateResponse.html
+
+Same thing for a few other methods used later in the code
+
+So one should just change amResp (for instance one is line 86 in : 
+https://github.com/apache/incubator-spark/blob/master/yarn/src/main/scala/org/apache/spark/deploy/yarn/YarnAllocationHandler.scala#L86 
+)
+
+     // Keep polling the Resource Manager for containers
+val amResp = allocateWorkerResources(workersToRequest).getAMResponse
+
+To
+
+     val amResp = allocateWorkerResources(workersToRequest)
+
+Tried with master, it works (succesfully launched a SparkPi job on 4 nodes)
+
+Guillaume
+-- 
+eXenSa
+
+	
+*Guillaume PITEL, PrÈsident*
++33(0)6 25 48 86 80
+
+eXenSa S.A.S. <http://www.exensa.com/>
+41, rue PÈrier - 92120 Montrouge - FRANCE
+Tel +33(0)1 84 16 36 77 / Fax +33(0)9 72 28 37 05
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 29 Oct 2013 11:54:30 -0700",Re: Current master doesn't compile against CDH 4.4.0,dev@spark.incubator.apache.org,"Yup, unfortunately this is true due to recent API changes in YARN. Weíll probably ship two versions of the YARN package in the next Spark release ó until then, youíd have to fix this by hand and rebuild.
+
+Matei
+
+
+with YARN
+CDH-4.3.0 and CDH-4.4.0
+method http://hadoop.apache.org/docs/r2.2.0/api/org/apache/hadoop/yarn/api/protocolrecords/AllocateResponse.html
+https://github.com/apache/incubator-spark/blob/master/yarn/src/main/scala/org/apache/spark/deploy/yarn/YarnAllocationHandler.scala#L86 )
+allocateWorkerResources(workersToRequest).getAMResponse
+nodes) 
+
+"
+Sandy Ryza <sandy.ryza@cloudera.com>,"Tue, 29 Oct 2013 12:05:13 -0700",Re: Current master doesn't compile against CDH 4.4.0,dev@spark.incubator.apache.org,"Because YARN was considered unstable, APIs have been rapidly evolving, both
+in CDH4 and the Apache 2.0.x releases it is based on.  CDH5, which was
+released in beta today, as well as the upstream 2.2 GA release it's based
+on, will maintain YARN API compatibility going forward.
+
+-Sandy
+
+
+ote:
+
+l
+ó
+h
+colrecords/AllocateResponse.html
+/org/apache/spark/deploy/yarn/YarnAllocationHandler.scala#L86)
+nse
+"
+Bochun Zhang <bochun@umich.edu>,"Tue, 29 Oct 2013 16:10:48 -0400",How did spark implement serialization of functions?,dev@spark.incubator.apache.org,"In spark REPL, we can type in a function and let it run remotely. Anybody know how is it implemented? 
+
+Iím trying to serialize a function or a class, send it to a remote server, and let the server invoke it. I donít care much about securities. What iím unable to do was how to get it serialized.
+
+Thanks in advance.
+
+--Bochun
+
+
+"
+Evan Chan <ev@ooyala.com>,"Tue, 29 Oct 2013 22:36:04 -0700",Re: How did spark implement serialization of functions?,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","You might want to have a look at ClosureCleaner.scala.
+
+
+
+er,
+iím
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+<http://www.ooyala.com/>
+<http://www.facebook.com/ooyala><http://www.linkedin.com/company/ooyala><http://www.twitter.com/ooyala>
+"
+Evan Chan <ev@ooyala.com>,"Wed, 30 Oct 2013 09:40:05 -0700",Getting failures in FileServerSuite,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","I'm at the latest
+
+commit f0e23a023ce1356bc0f04248605c48d4d08c2d05
+Merge: aec9bf9 a197137
+Author: Reynold Xin <rxin@apache.org>
+Date:   Tue Oct 29 01:41:44 2013 -0400
+
+
+and seeing this when I do a ""test-only FileServerSuite"":
+
+13/10/30 09:35:04.300 INFO DAGScheduler: Completed ResultTask(0, 0)
+13/10/30 09:35:04.307 INFO LocalTaskSetManager: Loss was due to
+java.io.StreamCorruptedException
+java.io.StreamCorruptedException: invalid type code: AC
+        at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1353)
+        at java.io.ObjectInputStream.readObject(ObjectInputStream.java:348)
+        at org.apache.spark.serializer.JavaDeserializationStream.readObject(JavaSerializer.scala:39)
+        at org.apache.spark.serializer.DeserializationStream$$anon$1.getNext(Serializer.scala:101)
+        at org.apache.spark.util.NextIterator.hasNext(NextIterator.scala:71)
+        at scala.collection.Iterator$$anon$21.hasNext(Iterator.scala:440)
+        at org.apache.spark.util.CompletionIterator.hasNext(CompletionIterator.scala:26)
+        at org.apache.spark.InterruptibleIterator.hasNext(InterruptibleIterator.scala:27)
+        at org.apache.spark.Aggregator.combineCombinersByKey(Aggregator.scala:53)
+        at org.apache.spark.rdd.PairRDDFunctions$$anonfun$combineByKey$2.apply(PairRDDFunctions.scala:95)
+        at org.apache.spark.rdd.PairRDDFunctions$$anonfun$combineByKey$2.apply(PairRDDFunctions.scala:94)
+        at org.apache.spark.rdd.MapPartitionsWithContextRDD.compute(MapPartitionsWithContextRDD.scala:40)
+        at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:237)
+        at org.apache.spark.rdd.RDD.iterator(RDD.scala:226)
+        at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:107)
+        at org.apache.spark.scheduler.Task.run(Task.scala:53)
+        at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:212)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:895)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:918)
+        at java.lang.Thread.run(Thread.java:680)
+
+
+Anybody else seen this yet?
+
+I have a really simple PR and this fails without my change, so I may
+go ahead and submit it anyways.
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+"
+Josh Rosen <rosenville@gmail.com>,"Wed, 30 Oct 2013 11:10:53 -0700",Re: Getting failures in FileServerSuite,"""Spark Dev (Apache Incubator)"" <dev@spark.incubator.apache.org>","Someone on the users list also encountered this exception:
+
+https://mail-archives.apache.org/mod_mbox/incubator-spark-user/201310.mbox/%3C64474308D680D540A4D8151B0F7C03F7025EF289%40SHSMSX104.ccr.corp.intel.com%3E
+
+
+
+"
+Evan Chan <ev@ooyala.com>,"Wed, 30 Oct 2013 12:44:50 -0700",Re: Getting failures in FileServerSuite,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Must be a local environment thing, because AmpLab Jenkins can't
+reproduce it..... :-p
+
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Wed, 30 Oct 2013 13:44:50 -0700",Re: Getting failures in FileServerSuite,dev@spark.incubator.apache.org,"What JDK version on you using, Evan?
+
+I tried to reproduce your problem earlier today, but I wasn't even able to
+get through the assembly build -- kept hanging when trying to build the
+examples assembly.  Foregoing the assembly and running the tests would hang
+on FileServerSuite ""Dynamically adding JARS locally"" -- no stack trace,
+just hung.  And I was actually seeing a very similar stack trace to yours
+from a test suite of our own running against 0.8.1-SNAPSHOT -- not exactly
+the same because line numbers were different once it went into the java
+runtime, and it eventually ended up someplace a little different.  That got
+me curious about differences in Java versions, so I updated to the latest
+Oracle release (1.7.0_45).  Now it cruises right through the build and test
+of Spark master from before Matei merged your PR.  Then I logged into a
+machine that has 1.7.0_15 (7u15-2.3.7-0ubuntu1~11.10.1, actually)
+installed, and I'm right back to the hanging during the examples assembly
+(but passes FileServerSuite, oddly enough.)  Upgrading the JDK didn't
+improve the results of the ClearStory test suite I was looking at, so my
+misery isn't over; but yours might be with a newer JDK....
+
+
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Wed, 30 Oct 2013 14:08:05 -0700",Re: Getting failures in FileServerSuite,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","This may have been caused by a recent merge since a bunch of people
+independently hit it in the last 48 hours.
+
+it. I don't have time personally today, but just a suggestion for ppl
+for whom this is blocking progress.
+
+- Patrick
+
+
+"
+Nick Pentreath <nick.pentreath@gmail.com>,"Wed, 30 Oct 2013 23:25:49 +0200",Re: [PySpark]: reading arbitrary Hadoop InputFormats,dev@spark.incubator.apache.org,"Thanks Josh, Patrick for the feedback.
+
+Based on Josh's pointers I have something working for JavaPairRDD ->
+PySpark RDD[(String, String)]. This just calls the toString method on each
+key and value as before, but without the need for a delimiter. For
+SequenceFile, it uses SequenceFileAsTextInputFormat which itself calls
+toString to convert to Text for keys and values. We then call toString
+(again) ourselves to get Strings to feed to writeAsPickle.
+
+Details here: https://gist.github.com/MLnick/7230588
+
+This also illustrates where the ""wrapper function"" api would fit in. All
+that is required is to define a T => String for key and value.
+
+I started playing around with MsgPack and can sort of get things to work in
+Scala, but am struggling with getting the raw bytes to be written properly
+in PythonRDD (I think it is treating them as pickled byte arrays when they
+are not, but when I removed the 'stripPickle' calls and amended the length
+(-6) I got ""UnpicklingError: invalid load key, ' '. "").
+
+Another issue is that MsgPack does well at writing ""structures"" - like Java
+classes with public fields that are fairly simple - but for example the
+Writables have private fields so you end up with nothing being written.
+This looks like it would require custom ""Templates"" (serialization
+functions effectively) for many classes, which means a lot of custom code
+for a user to write to use it. Fortunately for most of the common Writables
+a toString does the job. Will keep looking into it though.
+
+Anyway, Josh if you have ideas or examples on the ""Wrapper API from Python""
+that you mentioned, I'd be interested to hear them.
+
+If you think this is worth working up as a Pull Request covering
+SequenceFiles and custom InputFormats with default toString conversions and
+the ability to specify Wrapper functions, I can clean things up more, add
+some functionality and tests, and also test to see if common things like
+the ""normal"" Writables and reading from things like HBase and Cassandra can
+be made to work nicely (any other common use cases that you think make
+sense?).
+
+Thoughts, comments etc welcome.
+
+Nick
+
+
+
+
+"
+Kay Ousterhout <keo@eecs.berkeley.edu>,"Wed, 30 Oct 2013 15:45:39 -0700",Re: Getting failures in FileServerSuite,dev@spark.incubator.apache.org,"Patrick: I don't think this was caused by a recent merge -- pretty sure I
+was seeing it last week.
+
+Mark: Are you sure the examples assembly is hanging, as opposed to just
+taking a long time?  It takes ~30 minutes on my machine (not doubting that
+the Java version update fixes it -- just pointing out that if you wait, it
+may actually finish).
+
+https://github.com/apache/incubator-spark/pull/126): the task is actually
+failing just once, not 4 times.  Doesn't help fix the issue -- but just
+thought I'd point it out in case anyone else is trying to look into this.
+
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Wed, 30 Oct 2013 16:24:55 -0700",Re: Getting failures in FileServerSuite,dev@spark.incubator.apache.org,"Maybe I was bailing too early, Kay.  I'm sure I waited at least 15 mins,
+but maybe not 30.
+
+
+
+
+"
+"""Shao, Saisai"" <saisai.shao@intel.com>","Thu, 31 Oct 2013 01:57:17 +0000",RE: Getting failures in FileServerSuite,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi All,
+
+I sent the mail about this streaming corrupted problem a few days ago.
+
+I use published Spark 0.8.0-incubating, not the latest, and Java version is 1.6.0_30, so I think this is not a recently introduced problem. This problem blocks me recently, I was wondering if you guys have any clue.
+
+Thanks
+Jerry
+
+t maybe not 30.
+
+
+
+e:
+
+k into this.
+)
+7)
+
+"
+Josh Rosen <rosenville@gmail.com>,"Thu, 31 Oct 2013 11:11:05 -0700",Re: [PySpark]: reading arbitrary Hadoop InputFormats,"""Spark Dev (Apache Incubator)"" <dev@spark.incubator.apache.org>","Hi Nick,
+
+This is a nice start.  I'd prefer to keep the Java sequenceFileAsText() and
+newHadoopFileAsText() methods inside PythonRDD instead of adding them to
+JavaSparkContext, since I think these methods are unlikely to be used
+directly by Java users (you can add these methods to the PythonRDD
+companion object, which is how readRDDFromPickleFile is implemented:
+https://github.com/apache/incubator-spark/blob/branch-0.8/core/src/main/scala/org/apache/spark/api/python/PythonRDD.scala#L255
+)
+
+For MsgPack, the UnpicklingError is because the Python worker expects to
+receive its input in a pickled format.  In my prototype of custom
+serializers, I modified the PySpark worker to receive its
+serialization/deserialization function as input (
+https://github.com/JoshRosen/spark/blob/59b6b43916dc84fc8b83f22eb9ce13a27bc51ec0/python/pyspark/worker.py#L41)
+and added logic to pass the appropriate serializers based on each stage's
+input and output formats (
+https://github.com/JoshRosen/spark/blob/59b6b43916dc84fc8b83f22eb9ce13a27bc51ec0/python/pyspark/rdd.py#L42
+).
+
+At some point, I'd like to port my custom serializers code to PySpark; if
+anyone's interested in helping, I'd be glad to write up some additional
+notes on how this should work.
+
+- Josh
+
+
+"

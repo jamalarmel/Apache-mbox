@@ -1,0 +1,2304 @@
+Marvin <no-reply@apache.org>,"Mon,  1 Jul 2013 15:11:54 +0000 (UTC)",Incubator PMC/Board report for Jul 2013 ([ppmc]),dev@spark.incubator.apache.org,"
+
+Dear podling,
+
+This email was sent by an automated system on behalf of the Apache Incubator PMC.
+It is an initial reminder to give you plenty of time to prepare your quarterly
+board report.
+
+The board meeting is scheduled for Wed, 17 July 2013, 10:30:00:00 PST. The report 
+for your podling will form a part of the Incubator PMC report. The Incubator PMC 
+requires your report to be submitted 2 weeks before the board meeting, to allow 
+sufficient time for review and submission (Wed, Jul 3rd).
+
+Please submit your report with sufficient time to allow the incubator PMC, and 
+subsequently board members to review and digest. Again, the very latest you 
+should submit your report is 2 weeks prior to the board meeting.
+
+Thanks,
+
+The Apache Incubator PMC
+
+Submitting your Report
+----------------------
+
+Your report should contain the following:
+
+ * Your project name
+ * A brief description of your project, which assumes no knowledge of the project
+   or necessarily of its field
+ * A list of the three most important issues to address in the move towards 
+   graduation.
+ * Any issues that the Incubator PMC or ASF Board might wish/need to be aware of
+ * How has the community developed since the last report
+ * How has the project developed since the last report.
+ 
+This should be appended to the Incubator Wiki page at:
+
+  http://wiki.apache.org/incubator/July2013
+
+Note: This manually populated. You may need to wait a little before this page is
+      created from a template.
+
+Mentors
+-------
+Mentors should review reports for their project(s) and sign them off on the 
+Incubator wiki page. Signing off reports shows that you are following the 
+project - projects that are not signed may raise alarms for the Incubator PMC.
+
+Incubator PMC
+
+
+"
+Matei Zaharia <matei@eecs.berkeley.edu>,"Tue, 2 Jul 2013 22:51:09 -0700",Re: Incubator PMC/Board report for Jul 2013 ([ppmc]),dev@spark.incubator.apache.org,"Folks, it seems from the incubator@ list like the deadline for this is actually July 10th or so, but I'll work on getting this done tomorrow or Thursday. I'll put it on the incubator wiki and send it out when done.
+
+Matei
+
+
+
+Incubator PMC.
+quarterly
+The report 
+Incubator PMC 
+to allow 
+PMC, and 
+latest you 
+the project
+towards 
+aware of
+this page is
+on the 
+the 
+Incubator PMC.
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 2 Jul 2013 22:53:07 -0700",Re: Mailing list transition (was Re: Apache Spark podling: Created!),"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Hey Chris, given that we'll do this, how do we request a user@spark.incubator.apache.org list?
+
+Matei
+
+
+below).
+<spark-developers@googlegroups.com>
+think
+the
+lists
+when
+first
+both
+<spark-developers@googlegroups.com>
+emails vs
+an
+Group,
+happy
+one.
+<dev@spark.incubator.apache.org>,
+<spark-developers@googlegroups.com>
+getting
+for
+users
+only
+subscribers
+to
+when
+(i.e.
+to
+but
+help
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Wed, 3 Jul 2013 06:11:51 +0000",Re: Incubator PMC/Board report for Jul 2013 ([ppmc]),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Thank you Matei! I'll happily contribute/review when it's up.
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Wed, 3 Jul 2013 06:20:48 +0000",Re: Mailing list transition (was Re: Apache Spark podling: Created!),Matei Zaharia <matei.zaharia@gmail.com>,"Hey Matei,
+
+ASF officers can request the list here:
+
+https://infra.apache.org/officers/mlreq/incubator
+
+
+I've tried a few times to submit but the form seems
+to be down. I'll try again tomorrow.
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+Subject: Re: Mailing list transition (was Re: Apache Spark podling:
+Created!)
+
+o
+
+
+"
+Matei Zaharia <matei@eecs.berkeley.edu>,"Sat, 6 Jul 2013 13:48:09 -0700",Re: Incubator PMC/Board report for Jul 2013 ([ppmc]),dev@spark.incubator.apache.org,"Hey Chris, unfortunately I don't have permission to edit the wiki page (on my MateiZaharia account), but here is the update in plain text:
+
+------------
+
+Spark
+
+Spark is an open source system for fast and flexible large-scale data analysis. Spark provides a general purpose runtime that supports low-latency execution in several forms.
+
+Spark has been incubating since 2013-06-19.
+
+Three most important issues to address in the move towards graduation:
+
+  1. Finish bringing up infrastructure on Apache (JIRA, ""user"" mailing list, SVN repo for website)
+  2. Migrate mailing lists and development to Apache
+  3. Make a Spark 0.8 under the Apache Incubator
+
+Any issues that the Incubator PMC (IPMC) or ASF Board wish/need to be aware of?
+
+While most of our infrastructure is now up, it has taken a while to get a JIRA, a SVN repo for our website (so we can use the CMS), and a user@spark.incubator.apache.org mailing list (so we can move our existing user list, which is large).
+
+How has the community developed since the last report?
+
+We only entered the Apache Incubator at the end of June, but in the existing developer community keeps expanding and we are seeing many new features from new contributors.
+
+How has the project developed since the last report?
+
+In terms of the Apache incubation process, we filed our IP papers and got a decent part of the infrastructure set up (Git, dev list, wiki, Jenkins group).
+
+Date of last release: 
+
+Please check this [ ] when you have filled in the report for Spark.
+
+Signed-off-by: 
+
+Chris Mattmann: [ ](spark)
+Paul Ramirez: [ ](spark)
+Andrew Hart: [ ](spark)
+Thomas Dudziak: [ ](spark)
+Suresh Marru: [ ](spark)
+Henry Saputra: [ ](spark)
+Roman Shaposhnik: [ ](spark)
+
+Shepherd notes:
+
+------------
+
+
+
+<dev@spark.incubator.apache.org>
+is
+or
+done.
+PST.
+meeting,
+incubator
+latest
+be
+on
+following
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Sat, 6 Jul 2013 21:51:27 -0700",Re: Incubator PMC/Board report for Jul 2013 ([ppmc]),dev@spark.incubator.apache.org,"+1 from me.
+
+If no objection and no one does it before me I will update the report
+tomorrow.
+
+- Henry
+
+
+
+"
+Marvin <no-reply@apache.org>,"Sun,  7 Jul 2013 11:12:38 +0000 (UTC)",Incubator PMC/Board report for Jul 2013 ([ppmc]),dev@spark.incubator.apache.org,"
+
+Dear podling,
+
+This email was sent by an automated system on behalf of the Apache Incubator PMC.
+It is an initial reminder to give you plenty of time to prepare your quarterly
+board report.
+
+The board meeting is scheduled for Wed, 17 July 2013, 10:30:00:00 PST. The report 
+for your podling will form a part of the Incubator PMC report. The Incubator PMC 
+requires your report to be submitted 2 weeks before the board meeting, to allow 
+sufficient time for review and submission (Wed, Jul 3rd).
+
+Please submit your report with sufficient time to allow the incubator PMC, and 
+subsequently board members to review and digest. Again, the very latest you 
+should submit your report is 2 weeks prior to the board meeting.
+
+Thanks,
+
+The Apache Incubator PMC
+
+Submitting your Report
+----------------------
+
+Your report should contain the following:
+
+ * Your project name
+ * A brief description of your project, which assumes no knowledge of the project
+   or necessarily of its field
+ * A list of the three most important issues to address in the move towards 
+   graduation.
+ * Any issues that the Incubator PMC or ASF Board might wish/need to be aware of
+ * How has the community developed since the last report
+ * How has the project developed since the last report.
+ 
+This should be appended to the Incubator Wiki page at:
+
+  http://wiki.apache.org/incubator/July2013
+
+Note: This manually populated. You may need to wait a little before this page is
+      created from a template.
+
+Mentors
+-------
+Mentors should review reports for their project(s) and sign them off on the 
+Incubator wiki page. Signing off reports shows that you are following the 
+project - projects that are not signed may raise alarms for the Incubator PMC.
+
+Incubator PMC
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Thu, 11 Jul 2013 05:58:51 +0000",Re: Incubator PMC/Board report for Jul 2013 ([ppmc]),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Looks great Matei, I signed off!
+
+Did you get access? Looking at:
+
+http://wiki.apache.org/incubator/ContributorsGroup
+
+
+And don't see you there. What's your wiki account username? Let me know
+and I'll add you. Sorry just catching up on email now.
+
+Cheers mate!
+
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 10 Jul 2013 23:04:42 -0700",Re: Incubator PMC/Board report for Jul 2013 ([ppmc]),dev@spark.incubator.apache.org,"My account name is MateiZaharia. I'm pretty sure I had access at some point in the past, but I guess I don't. Maybe they added the access controls after I joined.
+
+Thanks for signing this off! I also saw you set up a SVN for the CMS, which is great. The other thing I'm curious about is the user mailing announce the transition on our Google groups (I can also do it before if needed but I thought it would be nice to do both lists at once).
+
+Matei
+
+
+know
+<dev@spark.incubator.apache.org>
+page
+graduation:
+get a
+existing
+new
+got
+Jenkins
+<dev@spark.incubator.apache.org>
+is
+tomorrow
+done.
+your
+PST.
+meeting,
+incubator
+of
+to be
+before
+off
+following
+
+
+"
+Konstantin Boudnik <cos@apache.org>,"Wed, 10 Jul 2013 23:09:09 -0700",Re: Incubator PMC/Board report for Jul 2013 ([ppmc]),dev@spark.incubator.apache.org,"Thanks a bunch for moving this forward, Chris. WRT SVN below: does it mean
+that we won't have git option for the project?
+
+Cos
+
+
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Thu, 11 Jul 2013 09:36:19 -0700",Re: Incubator PMC/Board report for Jul 2013 ([ppmc]),dev@spark.incubator.apache.org,"Hey Cos,
+
+We will still be using git for code but we will need to use svn for the
+website files once we migrate [a copy of] it from spark-project.org to
+Apache's servers.
+
+Andy
+
+"
+Konstantin Boudnik <cos@apache.org>,"Thu, 11 Jul 2013 12:24:35 -0700",Re: Incubator PMC/Board report for Jul 2013 ([ppmc]),dev@spark.incubator.apache.org,"Ah right - I keep forgetting about that part: same issue for every other ASF
+project. Sorry for the confusion.
+
+Cos
+
+
+"
+Matei Zaharia <matei@eecs.berkeley.edu>,"Fri, 12 Jul 2013 09:47:49 -0700",Re: svn commit: r1500725 - /incubator/spark/site/index.html,dev@spark.incubator.apache.org,"Hey Chris, do people other than you have commit access to this yet? I might be missing something but I tried to svn commit and I get this:
+
+svn: Commit failed (details follow):
+svn: access to '/repos/asf/!svn/act/a4f3b6e0-0f36-485f-8d12-9e68583ba0b5' forbidden
+
+My svn info says:
+
+Path: .
+URL: http://svn.apache.org/repos/asf/incubator/spark/site
+Repository Root: http://svn.apache.org/repos/asf
+Repository UUID: 13f79535-47bb-0310-9956-ffa450edef68
+Revision: 1502606
+Node Kind: directory
+Schedule: normal
+Last Changed Author: mattmann
+Last Changed Rev: 1500725
+Last Changed Date: 2013-07-08 06:42:05 -0700 (Mon, 08 Jul 2013)
+
+
+http://svn.apache.org/viewvc/incubator/spark/site/index.html?rev=1500725&view=auto
+==============================================================================
+of Apache Spark (Incubating)</h3></body></html>
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Fri, 12 Jul 2013 18:12:05 +0000",Re: Incubator PMC/Board report for Jul 2013 ([ppmc]),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Yep you nailed it Andy, Cos that's why.
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+"
+karthik tunga <karthik.tunga@gmail.com>,"Sat, 13 Jul 2013 17:11:41 -0700",Help with IDE,dev@spark.incubator.apache.org,"Hi,
+
+This question might be for scala in general. Which IDE is good for
+scala/spark ? I am relatively new to scala. Eclipse throws these weird
+errors. I thought I saw IntelliJ IDEA in one of Matei's videos.
+
+Any suggestions ?
+
+Cheers,
+Karthik
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Sat, 13 Jul 2013 17:19:16 -0700",Re: Help with IDE,dev@spark.incubator.apache.org,"Hi Karthik,
+
+Are you trying to import Spark into an IDE, or just write a project that depends on it?
+
+I've found IDEA works pretty well for importing Spark. You do sbt/sbt gen-idea in the Spark folder, then make sure you have the Scala plugin in IDEA, and import it. I saw one weird warning about ""same path for test and production"" in the root-build project that I fixed by going to the project options and giving a different path for test.
+
+Matei
+
+
+
+
+"
+karthik tunga <karthik.tunga@gmail.com>,"Sat, 13 Jul 2013 17:25:56 -0700",Re: Help with IDE,dev <dev@spark.incubator.apache.org>,"Hi Matei,
+
+I am trying to import Spark. I want to start contributing. :)
+
+Thanks for info. I will try it out.
+
+Cheers,
+Karthik
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Sat, 13 Jul 2013 17:58:10 -0700",Re: Help with IDE,dev@spark.incubator.apache.org,"Sure, let me know if you have any problems.
+
+
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Sun, 14 Jul 2013 10:01:45 -0700","Should we now move Spark development to https://git-wip-us.apache.org/repos/asf/incubator-spark.git
+ ?",dev@spark.incubator.apache.org,"Hi All,
+
+Since the git repo already created for Apche Spark should all patch
+requests go to https://git-wip-us.apache.org/repos/asf/incubator-spark.git with
+ASF Jira or pull request to github still accepted?
+
+- Henry
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Sun, 14 Jul 2013 10:08:15 -0700",Re: Should we now move Spark development to https://git-wip-us.apache.org/repos/asf/incubator-spark.git ?,dev@spark.incubator.apache.org,"Hi Henry,
+
+I actually want to do this soon but haven't had the time yet. Hopefully we'll announce it in the next few days. I just want to test that the GitHub pull request workflow works with this, which I believe it should, but it's slightly more complicated because the GitHub repo will be a mirror.
+
+Matei
+
+
+https://git-wip-us.apache.org/repos/asf/incubator-spark.git with
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Sun, 14 Jul 2013 17:08:21 +0000","Re: Should we now move Spark development to
+ https://git-wip-us.apache.org/repos/asf/incubator-spark.git ?","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey Henry,
+
+It should be going on at the ASF Git, yes. Is it currently?
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Sun, 14 Jul 2013 17:09:46 +0000","Re: Should we now move Spark development to
+ https://git-wip-us.apache.org/repos/asf/incubator-spark.git ?","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","+1, this sounds great, Matei.
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Sun, 14 Jul 2013 10:10:32 -0700","Re: Should we now move Spark development to https://git-wip-us.apache.org/repos/asf/incubator-spark.git
+ ?",dev@spark.incubator.apache.org,"Ah cool, no worries Matei. I was just curious about it since ASF INFRA had
+closed the issue Chris filed.
+
+- Henry
+
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Sun, 14 Jul 2013 10:12:12 -0700","Re: Should we now move Spark development to https://git-wip-us.apache.org/repos/asf/incubator-spark.git
+ ?",dev@spark.incubator.apache.org,"The git repo is up and I was able to pull and commit locally. But looks
+like from Spark google groups there are pending pull request to the repo
+and I also wondering should I submit github pull request or create JIRA
+issue for new patches.
+
+- Henry
+
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Sun, 14 Jul 2013 10:13:00 -0700","Re: Should we now move Spark development to https://git-wip-us.apache.org/repos/asf/incubator-spark.git
+ ?",dev@spark.incubator.apache.org,"BTW Chris, looks like Spark do not have JIRA component in
+https://issues.apache.org yet?
+
+- Henry
+
+
+
+"
+Suresh Marru <smarru@apache.org>,"Sun, 14 Jul 2013 13:17:05 -0400",Re: Should we now move Spark development to https://git-wip-us.apache.org/repos/asf/incubator-spark.git ?,dev@spark.incubator.apache.org,"Hi Henry,
+
+This is still waiting on INFRA - https://issues.apache.org/jira/browse/INFRA-6419
+
+Hopefully, they will be able to get to it soon. As soon as it is setup, we can query on Matei's question on importing old JIRA issues. 
+
+Suresh
+
+
+<dev@spark.incubator.apache.org
+Hopefully
+should,
+<henry.saputra@gmail.com>
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Sun, 14 Jul 2013 10:20:28 -0700","Re: Should we now move Spark development to https://git-wip-us.apache.org/repos/asf/incubator-spark.git
+ ?",dev@spark.incubator.apache.org,"Ah cool, Thanks Suresh.
+
+Chris, could you add my username (hsaputra) as initial developers for the
+Spark JIRA in the ticket?
+
+Thanks,
+
+Henry
+
+
+
+"
+Chris Mattmann <mattmann@apache.org>,"Sun, 14 Jul 2013 10:25:45 -0700","Re: Should we now move Spark development to
+ https://git-wip-us.apache.org/repos/asf/incubator-spark.git ?","""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey Henry,
+
+No problem can you just comment on the ticket and request your name
+be added?
+
+Cheers!
+
+Chris
+
+https://git-wip-us.apache.org/repos/asf/incubator-spark.git ?
+
+
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Sun, 14 Jul 2013 10:31:30 -0700","Re: Should we now move Spark development to https://git-wip-us.apache.org/repos/asf/incubator-spark.git
+ ?",dev@spark.incubator.apache.org,"Thanks Chris, will do.
+
+- Henry
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Mon, 15 Jul 2013 17:41:31 -0700",Discussion: Consolidating Spark's build system,"""spark-developers@googlegroups.com"" <spark-developers@googlegroups.com>,
+ ""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi all,
+
+I wanted to bring up a topic that there isn't a 100% perfect solution for, but that's been bothering the team at Berkeley for a while: consolidating Spark's build system. Right now we have two build systems, Maven and SBT, that need to be maintained together on each change. We added Maven a while back to try it as an alternative to SBT and to get some better publishing options, like Debian packages and classifiers, but we've found that 1) SBT has actually been fairly stable since then (unlike the rapid release cycle before) and 2) classifiers don't actually seem to work for publishing versions of Spark with different dependencies (you need to give them different artifact names). More importantly though, because maintaining two systems is confusing, it would be good to converge to just one soon, or to find a better way of maintaining the builds.
+
+In terms of which system to go for, neither is perfect, but I think many of us are leaning toward SBT, because it's noticeably faster and it has less code to maintain. If we do this, however, I'd really like to understand the use cases for Maven, and make sure that either we can support them in SBT or we can do them externally. Can people say a bit about that? The ones I've thought of are the following:
+
+- Debian packaging -- this is certainly nice, but there are some plugins for SBT too so may be possible to migrate.
+- BigTop integration; I'm not sure how much this relies on Maven but Cos has been using it.
+- Classifiers for hadoop1 and hadoop2 -- as far as I can tell, these don't really work if you want to publish to Maven Central; you still need two artifact names because the artifacts have different dependencies. However, more importantly, we'd like to make Spark work with all Hadoop versions by using hadoop-client and a bit of reflection, similar to how projects like Parquet handle this.
+
+Are there other things I'm missing here, or other ways to handle this problem that I'm missing? For example, one possibility would be to keep the Maven build scripts in a separate repo managed by the people who want to use them, or to have some dedicated maintainers for them. But because this is often an issue, I do think it would be simpler for the project to have one build system in the long term. In either case though, we will keep the project structure compatible with Maven, so people who want to use it internally should be fine; I think that we've done this well and, if anything, we've simplified the Maven build process lately by removing Twirl.
+
+Anyway, as I said, I don't think any solution is perfect here, but I'm curious to hear your input.
+
+Matei
+"
+Konstantin Boudnik <cos@apache.org>,"Mon, 15 Jul 2013 18:23:17 -0700",Re: Discussion: Consolidating Spark's build system,dev@spark.incubator.apache.org,"Hi Matei.
+
+The reason I am using Maven for Bigtop packaging and not SBT is because the
+the former's dependency management is clean and let me build a proper assembly
+with only relevant dependencies: e.g. no Hadoop if I don't need to, etc.
+
+I don't hold onto the packaging the way it is done in the current maven build,
+because of the use of the Shader plugin: I believe flattening project
+dependencies is a suboptimal way to go. 
+
+I am glad that you're calling to cease the use of classifiers. Big +1 on that!
+Using alternative names or versions to reflect dependency differences is
+certainly a great idea!
+
+I, perhaps, don't know much about SBT, but I think it is trying to solve Maven
+rigidity the way the Gradle did. However, the latter is introducing a
+well-defined DSL and integrates with Maven/Ant more transparently than SBT
+does.
+
+That said, I would love to stick with more mature build system, that is also
+wider accepted in Java community. But if the people involved into the project
+want to go with SBT as a build platform - that will work from Bigtop
+standpoint of view as far as we'd able to get a sensible set of libraries for
+further packaging (a-la https://github.com/mesos/spark/pull/675).
+
+Hope it helps,
+  Cos
+
+wo
+of
+he
+ or
+for
+he
+use
+rl.
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Mon, 15 Jul 2013 21:28:28 -0700",Re: Discussion: Consolidating Spark's build system,spark-developers@googlegroups.com,"Cos, do you have any experience with Gradle by any chance? Is it something you'd recommend trying? I do agree that SBT's dependency management, being based on Ivy, is not ideal, but I'm not sure how common Gradle is and whether it will really work well with Scala.
+
+Matei
+
+
+because the
+assembly
+etc.
+maven build,
+on that!
+is
+solve Maven
+SBT
+is also
+project
+libraries for
+for,
+consolidating
+SBT,
+while
+publishing
+1) SBT
+cycle
+maintaining two
+or to
+many of
+less
+understand the
+SBT or
+I've
+plugins for
+sure
+don't
+two
+However,
+versions by
+like
+keep the
+to use
+this is
+have one
+the
+Twirl.
+I'm
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Tue, 16 Jul 2013 05:13:26 +0000",Re: svn commit: r1500725 - /incubator/spark/site/index.html,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey Matei,
+
+Commit access is controlled by this file [1].
+I've checked it out for spark:
+
+[terra:~/tmp/authorization] mattmann% grep spark
+asf-authorization-template
+[terra:~/tmp/authorization] mattmann%
+
+
+Looks like nothing there. So I went ahead and updated it:
+
+[terra:~/tmp/authorization] mattmann% svn commit -m ""Bootstrap Spark
+website karma.""
+Sending        asf-authorization-template
+Transmitting file data .
+Committed revision 869650.
+[terra:~/tmp/authorization] mattmann% grep spark asf-authorization-template
+spark=matei,joshrosen,shivaram,woggle,bobby,tomdz,jasondai,shane_huang,matt
+mann,suresh,rvs
+[/incubator/spark]
+@spark = rw
+[terra:~/tmp/authorization] mattmann%
+
+
+BTW, I've been keeping a Google Doc of the Spark PPMC info (whether
+folks have filed an ICLA, their username, etc.) I am going to send it
+in a separate thread (the link) -- can folks check that and let me know
+if I don't have your info captured in there. For example in tasks
+like this, having everyone's username makes it dead simple and knowing
+who has submitted ICLAs and who hasn't is really needed.
+
+Thanks!
+
+Cheers,
+Chris
+
+
+
+[1] http://s.apache.org/svnauth
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+5&
+=================================================
+
+
+"
+Prashant Sharma <scrapcodes@gmail.com>,"Tue, 16 Jul 2013 12:28:56 +0530",Re: Discussion: Consolidating Spark's build system,"spark-developers@googlegroups.com, dev@spark.incubator.apache.org, 
+	Jey Kottalam <jey@cs.berkeley.edu>","Hello cos,
+
+I have a few questions inline!
+
+
+
+
+Isn't this achievable using SBT? I think it should be possible to define
+tasksets for that. Then we should be able to do something we do with
+maven(mvn -Pwithout-Hadoop) like sbt package-wo-hadoop etc. I am not a SBT
+Ninja but I have seen it somewhere it is possible to extend tasks. I guess
+https://github.com/harrah/xsbt/wiki/Getting-Started-Custom-Settings#extending-but-not-replacing-a-task
+ !
+
+
+two build systems are difficult to maintain with sophisticated build
+configurations.
+
+
+
+
+
+
+-- 
+Prashant
+"
+Shane Huang <shannie.huang@gmail.com>,"Tue, 16 Jul 2013 17:54:43 +0800",Re: Discussion: Consolidating Spark's build system,dev@spark.incubator.apache.org,"Hi Matai.
+
+I myself would prefer Maven than SBT.
+
+dependencies.  I used both SBT and Maven to build spark. When I use SBT I
+often have to add customized resolvers in build script to make it pass,
+while I don't have to do that for maven. (Maybe I missed something here...
+I'm not an SBT expert anyway :( )
+
+with maven than SBT. If we'd like more people to contribute to Spark, I
+think using maven is a good idea.
+
+Thanks,
+Shane
+shengsheng.huang@intel.com
+
+
+
+
+
+
+
+-- 
+*Shane Huang *
+*Intel Asia-Pacific R&D Ltd.*
+*Email: shengsheng.huang@intel.com*
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Tue, 16 Jul 2013 19:22:31 +0000",Re: Incubator PMC/Board report for Jul 2013 ([ppmc]),"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey Matei,
+
+I granted: MateiZaharia
+
+To the contributors group on the wiki so you now can edit reports.
+
+Cheers,
+Chris
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+"
+Henry Saputra <henry.saputra@gmail.com>,"Tue, 16 Jul 2013 13:26:09 -0700",Re: Discussion: Consolidating Spark's build system,spark-developers@googlegroups.com,"Hi Matei,
+
+Thanks for bringing up this build system discussion.
+
+Some CI tools like hudson can support multi Maven profiles via different
+jobs so we could deliver different release artifacts for different Maven
+profiles.
+I believe it should be fine to have Spark-hadoop1 and Spark-haddop2 release
+modules.
+Just curious how actually SBT avoid/resolve this problem? To support for
+different hadoop versions we need to change in the SparkBuild.scala to make
+it work.
+
+
+And as far as maintaining just one build system I am +1 for it. I prefer to
+use Maven bc it has better dependency management than SBT.
+
+Thanks,
+
+Henry
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 16 Jul 2013 13:35:37 -0700",Re: Discussion: Consolidating Spark's build system,spark-developers@googlegroups.com,"Henry, our hope is to avoid having to create two different Hadoop profiles altogether by using the hadoop-client package and reflection. This is what projects like Parquet (https://github.com/Parquet) are doing. If this works out, you get one artifact that can link to any Hadoop version that includes hadoop-client (which I believe means 1.2 onward).
+
+Matei
+
+
+different jobs so we could deliver different release artifacts for different Maven profiles. 
+release modules.
+for different hadoop versions we need to change in the SparkBuild.scala to make it work.
+prefer to use Maven bc it has better dependency management than SBT.
+for, but that's been bothering the team at Berkeley for a while: consolidating Spark's build system. Right now we have two build systems, Maven and SBT, that need to be maintained together on each change. We added Maven a while back to try it as an alternative to SBT and to get some better publishing options, like Debian packages and classifiers, but we've found that 1) SBT has actually been fairly stable since then (unlike the rapid release cycle before) and 2) classifiers don't actually seem to work for publishing versions of Spark with different dependencies (you need to give them different artifact names). More importantly though, because maintaining two systems is confusing, it would be good to converge to just one soon, or to find a better way of maintaining the builds.
+many of us are leaning toward SBT, because it's noticeably faster and it has less code to maintain. If we do this, however, I'd really like to understand the use cases for Maven, and make sure that either we can support them in SBT or we can do them externally. Can people say a bit about that? The ones I've thought of are the following:
+plugins for SBT too so may be possible to migrate.
+Cos has been using it.
+don't really work if you want to publish to Maven Central; you still need two artifact names because the artifacts have different dependencies. However, more importantly, we'd like to make Spark work with all Hadoop versions by using hadoop-client and a bit of reflection, similar to how projects like Parquet handle this.
+problem that I'm missing? For example, one possibility would be to keep the Maven build scripts in a separate repo managed by the people who want to use them, or to have some dedicated maintainers for them. But because this is often an issue, I do think it would be simpler for the project to have one build system in the long term. In either case though, we will keep the project structure compatible with Maven, so people who want to use it internally should be fine; I think that we've done this well and, if anything, we've simplified the Maven build process lately by removing Twirl.
+curious to hear your input.
+Groups ""Spark Developers"" group.
+an email to spark-developers+unsubscribe@googlegroups.com.
+Groups ""Spark Developers"" group.
+an email to spark-developers+unsubscribe@googlegroups.com.
+
+"
+Cody Koeninger <cody@koeninger.org>,"Tue, 16 Jul 2013 13:33:20 -0700 (PDT)",Re: Discussion: Consolidating Spark's build system,spark-developers@googlegroups.com,"If you're looking at consolidating build systems, I'd ask to consider ease 
+of cross-publishing for different Scala versions.  My instinct is that sbt 
+will be less troublesome in that regard (although as I understand it, the 
+changes to the repl may present a problem).
+
+We're needing to use 2.10 for a project, so I'd be happy to put in some 
+work on the issue.
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 16 Jul 2013 13:37:41 -0700",Re: Discussion: Consolidating Spark's build system,spark-developers@googlegroups.com,"Unfortunately, we'll probably have to have different branches of Spark for different Scala versions, because there are also other libraries we depend on (e.g. Akka) that have separate versions for Scala 2.10. You can actually find a Scala 2.10 port of Spark in the scala-2.10 branch on GitHub.
+
+Matei
+
+
+
+ease of cross-publishing for different Scala versions.  My instinct is that sbt will be less troublesome in that regard (although as I understand it, the changes to the repl may present a problem).
+some work on the issue.
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Thu, 18 Jul 2013 10:48:34 -0700",Re: Discussion: Consolidating Spark's build system,spark-developers@googlegroups.com,"Thanks for the feedback. It looks like there are more advantages to Maven than I was originally thinking of -- specifically, the better dependency resolution and assembly construction. (SBT assembly just takes all the JARs in lib_managed and packages them together unfortunately, which means you sometimes get multiple versions of the same artifact if you aren't very careful with exclusion rules). I think what we'll do is to wait until we see whether we can have a single Spark artifact that works with any Hadoop version, and go back to the build system issue then.
+
+Matei
+
+
+Scala projects.
+need different branches.   In SBT you can easily support two different sets of deps depending on which Scala version you are building.... not sure if you could do that with Maven.
+to newer releases
+Scala 2.9.3/2.10.  However, since the project upgraded to Scala 2.9.3, it should migrate all use of futures to the scala.concurrent.* namespace to avoid more code changes down the line.
+classpath is super valuable for development, ad hoc testing, trying new ideas out.  Not sure if Maven has that.
+valuable for some of us
+complex enough system, it is no easier to maintain than SBT
+superior for dev workflow if you don't use one of the major IDEs or are a command line person.
+for different Scala versions, because there are also other libraries we depend on (e.g. Akka) that have separate versions for Scala 2.10. You can actually find a Scala 2.10 port of Spark in the scala-2.10 branch on GitHub. 
+consider ease of cross-publishing for different Scala versions.  My instinct is that sbt will be less troublesome in that regard (although as I understand it, the changes to the repl may present a problem). 
+some work on the issue. 
+Groups ""Spark Developers"" group.
+an email to spark-developers+unsubscribe@googlegroups.com.
+Groups ""Spark Developers"" group.
+an email to spark-developers+unsubscribe@googlegroups.com.
+
+"
+Evan Chan <ev@ooyala.com>,"Thu, 18 Jul 2013 10:56:18 -0700",Re: Discussion: Consolidating Spark's build system,spark-developers@googlegroups.com,"There is also an alternative called 'sbt-onejar"" we can look at.
+
+
+
+
+
+
+-- 
+--
+Evan Chan
+Staff Engineer
+ev@ooyala.com  |
+
+<http://www.ooyala.com/>
+<http://www.facebook.com/ooyala><http://www.linkedin.com/company/ooyala><http://www.twitter.com/ooyala>
+"
+Andy Konwinski <andykonwinski@gmail.com>,"Mon, 22 Jul 2013 18:00:32 -0700",AMP Camp 3 Big Data Bootcamp registration now open,"""spark-developers@googlegroups.com"" <spark-developers@googlegroups.com>, 
+	""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hey everyone,
+
+Join us for the third AMP Camp Big Data Bootcamp, which we will be hosting
+at UC Berkeley August 29-30, 2013.
+
+Come to AMP Camp 3 to get hands-on experience with data analytics and
+machine learning using Spark, Shark, GraphX, and more.
+
+We have expanded the curriculum from AMP Camps 1 and 2 to include the
+newest open-source BDAS projects and we have extended the hands-on
+exercises to span both days.
+
+Find details and register at
+ampcamp.berkeley.edu/amp-camp-three-berkeley-2013. We expect to sell out
+quickly, so grab a spot soon, though the event will also be live streamed
+and video archived for free, in case you can't make it.
+
+When you register, use the discount code *canhazmoarspark* and get an extra
+$10 off your registration... a little extra love for hanging out on the
+Spark dev list.
+
+Finally, spread the word and make sure that all of your friends that you've
+been recommending try out Spark register to come as well.
+
+
+Andy & the AMP Camp team
+www.facebook.com/UCBAMPLab
+amplab.cs.berkeley.edu
+@amplab <http://twitter.com/amplab>
+"
+Mark Hamstra <mark@clearstorydata.com>,"Tue, 23 Jul 2013 16:22:50 -0700",Stage vs. StageInfo,dev@spark.incubator.apache.org,"So I'm currently working in Spark's DAGScheduler and related UI code, and
+I'm finding myself wondering why there are StageInfos distinct from Stages.
+ It seems like we go through some bookkeeping to make sure that we can get
+from a Stage to a StageInfo, which in turn is just a pairing of the Stage
+with a collection of (TaskInfo, TaskMetrics) pairs.  Why not avoid the
+bookkeeping and just put that collection of (TaskInfo, TaskMetrics) pairs
+right in the Stage itself?  I.e., directly change the Stage class to
+augment it with the collection instead of indirectly augmenting stages by
+going through the (potentially error-prone) mechanics of maintaining an
+association between a StageInfo distinct from the Stage.
+
+Or am I missing something?
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 23 Jul 2013 16:41:01 -0700",Re: Stage vs. StageInfo,dev@spark.incubator.apache.org,"Hey Mark,
+
+The motivation was to separate internal DAGScheduler data structures, such as Stage, from the interface we'll present to SparkListener, which will be a semi-public API. (Semi-public in that it might still change if we make drastic changes to the scheduler, but we want people to be able to use it for monitoring with as little pain as possible). We aren't following this consistently in all the SparkListener events yet but the goal is to do so.
+
+Matei
+
+
+and
+Stages.
+get
+Stage
+pairs
+by
+an
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Tue, 23 Jul 2013 16:47:47 -0700",Re: Stage vs. StageInfo,dev@spark.incubator.apache.org,"Ah, got it.  So Stage and TaskInfo are opaque outside spark, while
+TaskMetrics are visible.
+
+
+
+"
+Nick Pentreath <nick.pentreath@gmail.com>,"Wed, 24 Jul 2013 10:46:17 +0200",Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"Hi dev team
+
+(Apologies for a long email!)
+
+Firstly great news about the inclusion of MLlib into the Spark project!
+
+I've been working on a concept and some code for a machine learning library
+on Spark, and so of course there is a lot of overlap between MLlib and what
+I've been doing.
+
+I wanted to throw this out there and (a) ask a couple of design and roadmap
+questions about MLLib, and (b) talk about how to work together / integrate
+my ideas (if at all :)
+
+*Some questions*
+*
+*
+1. What is the general design idea behind MLLib - is it aimed at being a
+collection of algorithms, ie a library? Or is it aimed at being a ""Mahout
+for Spark"", i.e. something that can be used as a library as well as a set
+of tools for things like running jobs, feature extraction, text processing
+etc?
+2. How married are we to keeping it within the Spark project? While I
+understand the reasoning behind it I am not convinced it's best. But I
+guess we can wait and see how it develops
+3. Some of the original test code I saw around the Block ALS did use Breeze
+(https://github.com/dlwh/breeze) for some of the linear algebra. Now I see
+everything is using JBLAS directly and Array[Double]. Is there a specific
+reason for this? Is it aimed at creating a separation whereby the linear
+algebra backend could be switched out? Scala 2.10 issues?
+4. Since Spark is meant to be nicely compatible with Hadoop, do we care
+about compatibility/integration with Mahout? This may also encourage Mahout
+developers to switch over and contribute their expertise (see for example
+Dmitry's work at:
+https://github.com/dlyubimov/mahout-commits/commits/dev-0.8.x-scala/math-scala,
+where he is doing a Scala/Spark DSL around mahout-math matrices and
+distributed operations). Potentially even using mahout-math for linear
+algebra routines?
+5. Is there a roadmap? (I've checked the JIRA which does have a few
+intended models etc). Who are the devs most involved in this project?
+6. What are thoughts around API design for models?
+
+*Some thoughts*
+*
+*
+So, over the past couple of months I have been working on a machine
+learning library. Initially it was for my own use but I've added a few
+things and was starting to think about releasing it (though it's not nearly
+ready). The model that I really needed first was ALS for doing
+recommendations. So I have ported the ALS code from Mahout to Spark. Well,
+""ported"" in some sense - mostly I copied the algorithm and data
+distribution design, using Spark's primitives and Breeze for all the linear
+algebra.
+
+I found it pretty straightforward to port over. So far I have done local
+testing only on the Movielens datasets. I have found my RMSE results to
+match that of Mahout's. Overall interestingly the wall clock performance is
+not as dissimilar as I would have expected. But I would like to now do some
+larger-scale tests on a cluster to really do a good comparison.
+
+Obviously with Spark's Block ALS model, my version is now somewhat
+superfluous since I expect (and have so far seen in my simple local
+experiments) that the block model will significantly outperform. I will
+probably be porting my use case over to this in due time once I've done
+further testing.
+
+I also found Breeze to be very nice to work with and like the DSL - hence
+my question about why not use that? (Especially now that Breeze is actually
+just breeze-math and breeze-viz).
+
+Anyway, I then added KMeans (basically just the Spark example with some
+Breeze tweaks), and started working on a Linear Model framework. I've also
+added a simple framework for arg parsing and config (using Twitter
+Algebird's Args and Typesafe Config), and have started on feature
+extraction stuff - of particular interest will be text feature extraction
+and feature hashing.
+
+This is roughly the idea for a machine learning library on Spark that I
+have - call it a design or manifesto or whatever:
+
+- Library available and consistent across Scala, Java and Python (as much
+as possible in any event)
+- A core library and also a set of stuff for easily running models based on
+standard input formats etc
+- Standardised model API (even across languages) to the extent possible.
+I've based mine so far on Python's scikit-learn (.fit(), .predict() etc).
+Why? I believe it's a major strength of scikit-learn, that its API is so
+clean, simple and consistent. Plus, for the Python version of the lib,
+scikit-learn will no doubt be used wherever possible to avoid re-creating
+code
+- Models to be included initially:
+  - ALS
+  - Possibly co-occurrence recommendation stuff similar to Mahout's Taste
+  - Clustering (K-Means and others potentially)
+  - Linear Models - the idea here is to have something very close to Vowpal
+Wabbit, ie a generic SGD engine with various Loss Functions, learning rate
+paradigms etc. Furthermore this would allow other models similar to VW such
+as online versions of matrix factorisation, neural nets and learning
+reductions
+  - Possibly Decision Trees / Random Forests
+- Some utilities for feature extraction (hashing in particular), and to
+make running jobs easy (integration with Spark's ./run etc?)
+- Stuff for making pipelining easy (like scikit-learn) and for doing things
+like cross-validation in a principled (and parallel) way
+- Clean and easy integration with Spark Streaming for online models (e.g. a
+linear SGD can be called with fit() on batch data, and then fit() and/or
+fit/predict() on streaming data to learn further online etc).
+- Interactivity provided by shells (IPython, Spark shell) and also plotting
+capability (Matplotlib, and Breeze Viz)
+- For Scala, integration with Shark via sql2rdd etc.
+- I'd like to create something similar to Scalding's Matrix API based on
+RDDs for representing distributed matrices, as well as integrate the ideas
+of Dmitry and Mahout's DistributedRowMatrix etc
+
+Here is a rough outline of the model API I have used at the moment:
+https://gist.github.com/MLnick/6068841. This works nicely for ALS,
+clustering, linear models etc.
+
+So as you can see, mostly overlapping with what MLlib already has or has
+planned in some way, but my main aim is frankly to have consistency in the
+API, some level of abstraction but to keep things as simple as possible (ie
+let Spark handle the complex stuff), and thus hopefully avoid things
+becoming just a somewhat haphazard collection of models that is not that
+simple to figure out how to use - which is unfortunately what I believe has
+happened to Mahout.
+
+So the question then is, how to work together or integrate? I see 3 options:
+
+1. I go my own way (not very appealing obviously)
+2. Contribute what I have (or as much as makes sense) to MLlib
+3. Create my project as a ""front-end"" or ""wrapper"" around MLlib as the
+core, effectively providing the API and workflow interface but using MLlib
+as the model engine.
+
+#2 is appealing but then a lot depends on the API and framework design and
+how much what I have in mind is compatible with the rest of the devs etc
+#3 now that I have written it, starts to sound pretty interesting -
+potentially we're looking at a ""front-end"" that could in fact execute
+models on Spark (or other engines like Hadoop/Mahout, GraphX etc), while
+providing workflows for pipelining transformations, feature extraction,
+testing and cross-validation, and data viz.
+
+But of course #3 starts sounding somewhat like what MLBase is aiming to be
+(I think)!
+
+At this point I'm willing to show out what I have done so far on a
+selective basis - be warned though it is rough and not finished and
+somewhat clunky perhaps as it's my first attempt at a library/framework, if
+it makes sense. Especially because really the main thing I did was the ALS
+port, and with MLlib's version of ALS that may be less useful now in any
+case.
+
+It may be that none of this is that useful to others anyway which is fine
+as I'll keep developing tools that I need and potentially they will be
+useful at some point.
+
+Thoughts, feedback, comments, discussion? I really want to jump into MLlib
+and get involved in contributing to standardised machine learning on Spark!
+
+Nick
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 24 Jul 2013 11:39:54 -0700",Re: Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"Hey Nick,
+
+Thanks for your interest in this stuff! I'm going to let the MLbase team answer this in more detail, but just some quick answers on the first part of your email:
+
+- From my point of view, the ML library in Spark is meant to be just a library of ""kernel"" functions you can call, not a complete ETL and data format system like Mahout. The goal was to have good implementations of common algorithms that different higher-level systems (e.g. MLbase, Shark, PySpark) can call into.
+
+- We wanted to try keeping this in Spark initially to make it a kind of ""standard library"". This is something that can help ensure it becomes high-quality over time and keep it supported by the project. If you think about it, projects like R and Matlab are very strong primarily because they have great standard libraries. This was also one of the things we thought would differentiate us from Hadoop and Mahout. However, we will of course see how things go and separate it out if it needs a faster dev cycle.
+
+- I haven't worried much about compatibility with Mahout because I'm not sure Mahout is too widely used and I'm not sure its abstractions are best. Mahout is very tied to HDFS, SequenceFiles, etc. We will of course try to interoperate well with data from Mahout, but at least as far as I was concerned, I wanted an API that makes sense for Spark users.
+
+- Something that's maybe not clear about the MLlib API is that we also want it to be used easily from Java and Python. So we've explicitly avoided having very high-level types or using Scala-specific features, in order to get something that will be simple to call from these languages. This does leave room for wrappers that provide higher-level interfaces.
+
+In any case, if you like this ""kernel"" design for MLlib, it would be great to get more people contributing to it, or to get it used in other projects. I'll let the MLbase folks talk about higher-level interfaces -- this is definitely something they want to do, but they might be able to use help. In any case though, sharing the low-level kernels across Spark projects would make a lot of sense.
+
+Matei
+
+
+project!
+library
+what
+roadmap
+integrate
+a
+""Mahout
+set
+processing
+Breeze
+see
+specific
+linear
+care
+Mahout
+example
+https://github.com/dlyubimov/mahout-commits/commits/dev-0.8.x-scala/math-scala,
+nearly
+Well,
+linear
+local
+to
+performance is
+some
+will
+done
+hence
+actually
+some
+also
+extraction
+I
+much
+based on
+possible.
+etc).
+so
+re-creating
+Taste
+Vowpal
+rate
+such
+to
+things
+(e.g. a
+and/or
+plotting
+on
+ideas
+has
+the
+possible (ie
+that
+believe has
+options:
+MLlib
+and
+etc
+while
+extraction,
+to be
+library/framework, if
+ALS
+any
+fine
+MLlib
+Spark!
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Wed, 24 Jul 2013 11:42:06 -0700",Re: Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"BTW I should also add about Mahout that it might also make sense for Mahout to call MLlib internally. I just haven't looked into it enough to decide whether we'd want to provide more than input/output wrappers. But it would certainly be great to have Mahout people help out with MLlib in some way.
+
+Matei
+
+
+team answer this in more detail, but just some quick answers on the first part of your email:
+a library of ""kernel"" functions you can call, not a complete ETL and data format system like Mahout. The goal was to have good implementations of common algorithms that different higher-level systems (e.g. MLbase, Shark, PySpark) can call into.
+of ""standard library"". This is something that can help ensure it becomes high-quality over time and keep it supported by the project. If you think about it, projects like R and Matlab are very strong primarily because they have great standard libraries. This was also one of the things we thought would differentiate us from Hadoop and Mahout. However, we will of course see how things go and separate it out if it needs a faster dev cycle.
+not sure Mahout is too widely used and I'm not sure its abstractions are best. Mahout is very tied to HDFS, SequenceFiles, etc. We will of course try to interoperate well with data from Mahout, but at least as far as I was concerned, I wanted an API that makes sense for Spark users.
+want it to be used easily from Java and Python. So we've explicitly avoided having very high-level types or using Scala-specific features, in order to get something that will be simple to call from these languages. This does leave room for wrappers that provide higher-level interfaces.
+great to get more people contributing to it, or to get it used in other projects. I'll let the MLbase folks talk about higher-level interfaces -- this is definitely something they want to do, but they might be able to use help. In any case though, sharing the low-level kernels across Spark projects would make a lot of sense.
+project!
+library
+and what
+roadmap
+integrate
+being a
+""Mahout
+set
+processing
+I
+Breeze
+I see
+specific
+linear
+care
+Mahout
+example
+https://github.com/dlyubimov/mahout-commits/commits/dev-0.8.x-scala/math-scala,
+linear
+few
+nearly
+Well,
+linear
+local
+to
+performance is
+do some
+will
+done
+hence
+actually
+some
+also
+extraction
+I
+much
+based on
+possible.
+etc).
+so
+lib,
+re-creating
+Taste
+Vowpal
+rate
+VW such
+to
+things
+(e.g. a
+and/or
+plotting
+on
+ideas
+has
+in the
+possible (ie
+that
+believe has
+options:
+the
+MLlib
+design and
+etc
+while
+extraction,
+to be
+library/framework, if
+the ALS
+any
+fine
+be
+MLlib
+Spark!
+
+
+"
+Reynold Xin <rxin@cs.berkeley.edu>,"Wed, 24 Jul 2013 11:47:39 -0700",Re: Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"
+
+
+Matei addressed this from a higher level. I want to provide a little bit
+more context. A common properties of a lot of high level Scala DSL
+libraries is that simple operators tend to have high virtual function
+overheads and also create a lot of temporary objects. And because the level
+of abstraction is so high, it is fairly hard to debug / optimize
+performance.
+
+
+
+
+--
+Reynold Xin, AMPLab, UC Berkeley
+http://rxin.org
+"
+Ameet Talwalkar <ameet@eecs.berkeley.edu>,"Wed, 24 Jul 2013 13:09:23 -0700",Re: Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"Hi Nick,
+
+Thanks for your email, and it's great to see such excitement around this
+work!  Matei and Reynold already addressed the motivation behind MLlib as
+well as our reasons for not using Breeze, and I'd like to give you some
+background about MLbase, and discuss how it may fit with your interests.
+
+There are three components of MLbase:
+
+1) MLlib: As Matei mentioned, this is an ML library in Spark with core ML
+kernels and solid implementations of common algorithms that can be used
+easily by Java/Python and also called into by higher-level systems (e.g.
+MLI, Shark, PySpark).
+
+2) MLI: this is an ML API that provides a common interface for ML
+algorithms (the same interface used in MLlib), and introduces high-level
+abstractions to simplify feature extraction / exploration and ML algorithm
+development.  These abstractions leverage the kernels in MLlib when
+possible, and also introduce additional kernels.  This work also includes a
+library written against the MLI.  The MLI is currently written against
+Spark, but is designed to be platform independent, so that code written
+against MLI could be run on different engines (e.g., Hadoop, GraphX, etc.).
+
+
+3) ML Optimizer: This piece automates the task of model selection.  The
+optimizer can be viewed as a search problem over feature extraction /
+algorithms included in the MLI library, and is in part based on efficient
+cross validation. This work is under active development but is in an
+earlier stage of development than MLlib and MLI.
+
+(note: MLlib will be included with the Spark codebase, while the MLI and ML
+Optimizer will live in separate repositories.)
+
+As far as I can tell (though please correct me if I've misunderstood) your
+main goals include:
+
+i) ""consistency in the API""
+ii) ""some level of abstraction but to keep things as simple as possible""
+iii) ""execute models on Spark ... while providing workflows for pipelining
+transformations, feature extraction, testing and cross-validation, and data
+viz.""
+
+The MLI (and to some extent the ML Optimizer) is very much in line with
+these goals, and it would be great if you were interested in contributing
+to it.  MLI is a private repository right now, but we'll make it public
+soon though, and Evan Sparks or I will let you know when we do so.
+
+Thanks again for getting in touch with us!
+
+-Ameet
+
+
+
+"
+Nick Pentreath <nick.pentreath@gmail.com>,"Thu, 25 Jul 2013 15:44:03 +0200",Re: Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"Hi
+
+Ok, that all makes sense. I can see the benefit of good standard libraries
+definitely, and I guess the pieces that felt ""missing"" to me were what you
+are describing as MLI and MLOptimizer.
+
+It seems like the aims of MLI are very much in line with what I have/had in
+mind for a ML library/framework. It seems the goals overlap quite a lot.
+
+I guess one ""frustration"" I have had is that there are all these great BDAS
+projects, but we never really know when they will be released and what they
+will look like until they are. In this particular case I couldn't wait for
+MLlib so ended up doing some work myself to port Mahout's ALS and of course
+have ended up duplicating effort (which is not a problem as it was
+necessary at the time and has been a great learning experience).
+
+Similarly for GraphX, I would like to develop a project for a Spark-based
+version of Faunus (https://github.com/thinkaurelius/faunus) for batch
+processing of data in our Titan graph DB. For now I am working with
+Bagel-based primitives and Spark RDDs directly, but would love to use
+GraphX, but have no idea when it will be released and have little
+involvement until it is.
+
+(I use ""frustration"" in the nicest way here - I love the BDAS concepts and
+all the projects coming out, I just want them all to be released NOW!! :)
+
+So yes I would love to be involved in MLlib and MLI work to the extent I
+can assist and the work is aligned with what I need currently in my
+projects (this is just from a time allocation viewpoint - I'm sure much of
+it will be complementary).
+
+Anyway, it seems to me the best course of action is as follows:
+
+   - I'll get involved in MLlib and see how I can contribute there. Some
+   things that jump out:
+
+
+   - implicit preference capability for ALS model since as far as I can see
+      currently it handles explicit prefs only? (Implicit prefs here:
+      http://68.180.206.246/files/HuKorenVolinsky-ICDM08.pdf which is
+      typically better if we don't have actual rating data but instead ""view"",
+      ""click"", ""play"" or whatever)
+      - RMSE and other evaluation metrics for ALS as well as test/train
+      split / cross-val stuff?
+      - linear model additions, like new loss functions for hinge loss,
+      least squares etc for SGD, as well as learning rate stuff (
+      http://arxiv.org/pdf/1305.6646) and regularisers (L1/L2/Elasic Net) -
+      i.e. bring the SGD stuff in line with Vowpal Wabbit / sklearn (if that's
+      desirable, my view is yes)
+      - what about sparse weight and feature vectors for linear models/SGD?
+      Together with hashing allows very large models while still being
+efficient,
+      and with L1 reg is particularly useful.
+      - finally what about online models? ie SGD models currently are
+      ""static"" ie once trained can only predict, whereas SGD can of course keep
+      learning. Or does one simply re-train with the previous initial weight
+      vector (I guess that can work just as well)... Also on this
+topic training
+      / predicting on Streams as well as RDDs
+   - I can put up what I have done to a BitBucket account and grant access
+   to whichever devs would like to take a look. The only reason I don't just
+   throw it up on GitHub is that frankly it is not really ready and is not a
+   fully-fledged project yet (I think anyway). Possibly some of this can be
+   useful (not that there's all that much there apart from the ALS (but it
+   does solve for both explicit and implicit preference data as per Mahout's
+   implementation), KMeans (simpler than the one in MLlib as I didn't yet get
+   around to doing KMeans++ init) and the arg-parsing / jobrunner (which may
+   or may not be interesting both for ML and for Spark jobs in general)).
+
+Let me know your thoughts
+Nick
+
+
+
+"
+Patrick Wendell <pwendell@gmail.com>,"Thu, 25 Jul 2013 09:00:01 -0700",Re: Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"---
+sent from my phone
+
+"
+Dmitriy Lyubimov <dlieu.7@gmail.com>,"Thu, 25 Jul 2013 10:18:25 -0700",Re: Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"
+
+It's 0.9.x-scala branch now. We've released 0.8
+
+
+"
+Dmitriy Lyubimov <dlieu.7@gmail.com>,"Thu, 25 Jul 2013 11:16:48 -0700",Re: Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"
+
+I was *kinda* worried about it too.
+
+But like it often happens, it would seem to me we are worrying about
+somethign that will never compare with the bulk computation.
+
+Consider this fragment (it is from one of the flavors of weighted ALS with
+weighted regularization) :
+
+
+        val cholArg =  icVtV + (vBlockForC.t %*%: diagv(d)) %*% vBlockForC
++ diag(n_u * lambda, k)
+
+
+yes we  just created a few object references here for GC with scala
+implicit conversions while having million flops behind the scene sent to
+FPU meanwhile AND we  have optimized left-multiply (%*%: operator)  with a
+diagonal matrix as well as made use of symmetric matrix optimizations in a
+very scala way. And it looks just like what R folks would understand. The
+benefits of DSL clearly outweigh whatever claimed overhead exists IMO.
+Can't deny i find it subjectively more elegant than
+vblock.transpose().times(....new DiagonalMatrix (n_u*lambda,k) ... )
+
+
+As far as Mahout abstraction quality (and i am assuming we are talking
+about in-core lin alg support here, cause there's much more else), this is
+debatable but that's why i actually started doing DSL in the first place.
+DSL should iron a lot of that out, as we have seen, and bring it closer to
+R/matlab look&feel.
+
+But there are other important factors about Mahout's in-core support.
+
+I did my honest homework for my project trying to pick on in-core linear
+algebra, and i was not stuck on Mahout in-core support at all. I actually
+really wanted to find something a bit more mature for in-core algebra.
+
+In my search, I failed to find a project to address the following two major
+problems for in-core BLAS:
+
+1) naturally embedded support for sparse matrices and optimizations aimed
+degenerate nature of zero elements. No other project quite doing it to the
+same degree. apache-math sparse matrices are deprecated and said to be
+broken. JBLAS/ LAPACK doesn't have degenerate element optimizations at all.
+Breeze lacks consistency in Matrix abstraction between sparse and dense
+matrices. etc. etc.
+
+2) Kind of extension of the 1, wide range of matrix support optimized for
+various speicific solver computations -- diagonal, upper/lower triangulars,
+symmetric parsimonious, pivoted, rowwise vs. column wise vs. open addressed
+sparse matrices etc. etc. especially with the latest effort there. Nobody
+came close to that variety and ease of sparse operation optimizations in my
+(however brief) search.
+
+it is kinda raw at times, but nothing that i can't handle.
+
+But i totally agree that any sort of such environment is not part of spark.
+It makes some pragmatic tasks very addressable though and i can see a
+roadmap where i could mix Mahout's distributed solvers with sparks freely
+until i have a chance to port/create more what i need on spark side without
+any additional format/conversion issues.
+
+
+
+
+"
+Ameet Talwalkar <ameet@eecs.berkeley.edu>,"Thu, 25 Jul 2013 11:41:47 -0700",Re: Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"Hi Nick,
+
+I can understand your 'frustration' -- my hope is that having discussions
+(like the one we're having now) via this mailing list will help mitigate
+duplicate work moving forward.
+
+Regarding your detailed comments, we are aiming to include various
+components that you mentioned in our release (basic evaluation for
+collaborative filtering, linear model additions, and basic support for
+on our immediate roadmap is adding implicit feedback for matrix
+factorization.  Algorithms like SVD++ are often used in practice, and it
+would be great to add them to the MLI library (and perhaps also MLlib).
+
+-Ameet
+
+
+
+
+      - RMSE and other evaluation metrics for ALS as well as test/train
+
+      - linear model additions, like new loss functions for hinge loss,
+
+      - what about sparse weight and feature vectors for linear models/SGD?
+
+      - finally what about online models? ie SGD models currently are
+"
+Stoney Vintson <stoneyv@gmail.com>,"Thu, 25 Jul 2013 12:49:25 -0700",test.,dev@spark.incubator.apache.org,"test message.
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Thu, 25 Jul 2013 13:04:13 -0700",Re: Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"I fully agree that we need to be clearer with the timelines in AMP Lab. hard to predict when they will be ready for prime-time. Usually with all the things we officially announce (e.g. MLlib, GraphX), and especially the things we put in the Spark codebase, the team behind them really wants to make them widely available and has committed to spend the engineering to make them usable in real applications (as opposed to prototyping and moving on). But even then it can take some time to get the first release out. Hopefully we'll improve our communication about this through more careful tracking in JIRA.
+
+Matei
+
+
+discussions
+mitigate
+not
+it
+MLlib).
+libraries
+what you
+have/had in
+lot.
+great BDAS
+what they
+wait for
+course
+Spark-based
+concepts and
+NOW!! :)
+extent I
+much of
+Some
+can see
+Net)
+(if
+models/SGD?
+course
+access
+don't
+not
+can be
+(but it
+yet
+(which
+general)).
+this
+MLlib as
+some
+interests.
+core ML
+used
+(e.g.
+high-level
+against
+written
+The
+/
+efficient
+and
+misunderstood)
+possible""
+and
+with
+contributing
+public
+-
+little
+function
+the
+
+
+"
+"""Nick Pentreath"" <nick.pentreath@gmail.com>","Thu, 25 Jul 2013 13:56:36 -0700 (PDT)",Re: Machine Learning on Spark [long rambling discussion email],dev@spark.incubator.apache.org,"Cool I totally understand the constraints you're under and it's not really a criticism at all - the amplab projects are all awesome!
+
+
+If I can find ways to help then all the better
+—
+Sent from Mailbox for iPhone
+
+
+to predict when they will be ready for prime-time. Usually with all the things we officially announce (e.g. MLlib, GraphX), and especially the things we put in the Spark codebase, the team behind them really wants to make them widely available and has committed to spend the engineering to make them usable in real applications (as opposed to prototyping and moving on). But even then it can take some time to get the first release out. Hopefully we'll improve our communication about this through more careful tracking in JIRA.
+discussions
+mitigate
+not
+it
+libraries
+what you
+have/had in
+.
+great BDAS
+they
+for
+course
+Spark-based
+concepts and
+:)
+I
+ of
+Some
+see
+Net)
+models/SGD?
+course
+access
+not
+ be
+it
+yet
+(which
+.
+this
+ as
+some
+interests.
+ ML
+used
+g.
+high-level
+against
+written
+The
+efficient
+and
+possible""
+and
+with
+contributing
+public
+is
+function
+the"
+Josh Rosen <rosenville@gmail.com>,"Sun, 28 Jul 2013 21:46:17 -0700",Licensing for PySpark's CloudPickle Module,dev@spark.incubator.apache.org,"PySpark's CloudPickle library was originally developed by PiCloud (
+http://www.picloud.com/) and distributed under a non-BSD license.  I
+contacted them last year and they agreed to let us bundle the CloudPickle
+module under a BSD license.  Now that Spark is moving to an Apache license,
+how does this impact this module?  What license will apply to future
+changes to this module?  Do we need to obtain additional licensing from the
+PiCloud folks?  I've attached my original correspondence with PiCloud, in
+case that helps.
+
+I ask because I'm interested in making some fixes to the cloudpickle code
+and I'd like to collaborate with the PiCloud folks, if possible, since
+they're more familiar with that code and may be interested in some of the
+bugs that I've found.
+
+Thanks,
+Josh Rosen
+
+---------- Forwarded message ----------
+From: Josh Rosen <joshrosen@berkeley.edu>
+Date: Wed, Aug 15, 2012 at 11:47 PM
+Subject: Re: Request to release the CloudPickler module as its own Python
+package
+To: Aaron Staley <aaron@picloud.com>
+Cc: contact@picloud.com, Matei Zaharia <matei@eecs.berkeley.edu>
+
+
+Hi Aaron,
+
+I'm just interested in cloudpickle.py, debugpickle.py, and their small
+dependencies.  We'll develop our own module transfer / dependency
+deployment system or build on existing systems in Spark or Mesos, so I
+don't need to use other code from PiCloud.
+
+The CloudPickle module has been very useful and I appreciate your help with
+the licensing.  I'll bundle cloudpickle.py and its dependencies with
+PySpark and add the proper attribution in the docstring.
+
+Thanks for your help,
+Josh Rosen
+
+
+
+Hi Josh,
+
+How much of the functionality do you need to utilize?
+
+If we are just talking cloudpickle.py and debugpickle.py (and their small
+dependencies; 2 functions the cloudpickler uses from util and the
+xmlhandlers library used by pickledebug), we are fine with you moving that
+into your own code and re-releasing it under the BSD license. Just modify
+the license the license in the source code; all we ask is that you
+attribute the original work to PiCloud, Inc. and provide a link to our
+website in the top level comments of the modules.
+
+If you are looking for all of the functionality relating to getting code
+running on X machine to Y machine (module transfer, some of the import
+hacks in adapter, etc.), that's a whole different matter. It's difficult to
+pull it out of PiCloud itself as a separate package, due to it being spread
+across so many modules.  Are just the picklers enough?
+
+Thanks,
+Aaron Staley
+PiCloud, Inc.
+
+
+
+ (
+e
+rent
+rch)
+
+
+
+
+-- 
+Aaron Staley
+*PiCloud, Inc.*
+"
+Josh Rosen <rosenville@gmail.com>,"Sun, 28 Jul 2013 21:57:57 -0700",Re: test.,"""Spark Dev (Apache Incubator)"" <dev@spark.incubator.apache.org>","Test reply (I think my messages are being caught by the spam filter?)
+
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Mon, 29 Jul 2013 05:20:07 +0000",Re: test.,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","ACK
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+"
+"""Mattmann, Chris A (398J)"" <chris.a.mattmann@jpl.nasa.gov>","Mon, 29 Jul 2013 05:21:04 +0000",Re: Licensing for PySpark's CloudPickle Module,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi Josh,
+
+BSD is a Category-A approved license at the ASF:
+
+http://www.apache.org/legal/3party.html#category-a
+
+Meaning it can be incorporated in Apache projects.
+
+HTH!
+
+
+Cheers,
+Chris
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Chris Mattmann, Ph.D.
+Senior Computer Scientist
+NASA Jet Propulsion Laboratory Pasadena, CA 91109 USA
+Office: 171-266B, Mailstop: 171-246
+Email: chris.a.mattmann@nasa.gov
+WWW:  http://sunset.usc.edu/~mattmann/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adjunct Assistant Professor, Computer Science Department
+University of Southern California, Los Angeles, CA 90089 USA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+he
+arch)
+
+
+"
+Michael Joyce <joyce@apache.org>,"Mon, 29 Jul 2013 08:36:25 -0700",Saying hello and helping out,dev@spark.incubator.apache.org,"Hi all!
+
+My name is Michael Joyce. I work at JPL and have heard some great things
+about Spark from Chris Mattmann. I figured I would stop by, say hello, and
+hopefully throw some helpful contributions at the project.
+
+Look forward to helping out!
+
+-- Joyce
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Mon, 29 Jul 2013 10:55:47 -0700",Re: Saying hello and helping out,dev@spark.incubator.apache.org,"Hey Michael,
+
+Glad to hear you're interested in helping. Are there specific things you'd like to work on? Certainly we will need help with various Apache packaging, etc so it's good to have more people with experience at Apache.
+
+Matei
+
+
+things
+and
+
+
+"
+Michael Joyce <joyce@apache.org>,"Mon, 29 Jul 2013 13:03:36 -0700",Re: Saying hello and helping out,dev@spark.incubator.apache.org,"Hay Matei,
+
+Truth be told I haven't had much of a chance to look through JIRA and the
+code base to pick a specific part to work on. Is there anything in
+particular that needs some work? I'm more than happy to throw some effort
+at a specific problem if something needs attention. Otherwise I can just
+poke around and try to find a nice niche in which to work so I can help out.
+
+Thanks much!
+
+-- Joyce
+
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Mon, 29 Jul 2013 16:17:49 -0700",Re: Saying hello and helping out,dev@spark.incubator.apache.org,"Hey Michael,
+
+Depending on your background, there are quite a few things to do.
+
+there, is the Python API. Part of it can be just to add more examples in Python, e.g., to show how one can use NumPy or SciPy with it. Another thing that would be super useful if you also have access to Windows is this: https://spark-project.atlassian.net/browse/SPARK-649. We want to make Spark very broadly accessible for science work and it sounds like your background at JPL is good for that.
+
+Alternatively, if you prefer to work on the Java VM, there are a bunch of internal things to do there too -- I can give an overview of what I'd consider easy to jump into there.
+
+Matei
+
+
+the
+effort
+just
+help out.
+you'd
+packaging,
+things
+hello,
+
+
+"
+Michael Joyce <joyce@apache.org>,"Tue, 30 Jul 2013 06:44:10 -0700",Re: Saying hello and helping out,dev@spark.incubator.apache.org,"Hay Matei,
+
+I would love to help on the Python API. I'll start taking a look at that.
+Unfortunately I don't have access to a Windows computer, so I can't be of
+much use there. I would also be more than happy to work on the JVM stuff as
+well. If you have a list stuff to do there (or it wouldn't take too long to
+compile one), I would gladly take a look.
+
+Thanks for all the help!
+
+
+-- Joyce
+
+
+
+"
+Suresh Marru <smarru@apache.org>,"Tue, 30 Jul 2013 10:13:11 -0400",JIRA Import,"""dev@spark.incubator.apache.org"" <dev@spark.incubator.apache.org>","Hi All,
+
+Who ever has admin privileges on the legacy spark jira [1], can you please follow up with INFRA? Please comment on this issue -https://issues.apache.org/jira/browse/INFRA-6419.
+
+If you need help, please grant me admin karma on the spark jira and I can try and help.
+
+Cheers,
+Suresh
+
+[1] - https://spark-project.atlassian.net/secure/Dashboard.jspa
+
+
+
+
+"
+Dmitriy Lyubimov <dlieu.7@gmail.com>,"Tue, 30 Jul 2013 19:40:22 -0700",fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"Hello,
+
+after couple of days(!) of trying to understand where i get the
+""NoSuchMethod"" error, i traced it down to the fact that 0.8 now includes
+hbase.
+
+While it is assumed that hadoop version is specified, hbase version is
+fixed. This seem to create problem if hbase is used with a particular
+version of CDH hadoop client in the backend. (there's a known compatibility
+bug).
+
+wouldn't it make sense in this case to allow to declare hbase version as
+well, perhaps even tie it to the CDH version?
+
+At the very least i think it deserves a specific mention in the header
+section to provide opportunity to override, just like hadoop version does?
+
+Thanks.
+-D
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 30 Jul 2013 20:44:33 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"Let's at the very least make it configurable, but an even better thing will be to make sbt assembly not include it. I think the only thing that depends on HBase is the examples project, but unfortunately SBT puts all its JARs in the lib_managed folder and just stupidly creates an assembly by grouping those. The Maven build, for example, should not do that.
+
+Matei
+
+
+includes
+compatibility
+as
+does?
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 30 Jul 2013 20:56:44 -0700",Re: Saying hello and helping out,dev@spark.incubator.apache.org,"Cool! The way I'd start is perhaps by adding a new Python example job. For example, a good one to implement would be PageRank -- you can look at these slides for a Scala version of it: http://ampcamp.berkeley.edu/wp-content/uploads/2012/06/matei-zaharia-part-2-amp-camp-2012-standalone-programs.pdf. Another possibility is linear regression. But feel free to also come up with your own.
+
+There are also a number of Python issues open relating to adding some missing API features, but these require a more thorough understanding of how PySpark work and possibly some hacking around in pickled data: https://spark-project.atlassian.net/browse/SPARK-791?jql=component%20%3D%20PySpark%20AND%20status%20%3D%20Open . The easiest one to start with is probably SPARK-838.
+
+Matei
+
+
+that.
+of
+stuff as
+long to
+experience
+in
+thing
+this:
+your
+bunch of
+and the
+effort
+just
+help
+<matei.zaharia@gmail.com
+things
+hello,
+
+
+"
+Konstantin Boudnik <cos@apache.org>,"Tue, 30 Jul 2013 21:04:14 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"ll
+ds
+ in
+
+It is very easy to exclude dependencies in Maven assembly, like it is done for
+Hadoop. Lemme send out a putt request - a good finding indeed, Dmitriy, thank
+you!
+
+Cos
+
+lity
+es?
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 30 Jul 2013 21:08:05 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"Yeah, and maybe we will want to change to Maven as the recommended tool for assembly building. I want to look into this more for the 0.8 release.
+
+Matei
+
+
+thing will
+depends
+JARs in
+grouping
+done for
+Dmitriy, thank
+includes
+is
+particular
+compatibility
+version as
+header
+does?
+
+
+"
+Konstantin Boudnik <cos@apache.org>,"Tue, 30 Jul 2013 21:47:46 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"Matei,
+
+Hbase dependencies aren't actually included into the Maven assembly as of this
+moment, because scope of hbase dependency in examples' module is ""compile""; but
+the assembly is only includes those with ""runtime"". Hence it is automatically
+excluded.
+
+I believe, hbase is needed for examples during the execution time, and if so -
+it would have to be fixed in the module. This will lead to need to exclude it
+from the assembly, in turn.
+
+And of course... :)
+
+    s/putt/pull/
+
+Cos
+
+or
+ will
+pends
+ARs in
+ng
+one for
+ thank
+e:
+des
+bility
+ as
+does?
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 30 Jul 2013 21:56:03 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"Yeah, that is true. But the assembly shouldn't include the examples project at all IMO -- if it does now, we should remove it.
+
+Matei
+
+
+of this
+""compile""; but
+automatically
+if so -
+exclude it
+tool for
+thing will
+depends
+its JARs in
+grouping
+is done for
+Dmitriy, thank
+includes
+version is
+particular
+compatibility
+version as
+header
+version does?
+
+
+"
+Matei Zaharia <matei.zaharia@gmail.com>,"Tue, 30 Jul 2013 21:57:21 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"Basically the way to think of the assembly is that it should have libraries that users' client programs need to run. These are core, repl (needed if they use the shell), and likely bagel and streaming and mllib, though originally we'd opted to leave those out. We are still deciding on that -- could go either way.
+
+Matei
+
+
+project at all IMO -- if it does now, we should remove it.
+as of this
+""compile""; but
+automatically
+and if so -
+exclude it
+tool for
+release.
+thing will
+that depends
+its JARs in
+grouping
+is done for
+Dmitriy, thank
+includes
+version is
+particular
+compatibility
+version as
+header
+version does?
+
+
+"
+Konstantin Boudnik <cos@apache.org>,"Tue, 30 Jul 2013 22:07:25 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"Ok, that makes sense, although I thought examples might be a good part of the
+documentation for the beginners' references, etc. But I have problems modifying
+the assembly accordingly. Will do it the first thing in the morning.
+
+Thanks for the input.
+  Cos
+
+es
+e:
+ject at all IMO -- if it does now, we should remove it.
+ of this
+ile""; but
+tically
+ if so -
+lude it
+ol for
+e:
+ing will
+ depends
+s JARs in
+uping
+s done for
+iy, thank
+rote:
+cludes
+n is
+lar
+atibility
+ion as
+ader
+on does?
+"
+Dmitriy Lyubimov <dlieu.7@gmail.com>,"Tue, 30 Jul 2013 23:13:12 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"FWIW it does get landed in lib_managed...
+
+i beleive there's a post in CDH group with the same very problem i had ,
+still unresolved/unadvised by Cloudera.
+
+
+
+"
+Michael Joyce <joyce@apache.org>,"Wed, 31 Jul 2013 07:56:32 -0700",Re: Saying hello and helping out,dev@spark.incubator.apache.org,"Awesome! Thanks again for all the guidance Matei. I look forward to helping
+out.
+
+Thanks again!
+
+
+-- Joyce
+
+
+
+"
+Konstantin Boudnik <cos@apache.org>,"Wed, 31 Jul 2013 11:24:29 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"Dmitriy,
+
+lib_managed/ is controlled by sbt build - Maven uses ~/.m2/repository
+directly. Hence, earlier Matei point stands on the need to fix it in sbt
+build.
+
+I am not sure why would Cloudera solve the issue in the Spark build? :)
+
+Cos
+
+
+"
+Dmitriy Lyubimov <dlieu.7@gmail.com>,"Wed, 31 Jul 2013 11:38:51 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,":
+
+
+I wasn't saying Сloudera  should. I just meant to say i saw other people
+stranded out there on that very issue right now while searching for the
+cause. This incompatibility bug is not at all obvious to track.
+
+Ok i guess it should be ok for sbt build to declare HBASE_VERSION and use
+it.
+
+I also discovered that cdh hbase counterpart does not seem to be published
+to any repository spark uses (unlike hadoop client jars). So to resolve, i
+also had to add a direct cloudera resolver. it is probably more than you
+want to do for spark, but any person using hbase and cdh would probably run
+into this surprisingly hard to track issue.
+
+
+,
+t
+gh
+es
+e,
+to
+g
+by
+e
+n
+e
+"
+Konstantin Boudnik <cos@apache.org>,"Wed, 31 Jul 2013 14:03:26 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"Well, dependency clashes are a hell to trace. Maven has this dependency:tree
+way of presenting all the project deps. in a graph form, but still it is a
+pain in the neck.
+
+I am about to roll out a fix for maven assembly to exclude examples from the
+assembly.
+
+As for the 3rd party repo (just my two cents): not sure about sbt, but in case
+of Maven it can easily be handled by local users' settings.xml profiles and
+repos, rather than be hardcoded in the project. Otherwise, the build
+system might end up with more and more 3rd party distros' repositories being
+included, which leads to mess, confusion, etc.
+
+Cos
+
+
+"
+Konstantin Boudnik <cos@apache.org>,"Wed, 31 Jul 2013 14:22:22 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"Interestingly, mllib isn't even getting built by maven... I will address it as
+a separate patch then.
+
+
+"
+Shivaram Venkataraman <shivaram@eecs.berkeley.edu>,"Wed, 31 Jul 2013 14:27:03 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"Actually I sent a pull request for this yesterday
+https://github.com/mesos/spark/pull/753
+
+Shivaram
+
+
+
+"
+Konstantin Boudnik <cos@apache.org>,"Wed, 31 Jul 2013 15:47:19 -0700",Re: fixed hbase version in SparkBuild (spark-0.8),dev@spark.incubator.apache.org,"And I have just submitted
+  https://github.com/mesos/spark/pull/763
+
+that depends on yours for mllib support.
+  Cos
+
+
+"

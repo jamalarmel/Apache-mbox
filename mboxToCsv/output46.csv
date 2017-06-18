@@ -1,0 +1,2117 @@
+Liang-Chi Hsieh <viirya@gmail.com>,"Tue, 28 Feb 2017 19:40:04 -0700 (MST)",Re: Implementation of RNN/LSTM in Spark,dev@spark.apache.org,"
+Yeah, I'd agree with Nick.
+
+To have an implementation of RNN/LSTM in Spark, you may need a comprehensive
+abstraction of neural networks which is general enough to represent the
+computation (think of Torch, Keras, Tensorflow, MXNet, Caffe, etc.), and
+modify current computation engine to work with various computing units such
+as GPU. I don't think we will have such thing to be in Spark in the near
+future.
+
+There are many efforts to integrate Spark and the specialized frameworks
+doing well in this abstraction and parallel computation. The best approach I
+think is to look at this efforts and contribute to them if possible.
+
+
+Nick Pentreath wrote
+
+
+
+
+
+
+
+
+
+-----
+Liang-Chi Hsieh | @viirya 
+Spark Technology Center 
+http://www.spark.tc/ 
+--
+
+---------------------------------------------------------------------
+
+
+"
+Koert Kuipers <koert@tresata.com>,"Thu, 2 Mar 2017 11:50:52 -0500",Re: Straw poll: dropping support for things like Scala 2.10,Sean Owen <sowen@cloudera.com>,"given the issues with scala 2.10 and java 8 i am in favor of dropping scala
+2.10 in next release
+
+
+Spark 2.2
+for the project;
+ily update
+t
+d
+some
+I
+ few weeks
+0
+r
+tricky or
+.10
+.
+er 2.2.0
+cy
+ments for
+orking
+t
+6 release
+r
+it
+has
+not
+"
+Russell Spitzer <russell.spitzer@gmail.com>,"Thu, 02 Mar 2017 18:51:21 +0000",Re: Straw poll: dropping support for things like Scala 2.10,"Koert Kuipers <koert@tresata.com>, Sean Owen <sowen@cloudera.com>","+1 on removing 2.10
+
+
+
+given the issues with scala 2.10 and java 8 i am in favor of dropping scala
+2.10 in next release
+
+
+I want to bring up the issue of Scala 2.10 support again, to see how people
+feel about it. Key opinions from the previous responses, "
+Liang-Chi Hsieh <viirya@gmail.com>,"Thu, 2 Mar 2017 19:58:26 -0700 (MST)",Re: How to cache SparkPlan.execute for reusing?,dev@spark.apache.org,"
+Internally, in each partition of the resulting RDD[InternalRow], you will
+get the same UnsafeRow when iterating the rows. Typical RDD.cache doesn't
+work for it. You will get the output with the same rows. Not sure why you
+get empty output.
+
+Dataset.cache() is used for caching SQL query results. Even you really cache
+RDD[InternalRow] by RDD.cache with the trick which copies the rows (with
+significant performance penalty), a new query (plan) will not automatically
+reuse the cached RDD, because new RDDs will be created.
+
+
+summerDG wrote
+
+
+
+
+
+-----
+Liang-Chi Hsieh | @viirya 
+Spark Technology Center 
+http://www.spark.tc/ 
+--
+
+---------------------------------------------------------------------
+
+
+"
+Liang-Chi Hsieh <viirya@gmail.com>,"Fri, 3 Mar 2017 01:37:17 -0700 (MST)",Re: How to cache SparkPlan.execute for reusing?,dev@spark.apache.org,"
+Not sure what you mean in ""its parents have to reuse it by creating new
+RDDs"".
+
+As SparkPlan.execute returns new RDD every time, you won't expect the cached
+RDD can be reused automatically, even you reuse the SparkPlan in several
+queries.
+
+Btw, is there any existing ways to reuse SparkPlan?
+
+
+
+summerDG wrote
+
+
+
+
+
+-----
+Liang-Chi Hsieh | @viirya 
+Spark Technology Center 
+http://www.spark.tc/ 
+--
+
+---------------------------------------------------------------------
+
+
+"
+Aseem Bansal <asmbansal2@gmail.com>,"Fri, 3 Mar 2017 14:44:27 +0530","Re: Initial job has not accepted any resources; check your cluster UI
+ to ensure that workers are registered and have sufficient resources",dev@spark.apache.org,"When Initial jobs have not accepted any resources then what all can be
+wrong? Going through stackoverflow and various blogs does not help. Maybe
+need better logging for this? Adding dev
+
+
+"
+Noorul Islam K M <noorul@noorul.com>,"Fri, 03 Mar 2017 15:42:22 +0530",Re: Initial job has not accepted any resources; check your cluster UI to ensure that workers are registered and have sufficient resources,Aseem Bansal <asmbansal2@gmail.com>,"
+
+Did you take a look at the spark UI to see your resource availability?
+
+Thanks and Regards
+Noorul
+
+---------------------------------------------------------------------
+
+
+"
+Sean Owen <sowen@cloudera.com>,"Fri, 03 Mar 2017 12:34:33 +0000",Re: Straw poll: dropping support for things like Scala 2.10,"Russell Spitzer <russell.spitzer@gmail.com>, Koert Kuipers <koert@tresata.com>","Let's track further discussion at
+https://issues.apache.org/jira/browse/SPARK-19810
+
+I am also in favor of removing Scala 2.10 support, and will open a WIP to
+discuss the change, but am not yet sure whether there are objections or
+deeper support for this.
+
+
+Spark 2.2
+for the project;
+ily update
+t
+d
+some
+I
+ few weeks
+0
+r
+tricky or
+.10
+.
+er 2.2.0
+cy
+ments for
+orking
+t
+6 release
+t
+.
+as
+ot
+"
+Koert Kuipers <koert@tresata.com>,"Fri, 3 Mar 2017 11:23:11 -0500",Re: Spark join over sorted columns of dataset.,Rohit Verma <rohit.verma@rokittech.com>,"For RDD the shuffle is already skipped but the sort is not. In spark-sorted
+we track partitioning and sorting within partitions for key-value RDDs and
+can avoid the sort. See:
+https://github.com/tresata/spark-sorted
+
+For Dataset/DataFrame such optimizations are done automatically, however
+it's currently not always working for Dataset, see:
+https://issues.apache.org/jira/plugins/servlet/mobile#issue/SPARK-19468
+
+
+Sending it to dev’s.
+Can you please help me providing some ideas for below.
+
+Regards
+Rohit
+both the columns are pre sorted within the dataset.
+"
+Shouheng Yi <shouyi@microsoft.com.INVALID>,"Fri, 3 Mar 2017 21:01:26 +0000",RE: [Spark Namespace]: Expanding Spark ML under Different Namespace?,"Tim Hunter <timhunter@databricks.com>, Joseph Bradley
+	<joseph@databricks.com>","Hi Spark dev list,
+
+Thank you guys so much for all your inputs. We really appreciated those suggestions. After some discussions in the team, we decided to stay under apache’s namespace for now, and attach some comments to explain what we did and why we did this.
+
+As the Spark dev list kindly pointed out, this is an existing issue that was documented in the JIRA ticket [Spark-19498] [0]. We can follow the JIRA ticket to see if there are any new suggested practices that should be adopted in the future and make corresponding fixes.
+
+Best,
+Shouheng
+
+[0] https://issues.apache.org/jira/browse/SPARK-19498
+
+From: Tim Hunter [mailto:timhunter@databricks.com]
+Sent: Friday, February 24, 2017 9:08 AM
+To: Joseph Bradley <joseph@databricks.com>
+Cc: Steve Loughran <stevel@hortonworks.com>; Shouheng Yi <shouyi@microsoft.com.invalid>; Apache Spark Dev <dev@spark.apache.org>; Markus Weimer <mweimer@microsoft.com>; Rogan Carr <rocarr@microsoft.com>; Pei Jiang <pejian@microsoft.com>; Miruna Oprescu <moprescu@microsoft.com>
+Subject: Re: [Spark Namespace]: Expanding Spark ML under Different Namespace?
+
+Regarding logging, Graphframes makes a simple wrapper this way:
+
+https://github.com/graphframes/graphframes/blob/master/src/main/scala/org/graphframes/Logging.scala<https://na01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fgraphframes%2Fgraphframes%2Fblob%2Fmaster%2Fsrc%2Fmain%2Fscala%2Forg%2Fgraphframes%2FLogging.scala&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=lNT03ZybQOrEboWz0vuX4cic%2F5WGn49E464%2B1XbqdD8%3D&reserved=0>
+
+Regarding the UDTs, they have been hidden to be reworked for Datasets, the reasons being detailed here [1]. Can you describe your use case in more details? You may be better off copy/pasting the UDT code outside of Spark, depending on your use case.
+
+[1] https://issues.apache.org/jira/browse/SPARK-14155<https://na01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fissues.apache.org%2Fjira%2Fbrowse%2FSPARK-14155&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=I5yFehqhf5qXMPXKQj8inZa3kXQwM3O2ntea3bFlge4%3D&reserved=0>
+
+On Thu, Feb 23, 2017 at 3:42 PM, Joseph Bradley <joseph@databricks.com<mailto:joseph@databricks.com>> wrote:
++1 for Nick's comment about discussing APIs which need to be made public in https://issues.apache.org/jira/browse/SPARK-19498<https://na01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fissues.apache.org%2Fjira%2Fbrowse%2FSPARK-19498&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=jByKjOBuL9elEiJNJzxeoZ5euHDfinjqzj%2FJY5hn7Xo%3D&reserved=0> !
+
+On Thu, Feb 23, 2017 at 2:36 AM, Steve Loughran <steve
+
+On 22 Feb 2017, at 20:51, Shouheng Yi <shouyi@microsoft.com.INVALID<mailto:shouyi@microsoft.com.INVALID>> wrote:
+
+Hi Spark developers,
+
+Currently my team at Microsoft is extending Spark’s machine learning functionalities to include new learners and transformers. We would like users to use these within spark pipelines so that they can mix and match with existing Spark learners/transformers, and overall have a native spark experience. We cannot accomplish this using a non-“org.apache” namespace with the current implementation, and we don’t want to release code inside the apache namespace because it’s confusing and there could be naming rights issues.
+
+This isn't actually the ASF has a strong stance against, more left to projects themselves. After all: the source is licensed by the ASF, and the license doesn't say you can't.
+
+Indeed, there's a bit of org.apache.hive in the Spark codebase where the hive team kept stuff package private. Though that's really a sign that things could be improved there.
+
+Where is problematic is that stack traces end up blaming the wrong group; nobody likes getting a bug report which doesn't actually exist in your codebase., not least because you have to waste time to even work it out.
+
+You also have to expect absolutely no stability guarantees, so you'd better set your nightly build to work against trunk
+
+Apache Bahir does put some stuff into org.apache.spark.stream, but they've sort of inherited that right.when they picked up the code from spark. new stuff is going into org.apache.bahir
+
+
+We need to extend several classes from spark which happen to have “private[spark].” For example, one of our class extends VectorUDT[0] which has private[spark] class VectorUDT as its access modifier. This unfortunately put us in a strange scenario that forces us to work under the namespace org.apache.spark.
+
+To be specific, currently the private classes/traits we need to use to create new Spark learners & Transformers are HasInputCol, VectorUDT and Logging. We will expand this list as we develop more.
+
+I do think tis a shame that logging went from public to private.
+
+One thing that could be done there is to copy the logging into Bahir, under an org.apache.bahir package, for yourself and others to use. That's be beneficial to me too.
+
+For the ML stuff, that might be place to work too, if you are going to open source the code.
+
+
+
+
+Is there a way to avoid this namespace issue? What do other people/companies do in this scenario? Thank you for your help!
+
+I've hit this problem in the past.  Scala code tends to force your hand here precisely because of that (very nice) private feature. While it offers the ability of a project to guarantee that implementation details aren't picked up where they weren't intended to be, in OSS dev, all that implementation is visible and for lower level integration,
+
+What I tend to do is keep my own code in its package and try to do as think a bridge over to it from the [private] scope. It's also important to name things obviously, say,  org.apache.spark.microsoft , so stack traces in bug reports can be dealt with more easily
+
+
+
+[0]: https://github.com/apache/spark/blob/master/mllib/src/main/scala/org/apache/spark/ml/linalg/VectorUDT.scala<https://na01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fapache%2Fspark%2Fblob%2Fmaster%2Fmllib%2Fsrc%2Fmain%2Fscala%2Forg%2Fapache%2Fspark%2Fml%2Flinalg%2FVectorUDT.scala&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=HjxQq3XAT%2FMljuNdU0MOorPhblMrnFcLezj9tebAht8%3D&reserved=0>
+
+Best,
+Shouheng
+
+
+
+
+--
+
+Joseph Bradley
+
+Software Engineer - Machine Learning
+
+Databricks, Inc.
+
+[http://databricks.com]<https://na01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdatabricks.com%2F&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=Yq5F7xzV%2B8aqAoJyF0gePMG2cghRYonz68NDNvN9vjs%3D&reserved=0>
+
+"
+Shouheng Yi <shouyi@microsoft.com.INVALID>,"Fri, 3 Mar 2017 21:16:46 +0000",RE: [Spark Namespace]: Expanding Spark ML under Different Namespace?,Apache Spark Dev <dev@spark.apache.org>,"Hi Spark dev list,
+
+Thank you guys so much for all your inputs. We really appreciated those suggestions. After some discussions in the team, we decided to stay under apache’s namespace for now, and attach some comments to explain what we did and why we did this.
+
+As the Spark dev list kindly pointed out, this is an existing issue that was documented in the JIRA ticket [Spark-19498] [0]. We can follow the JIRA ticket to see if there are any new suggested practices that should be adopted in the future and make corresponding fixes.
+
+Best,
+Shouheng
+
+[0] https://issues.apache.org/jira/browse/SPARK-19498
+
+From: Tim Hunter [mailto:timhunter@databricks.com]
+Sent: Friday, February 24, 2017 9:08 AM
+To: Joseph Bradley <joseph@databricks.com<mailto:joseph@databricks.com>>
+Cc: Steve Loughran <stevel@hortonworks.com<mailto:stevel@hortonworks.com>>; Shouheng Yi <shouyi@microsoft.com.invalid<mailto:shouyi@microsoft.com.invalid>>; Apache Spark Dev <dev@spark.apache.org<mailto:dev@spark.apache.org>>; Markus Weimer <mweimer@microsoft.com<mailto:mweimer@microsoft.com>>; osoft.com>>; Miruna Oprescu <moprescu@microsoft.com<mailto:moprescu@microsoft.com>>
+Subject: Re: [Spark Namespace]: Expanding Spark ML under Different Namespace?
+
+Regarding logging, Graphframes makes a simple wrapper this way:
+
+https://github.com/graphframes/graphframes/blob/master/src/main/scala/org/graphframes/Logging.scala<https://na01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fgraphframes%2Fgraphframes%2Fblob%2Fmaster%2Fsrc%2Fmain%2Fscala%2Forg%2Fgraphframes%2FLogging.scala&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=lNT03ZybQOrEboWz0vuX4cic%2F5WGn49E464%2B1XbqdD8%3D&reserved=0>
+
+Regarding the UDTs, they have been hidden to be reworked for Datasets, the reasons being detailed here [1]. Can you describe your use case in more details? You may be better off copy/pasting the UDT code outside of Spark, depending on your use case.
+
+[1] https://issues.apache.org/jira/browse/SPARK-14155<https://na01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fissues.apache.org%2Fjira%2Fbrowse%2FSPARK-14155&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=I5yFehqhf5qXMPXKQj8inZa3kXQwM3O2ntea3bFlge4%3D&reserved=0>
+
+On Thu, Feb 23, 2017 at 3:42 PM, Joseph Bradley <joseph@databricks.com<mailto:joseph@databricks.com>> wrote:
++1 for Nick's comment about discussing APIs which need to be made public in https://issues.apache.org/jira/browse/SPARK-19498<https://na01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fissues.apache.org%2Fjira%2Fbrowse%2FSPARK-19498&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=jByKjOBuL9elEiJNJzxeoZ5euHDfinjqzj%2FJY5hn7Xo%3D&reserved=0> !
+
+On Thu, Feb 23, 2017 at 2:36 AM, Steorks.com>> wrote:
+
+On 22 Feb 2017, at 20:51, Shouheng Yi <shouyi@microsoft.com.INVALID<mailto:shouyi@microsoft.com.INVALID>> wrote:
+
+Hi Spark developers,
+
+Currently my team at Microsoft is extending Spark’s machine learning functionalities to include new learners and transformers. We would like users to use these within spark pipelines so that they can mix and match with existing Spark learners/transformers, and overall have a native spark experience. We cannot accomplish this using a non-“org.apache” namespace with the current implementation, and we don’t want to release code inside the apache namespace because it’s confusing and there could be naming rights issues.
+
+This isn't actually the ASF has a strong stance against, more left to projects themselves. After all: the source is licensed by the ASF, and the license doesn't say you can't.
+
+Indeed, there's a bit of org.apache.hive in the Spark codebase where the hive team kept stuff package private. Though that's really a sign that things could be improved there.
+
+Where is problematic is that stack traces end up blaming the wrong group; nobody likes getting a bug report which doesn't actually exist in your codebase., not least because you have to waste time to even work it out.
+
+You also have to expect absolutely no stability guarantees, so you'd better set your nightly build to work against trunk
+
+Apache Bahir does put some stuff into org.apache.spark.stream, but they've sort of inherited that right.when they picked up the code from spark. new stuff is going into org.apache.bahir
+
+
+We need to extend several classes from spark which happen to have “private[spark].” For example, one of our class extends VectorUDT[0] which has private[spark] class VectorUDT as its access modifier. This unfortunately put us in a strange scenario that forces us to work under the namespace org.apache.spark.
+
+To be specific, currently the private classes/traits we need to use to create new Spark learners & Transformers are HasInputCol, VectorUDT and Logging. We will expand this list as we develop more.
+
+I do think tis a shame that logging went from public to private.
+
+One thing that could be done there is to copy the logging into Bahir, under an org.apache.bahir package, for yourself and others to use. That's be beneficial to me too.
+
+For the ML stuff, that might be place to work too, if you are going to open source the code.
+
+
+
+Is there a way to avoid this namespace issue? What do other people/companies do in this scenario? Thank you for your help!
+
+I've hit this problem in the past.  Scala code tends to force your hand here precisely because of that (very nice) private feature. While it offers the ability of a project to guarantee that implementation details aren't picked up where they weren't intended to be, in OSS dev, all that implementation is visible and for lower level integration,
+
+What I tend to do is keep my own code in its package and try to do as think a bridge over to it from the [private] scope. It's also important to name things obviously, say,  org.apache.spark.microsoft , so stack traces in bug reports can be dealt with more easily
+
+
+[0]: https://github.com/apache/spark/blob/master/mllib/src/main/scala/org/apache/spark/ml/linalg/VectorUDT.scala<https://na01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fapache%2Fspark%2Fblob%2Fmaster%2Fmllib%2Fsrc%2Fmain%2Fscala%2Forg%2Fapache%2Fspark%2Fml%2Flinalg%2FVectorUDT.scala&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=HjxQq3XAT%2FMljuNdU0MOorPhblMrnFcLezj9tebAht8%3D&reserved=0>
+
+Best,
+Shouheng
+
+
+
+
+--
+
+Joseph Bradley
+
+Software Engineer - Machine Learning
+
+Databricks, Inc.
+
+[http://databricks.com]<https://na01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdatabricks.com%2F&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=Yq5F7xzV%2B8aqAoJyF0gePMG2cghRYonz68NDNvN9vjs%3D&reserved=0>
+
+"
+Nick Pentreath <nick.pentreath@gmail.com>,"Sat, 04 Mar 2017 11:03:32 +0000",Re: [Spark Namespace]: Expanding Spark ML under Different Namespace?,Apache Spark Dev <dev@spark.apache.org>,"Also, note https://issues.apache.org/jira/browse/SPARK-7146 is linked from
+SPARK-19498 specifically to discuss opening up sharedParams traits.
+
+
+
+hat we did
+RA
+/graphframes/Logging.scala
+b.com%2Fgraphframes%2Fgraphframes%2Fblob%2Fmaster%2Fsrc%2Fmain%2Fscala%2Forg%2Fgraphframes%2FLogging.scala&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=lNT03ZybQOrEboWz0vuX4cic%2F5WGn49E464%2B1XbqdD8%3D&reserved=0>
+e
+,
+s.apache.org%2Fjira%2Fbrowse%2FSPARK-14155&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=I5yFehqhf5qXMPXKQj8inZa3kXQwM3O2ntea3bFlge4%3D&reserved=0>
+s.apache.org%2Fjira%2Fbrowse%2FSPARK-19498&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=jByKjOBuL9elEiJNJzxeoZ5euHDfinjqzj%2FJY5hn7Xo%3D&reserved=0>
+ing
+k
+�� namespace
+e inside
+ming
+e
+e
+ectorUDT[0] which
+he
+rs
+o
+he/spark/ml/linalg/VectorUDT.scala
+b.com%2Fapache%2Fspark%2Fblob%2Fmaster%2Fmllib%2Fsrc%2Fmain%2Fscala%2Forg%2Fapache%2Fspark%2Fml%2Flinalg%2FVectorUDT.scala&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=HjxQq3XAT%2FMljuNdU0MOorPhblMrnFcLezj9tebAht8%3D&reserved=0>
+icks.com%2F&data=02%7C01%7Cshouyi%40microsoft.com%7C1e65a9468afa4348a0ac08d45cd7c42c%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C636235529161198274&sdata=Yq5F7xzV%2B8aqAoJyF0gePMG2cghRYonz68NDNvN9vjs%3D&reserved=0>
+"
+Shivaram Venkataraman <shivaram@eecs.berkeley.edu>,"Sat, 4 Mar 2017 15:31:36 -0800",Fwd: Build completed: spark 866-master,Hyukjin Kwon <gurwls223@gmail.com>,"I'm not sure why the AppVeyor updates are coming to the dev list.  Hyukjin
+-- Do you know if we made any recent changes that might have caused this ?
+
+Thanks
+Shivaram
+
+---------- Forwarded message ----------
+From: AppVeyor <no-reply@appveyor.com>
+Date: Sat, Mar 4, 2017 at 2:46 PM
+Subject: Build completed: spark 866-master
+To: dev@spark.apache.org
+
+
+Build spark 866-master completed
+<https://ci.appveyor.com/project/ApacheSoftwareFoundation/spark/build/866-master>
+
+Commit ccf54f64d9 <https://github.com/apache/spark/commit/ccf54f64d9> by Xiao
+Li <gatorsmile@gmail.com> on 3/4/2017 9:50 PM:
+fix.
+
+Configure your notification preferences
+<https://ci.appveyor.com/notifications>
+--------------------------------------------------------------------- To
+unsubscribe e-mail: dev-unsubscribe@spark.apache.org
+"
+Hyukjin Kwon <gurwls223@gmail.com>,"Sun, 5 Mar 2017 09:08:50 +0900",Re: Build completed: spark 866-master,shivaram@eecs.berkeley.edu,"I think we should ask to disable this within Web UI configuration. In this
+JIRA, https://issues.apache.org/jira/browse/INFRA-12590, Daniel said
+
+
+In the case of my accounts, I manually went to https://ci.appveyor.com/
+notifications and configured them all as  ""Do not send"" and it does not
+send me any email.
+
+However, in case of AFS account, this turns out an assumption because I
+don't know how it is defined as I can't access.
+
+This might be defined in account - https://ci.appveyor.com/notifications
+or in project - https://ci.appveyor.com/project/ApacheSoftwareFoundation/
+spark/settings
+
+I'd like to note that I disabled the notification in the appveyor.yml but
+it seems the configurations are merged in Web UI,
+according to the documentation (https://www.appveyor.com/
+docs/notifications/#global-email-notifications).
+
+notifications defined in appveyor.yml.
+
+Should we maybe an INFRA JIRA to check and ask this?
+
+
+
+2017-03-05 8:31 GMT+09:00 Shivaram Venkataraman <shivaram@eecs.berkeley.edu>
+:
+
+"
+Hyukjin Kwon <gurwls223@gmail.com>,"Sun, 5 Mar 2017 09:17:49 +0900",Re: Build completed: spark 866-master,"shivaram@eecs.berkeley.edu, Reynold Xin <rxin@databricks.com>","Oh BTW, I was asked about this by Reynold. Few month ago and I said the
+similar answer.
+
+I think I am not supposed to don't recieve the emails (not sure but I have
+not recieved) so I am not too sure if this has happened so far or
+occationally.
+
+
+
+
+"
+Reynold Xin <rxin@databricks.com>,"Sun, 05 Mar 2017 00:20:04 +0000",Re: Build completed: spark 866-master,"Hyukjin Kwon <gurwls223@gmail.com>, shivaram@eecs.berkeley.edu","Most of the previous notifications were caught as spam. We should really
+disable this.
+
+
+
+"
+Shivaram Venkataraman <shivaram@eecs.berkeley.edu>,"Sat, 4 Mar 2017 17:07:27 -0800",Re: Build completed: spark 866-master,Reynold Xin <rxin@databricks.com>,"Thanks for investigating. We should file an INFRA jira about this.
+
+Shivaram
+
+
+"
+Sean Owen <sowen@cloudera.com>,"Mon, 06 Mar 2017 09:18:45 +0000",RFC: removing Scala 2.10,dev <dev@spark.apache.org>,"Another call for comments on removal of Scala 2.10 support, if you haven't
+already. See
+
+https://github.com/apache/spark/pull/17150
+http://issues.apache.org/jira/browse/SPARK-19810
+
+I've heard several votes in support and no specific objections at this
+point, but wanted to make another call to check for any doubts before I go
+ahead for Spark 2.2.
+"
+Hyukjin Kwon <gurwls223@gmail.com>,"Tue, 7 Mar 2017 10:00:01 +0900",Re: Build completed: spark 866-master,shivaram@eecs.berkeley.edu,"I opened https://issues.apache.org/jira/browse/INFRA-13621. Thanks.
+
+2017-03-05 10:07 GMT+09:00 Shivaram Venkataraman <shivaram@eecs.berkeley.edu
+
+"
+Reynold Xin <rxin@databricks.com>,"Mon, 6 Mar 2017 18:37:45 -0800",Re: RFC: removing Scala 2.10,Sean Owen <sowen@cloudera.com>,"Thanks for sending an email. I was going to +1 but then I figured I should
+be data driven. I took a look at the distribution of Scala versions across
+all the clusters Databricks runs (which is a very high number across a
+variety of tech startups, SMBs, large enterprises, and this is the chart:
+
+[image: Inline image 1]
+
+
+
+Given 30% are still on Scala 2.10, I'd say we should officially deprecate
+Scala 2.10 in Spark 2.2 and remove the support in a future release (e.g.
+2.3). Note that in the past we only deprecated Java 7 / Python 2.6 in 2.0,
+and didn't do anything with Scala 2.10.
+
+
+
+
+
+"
+Reynold Xin <rxin@databricks.com>,"Mon, 6 Mar 2017 19:04:43 -0800",Fwd: RFC: removing Scala 2.10,"""dev@spark.apache.org"" <dev@spark.apache.org>","For some reason the previous email didn't show up properly. Trying again.
+
+---------- Forwarded message ----------
+From: Reynold Xin
+Date: Mon, Mar 6, 2017 at 6:37 PM
+Subject: Re: RFC: removing Scala 2.10
+To: Sean Owen <sowen@cloudera.com>
+Cc: dev <dev@spark.apache.org>
+
+
+Thanks for sending an email. I was going to +1 but then I figured I should
+be data driven. I took a look at the distribution of Scala versions across
+all the clusters Databricks runs (which is a very high number across a
+variety of tech startups, SMBs, large enterprises, and this is the chart:
+
+[image: Inline image 1]
+
+
+
+Given 30% are still on Scala 2.10, I'd say we should officially deprecate
+Scala 2.10 in Spark 2.2 and remove the support in a future release (e.g.
+2.3). Note that in the past we only deprecated Java 7 / Python 2.6 in 2.0,
+and didn't do anything with Scala 2.10.
+
+
+
+
+
+"
+Maciej Szymkiewicz <mszymkiewicz@gmail.com>,"Tue, 7 Mar 2017 04:29:53 +0100","[ML][PYTHON] Collecting data in a class extending
+ SparkSessionTestCase causes AttributeError:","""dev@spark.apache.org"" <dev@spark.apache.org>","Hi everyone,
+
+It is a either to late or to early for me to think straight so please
+forgive me if it is something trivial. I am trying to add a test case
+extending SparkSessionTestCase to pyspark.ml.tests (example patch
+attached). If test collects data, and there is another TestCase
+extending extending SparkSessionTestCase executed before it, I get
+AttributeError due to _jsc being None:
+
+======================================================================
+
+ERROR: test_foo (pyspark.ml.tests.FooTest)
+
+----------------------------------------------------------------------
+
+Traceback (most recent call last):
+
+  File ""/home/spark/python/pyspark/ml/tests.py"", line 1258, in test_foo
+
+  File ""/home/spark/python/pyspark/sql/dataframe.py"", line 389, in collect
+
+    with SCCallSiteSync(self._sc) as css:
+
+  File ""/home/spark/python/pyspark/traceback_utils.py"", line 72, in __enter__
+
+    self._context._jsc.setCallSite(self._call_site)
+
+AttributeError: 'NoneType' object has no attribute 'setCallSite'
+
+----------------------------------------------------------------------
+
+If TestCase is executed alone it seems to work just fine.
+
+
+Can anyone reproduce this? Is there something obvious I miss here?
+
+-- 
+Best,
+Maciej
+
+diff --git a/python/pyspark/ml/tests.py b/python/pyspark/ml/tests.py
+index 3524160557..cc6e49d6cf 100755
+--- a/python/pyspark/ml/tests.py
++++ b/python/pyspark/ml/tests.py
+@@ -1245,6 +1245,17 @@ class ALSTest(SparkSessionTestCase):
+         self.assertEqual(als.getFinalStorageLevel(), ""DISK_ONLY"")
+         self.assertEqual(als._java_obj.getFinalStorageLevel(), ""DISK_ONLY"")
+ 
++        als.fit(df).userFactors.collect()
++
++
++class FooTest(SparkSessionTestCase):
++    def test_foo(self):
++        df = self.spark.createDataFrame(
++            [(0, 0, 4.0), (0, 1, 2.0), (1, 1, 3.0), (1, 2, 4.0), (2, 1, 1.0), (2, 2, 5.0)],
++            [""user"", ""item"", ""rating""])
++        als = ALS().setMaxIter(1).setRank(1)
++        als.fit(df).userFactors.collect()
++
+ 
+ class DefaultValuesTests(PySparkTestCase):
+     """"""
+"
+Stephen Boesch <javadba@gmail.com>,"Mon, 6 Mar 2017 20:34:44 -0800",Re: RFC: removing Scala 2.10,Reynold Xin <rxin@databricks.com>,"Hi Reynold,
+
+ This is not necessarily convincing.  Many installations are still on spark
+1.X - including at the large company I work at.  When moving to 2.2 -
+whenever that might happen -  it would be a reasonable expectation to also
+move off of an old version of scala.  Of the 30% of customers shown I
+wonder how many are both ( a) on spark 2.X/scala 2.10 *now **and* ( b)
+would be unable to manage a transition to scala 2.11/2.12 whenever the move
+to  spark 2.2 were to happen.
+
+stephenb
+
+
+
+2017-03-06 19:04 GMT-08:00 Reynold Xin <rxin@databricks.com>:
+
+"
+Reynold Xin <rxin@databricks.com>,"Mon, 6 Mar 2017 21:51:42 -0800",Re: RFC: removing Scala 2.10,Stephen Boesch <javadba@gmail.com>,"Hit sent too soon.
+
+Actually my chart included only clusters on Spark 2.x, ie I excluded 1.x. I
+also did one with Spark 1.x and I saw no substantial difference in
+unable to"" upgrade to Scala 2.12, I have no way to find out unless I go
+talk to every one of them which is too expensive. My experience with Scala
+upgrade, having done a few of them for Spark and for other projects, is
+that it is very difficult and frustrating experience.
+
+can manage multiple clusters with different versions of Spark easily
+(select an old version of Spark with Scala 2.10 in one click).
+
+As engineers, we all love to delete old code and simplify the build (5000
+line gone!). In a previous email I said we never deprecated it. After
+looking at it more, I realized this we did deprecate it partially: We
+updated the docs and added a warning in SparkContext, but didn't announce
+it in the release notes (mostly my fault).As a result, even I thought Scala
+2.10 wasn't deprecated when I saw no mention of it in the release notes.
+
+(Given we had partially deprecated Scala 2.10 support in Spark 2.1, I feel
+less strongly about keeping it.)
+
+
+Now look at the cost of keeping Scala 2.10: The part that defines Scala
+2.10/2.11 support rarely changes, at least until we want to add support for
+Scala 2.12 (and we are not adding 2.12 support in Spark 2.2). The actually
+cost, which annoys some of us, is just the occasional build breaks (mostly
+due to the use of Option.contains). It looks like this happened roughly
+once a mont,h and each time it took just a few mins to resolve.
+
+So the cost seems very low. Perhaps we should just deprecate it more
+formally in 2.2 given the whole system is set to have it working, and kill
+it next release.
+
+
+
+
+
+
+
+
+"
+Reynold Xin <rxin@databricks.com>,"Tue, 07 Mar 2017 05:23:11 +0000",Re: RFC: removing Scala 2.10,Stephen Boesch <javadba@gmail.com>,"Actually my chart included only clusters on Spark 2.x, ie I excluded 1.x.
+
+
+
+"
+Sean Owen <sowen@cloudera.com>,"Tue, 07 Mar 2017 10:14:43 +0000",Re: RFC: removing Scala 2.10,Reynold Xin <rxin@databricks.com>,"(2.10 was already deprecated for 2.1, so that's done actually.)
+
+Personally I'm fine with leaving in 2.10 support for 2.2. (FWIW CDH is
+Scala 2.11-only for Spark 2.) If there were no voices in support of keeping
+it, might be worth moving on right now, but if there's any substantive
+argument against, I'd also punt it another release.
+
+It's not really driven by cleanup, though that's nice, but 2.12 support. I
+don't think 2.10 and 2.12 support can coexist, and soon, 2.12 support will
+be important.
+
+How about tagging this for 2.3.0, as well as targeting 2.12 support for
+2.3.0?
+
+
+"
+Cody Koeninger <cody@koeninger.org>,"Tue, 7 Mar 2017 09:15:38 -0600",Re: Spark Improvement Proposals,Ryan Blue <rblue@netflix.com>,"Another week, another ping.  Anyone on the PMC willing to call a vote on
+this?
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Tue, 7 Mar 2017 07:50:05 -0800",Re: RFC: removing Scala 2.10,Sean Owen <sowen@cloudera.com>,"
+Which is why I'm thinking that we should pull 2.10 support out of master
+soon -- either immediately or right after 2.2 goes into RC or full release.
+
+
+"
+Mark Hamstra <mark@clearstorydata.com>,"Tue, 7 Mar 2017 07:55:26 -0800",Re: RFC: removing Scala 2.10,Sean Owen <sowen@cloudera.com>,"Sorry, for some reason I was thinking that we have branch-2.2 cut already.
+If we're not going to pull Scala 2.10 out of 2.2.0, then we should wait at
+least until that branch is cut before we pull it out of master -- but I'd
+still argue for not long after that so that the 2.12 work can start.
+
+
+"
+Sean Owen <sowen@cloudera.com>,"Tue, 07 Mar 2017 17:05:47 +0000",Re: Spark Improvement Proposals,"""dev@spark.apache.org"" <dev@spark.apache.org>","Do we need a VOTE? heck I think anyone can call one, anyway.
+
+Pre-flight vote check: anyone have objections to the text as-is?
+See
+https://docs.google.com/document/d/1-Zdi_W-wtuxS9hTK0P9qb2x-nRanvXmnZ7SUi4qMljg/edit#
+
+If so let's hash out specific suggest changes.
+
+If not, then I think the next step is to probably update the
+github.com/apache/spark-website repo with the text here. That's a code/doc
+change we can just review and merge as usual.
+
+
+"
+Chetan Khatri <chetan.opensource@gmail.com>,"Wed, 8 Mar 2017 02:28:38 +0530",Issues: Generate JSON with null values in Spark 2.0.x,"user <user@spark.apache.org>, Spark Dev List <dev@spark.apache.org>","Hello Dev / Users,
+
+I am working with PySpark Code migration to scala, with Python - Iterating
+Spark with dictionary and generating JSON with null is possible with
+json.dumps() which will be converted to SparkSQL[Row] but in scala how can
+we generate json will null values as a Dataframe ?
+
+Thanks.
+"
+StanZhai <mail@stanzhai.site>,"Tue, 7 Mar 2017 21:21:08 -0700 (MST)","[SQL]Analysis failed when combining Window function and GROUP BY in
+ Spark2.x",dev@spark.apache.org,"We can reproduce this using the following code:
+val spark = SparkSession.builder().appName(""test"").master(""local"").getOrCreate()
+
+val sql1 =
+  """"""
+    |create temporary view tb as select * from values
+    |(1, 0),
+    |(1, 0),
+    |(2, 0)
+    |as grouping(a, b)
+  """""".stripMargin
+
+val sql =
+  """"""
+    |select count(distinct(b)) over (partition by a) from tb group by a
+  """""".stripMargin
+
+spark.sql(sql1)
+spark.sql(sql).show()It will throw exception like this:
+Exception in thread ""main"" org.apache.spark.sql.AnalysisException: expression 'tb.`b`' is neither present in the group by, nor is it an aggregate function. Add to group by or wrap in first() (or first_value) if you don't care which value you get.;;
+Project [count(DISTINCT b) OVER (PARTITION BY a ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)#4L]
++- Project [b#1, a#0, count(DISTINCT b) OVER (PARTITION BY a ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)#4L, count(DISTINCT b) OVER (PARTITION BY a ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)#4L]
+   +- Window [count(distinct b#1) windowspecdefinition(a#0, ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS count(DISTINCT b) OVER (PARTITION BY a ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)#4L], [a#0]
+      +- Aggregate [a#0], [b#1, a#0]
+         +- SubqueryAlias tb
+            +- Project [a#0, b#1]
+               +- SubqueryAlias grouping
+                  +- LocalRelation [a#0, b#1]
+
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$class.failAnalysis(CheckAnalysis.scala:40)
+  at org.apache.spark.sql.catalyst.analysis.Analyzer.failAnalysis(Analyzer.scala:58)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1.org$apache$spark$sql$catalyst$analysis$CheckAnalysis$class$$anonfun$$checkValidAggregateExpression$1(CheckAnalysis.scala:220)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1$$anonfun$apply$7.apply(CheckAnalysis.scala:247)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1$$anonfun$apply$7.apply(CheckAnalysis.scala:247)
+  at scala.collection.immutable.List.foreach(List.scala:381)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1.apply(CheckAnalysis.scala:247)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1.apply(CheckAnalysis.scala:67)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:126)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at scala.collection.immutable.List.foreach(List.scala:381)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at scala.collection.immutable.List.foreach(List.scala:381)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at scala.collection.immutable.List.foreach(List.scala:381)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$class.checkAnalysis(CheckAnalysis.scala:67)
+  at org.apache.spark.sql.catalyst.analysis.Analyzer.checkAnalysis(Analyzer.scala:58)
+  at org.apache.spark.sql.execution.QueryExecution.assertAnalyzed(QueryExecution.scala:49)
+  at org.apache.spark.sql.Dataset$.ofRows(Dataset.scala:64)
+  at org.apache.spark.sql.SparkSession.sql(SparkSession.scala:582)But, there is no exception in Spark 1.6.x.
+I think the sql select count(distinct(b)) over (partition by a) from tb group by a should be executed. I've no idea about the exception. Is this in line with expectations?
+Any help is appreciated!
+Best, 
+Stan
+
+
+
+
+
+
+
+--"
+=?UTF-8?Q?Herman_van_H=C3=B6vell_tot_Westerflier?= <hvanhovell@databricks.com>,"Wed, 8 Mar 2017 14:34:44 +0100","Re: [SQL]Analysis failed when combining Window function and GROUP BY
+ in Spark2.x",StanZhai <mail@stanzhai.site>,"You are seeing a bug in the Hive parser. Hive drops the window clause when
+it encounters a count(distinct ...). See
+https://issues.apache.org/jira/browse/HIVE-10141 for more information.
+
+Spark 1.6 plans this as a regular distinct aggregate (dropping the window
+clause), which is wrong. Spark 2.x uses its own parser, and it does not
+allow you to do use 'distinct' aggregates in window functions. You are
+getting this error because aggregates are planned before a windows, and the
+aggregate cannot find b in its grouping by expressions.
+
+
+rCreate()
+sion 'tb.`b`' is neither present in the group by, nor is it an aggregate function. Add to group by or wrap in first() (or first_value) if you don't care which value you get.;;
+ECEDING AND UNBOUNDED FOLLOWING)#4L]
+ UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)#4L, count(DISTINCT b) OVER (PARTITION BY a ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)#4L]
+UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS count(DISTINCT b) OVER (PARTITION BY a ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)#4L], [a#0]
+sis(CheckAnalysis.scala:40)
+r.scala:58)
+nalysis$1.org$apache$spark$sql$catalyst$analysis$CheckAnalysis$class$$anonfun$$checkValidAggregateExpression$1(CheckAnalysis.scala:220)
+nalysis$1$$anonfun$apply$7.apply(CheckAnalysis.scala:247)
+nalysis$1$$anonfun$apply$7.apply(CheckAnalysis.scala:247)
+nalysis$1.apply(CheckAnalysis.scala:247)
+nalysis$1.apply(CheckAnalysis.scala:67)
+a:126)
+ply(TreeNode.scala:125)
+ply(TreeNode.scala:125)
+a:125)
+ply(TreeNode.scala:125)
+ply(TreeNode.scala:125)
+a:125)
+ply(TreeNode.scala:125)
+ply(TreeNode.scala:125)
+a:125)
+ysis(CheckAnalysis.scala:67)
+er.scala:58)
+ecution.scala:49)
+ailed-when-combining-Window-function-and-GROUP-BY-in-Spark2-x-tp21131.html>
+
+
+
+-- 
+
+Herman van Hövell
+
+Software Engineer
+
+Databricks Inc.
+
+hvanhovell@databricks.com
+
++31 6 420 590 27
+
+databricks.com
+
+[image: http://databricks.com] <http://databricks.com/>
+"
+StanZhai <mail@stanzhai.site>,"Wed, 8 Mar 2017 08:52:36 -0700 (MST)","Re:Re: [SQL]Analysis failed when combining Window function and
+ GROUP BY in Spark2.x",dev@spark.apache.org,"Thanks for your reply!
+I know what's going on now.
+
+
+
+
+
+
+""Herman van Hövell tot Westerflier-2 [via Apache Spark Developers List]""<ml-node+s1001551n21132h52@n3.nabble.com> wroted at 2017-03-08 21:35:
+
+You are seeing a bug in the Hive parser. Hive drops the window clause when it encounters a count(distinct ...). See https://issues.apache.org/jira/browse/HIVE-10141 for more information.
+
+Spark 1.6 plans this as a regular distinct aggregate (dropping the window clause), which is wrong. Spark 2.x uses its own parser, and it does not allow you to do use 'distinct' aggregates in window functions. You are getting this error because aggregates are planned before a windows, and the aggregate cannot find b in its grouping by expressions.
+
+
+We can reproduce this using the following code:
+val spark = SparkSession.builder().appName(""test"").master(""local"").getOrCreate()
+
+val sql1 =
+  """"""
+    |create temporary view tb as select * from values
+    |(1, 0),
+    |(1, 0),
+    |(2, 0)
+    |as grouping(a, b)
+  """""".stripMargin
+
+val sql =
+  """"""
+    |select count(distinct(b)) over (partition by a) from tb group by a
+  """""".stripMargin
+
+spark.sql(sql1)
+spark.sql(sql).show()It will throw exception like this:
+Exception in thread ""main"" org.apache.spark.sql.AnalysisException: expression 'tb.`b`' is neither present in the group by, nor is it an aggregate function. Add to group by or wrap in first() (or first_value) if you don't care which value you get.;;
+Project [count(DISTINCT b) OVER (PARTITION BY a ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)#4L]
++- Project [b#1, a#0, count(DISTINCT b) OVER (PARTITION BY a ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)#4L, count(DISTINCT b) OVER (PARTITION BY a ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)#4L]
+   +- Window [count(distinct b#1) windowspecdefinition(a#0, ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS count(DISTINCT b) OVER (PARTITION BY a ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)#4L], [a#0]
+      +- Aggregate [a#0], [b#1, a#0]
+         +- SubqueryAlias tb
+            +- Project [a#0, b#1]
+               +- SubqueryAlias grouping
+                  +- LocalRelation [a#0, b#1]
+
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$class.failAnalysis(CheckAnalysis.scala:40)
+  at org.apache.spark.sql.catalyst.analysis.Analyzer.failAnalysis(Analyzer.scala:58)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1.org$apache$spark$sql$catalyst$analysis$CheckAnalysis$class$$anonfun$$checkValidAggregateExpression$1(CheckAnalysis.scala:220)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1$$anonfun$apply$7.apply(CheckAnalysis.scala:247)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1$$anonfun$apply$7.apply(CheckAnalysis.scala:247)
+  at scala.collection.immutable.List.foreach(List.scala:381)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1.apply(CheckAnalysis.scala:247)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$$anonfun$checkAnalysis$1.apply(CheckAnalysis.scala:67)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:126)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at scala.collection.immutable.List.foreach(List.scala:381)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at scala.collection.immutable.List.foreach(List.scala:381)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$foreachUp$1.apply(TreeNode.scala:125)
+  at scala.collection.immutable.List.foreach(List.scala:381)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.foreachUp(TreeNode.scala:125)
+  at org.apache.spark.sql.catalyst.analysis.CheckAnalysis$class.checkAnalysis(CheckAnalysis.scala:67)
+  at org.apache.spark.sql.catalyst.analysis.Analyzer.checkAnalysis(Analyzer.scala:58)
+  at org.apache.spark.sql.execution.QueryExecution.assertAnalyzed(QueryExecution.scala:49)
+  at org.apache.spark.sql.Dataset$.ofRows(Dataset.scala:64)
+  at org.apache.spark.sql.SparkSession.sql(SparkSession.scala:582)But, there is no exception in Spark 1.6.x.
+I think the sql select count(distinct(b)) over (partition by a) from tb group by a should be executed. I've no idea about the exception. Is this in line with expectations?
+Any help is appreciated!
+Best, 
+Stan
+
+
+View this message in context: [SQL]Analysis failed when combining Window function and GROUP BY in Spark2.x
+om.
+
+
+
+
+
+--
+Herman van Hövell
+
+Software Engineer
+Databricks Inc.
+[hidden email]
++31 6 420 590 27
+databricks.com
+
+
+
+
+
+
+
+
+
+
+
+If you reply to this email, your message will be added to the discussion below:
+http://apache-spark-developers-list.1001551.n3.nabble.com/SQL-Analysis-failed-when-combining-Window-function-and-GROUP-BY-in-Spark2-x-tp21131p21132.html
+To start a new topic under Apache Spark Developers List, email ml-node+s1001551n1h91@n3.nabble.com
+ NAML
+
+
+
+
+
+
+
+--
+3.nabble.com/SQL-Analysis-failed-when-combining-Window-function-and-GROUP-BY-in-Spark2-x-tp21131p21133.html
+om."
+Cody Koeninger <cody@koeninger.org>,"Thu, 9 Mar 2017 09:39:46 -0600",Re: Spark Improvement Proposals,Sean Owen <sowen@cloudera.com>,"I started this idea as a fork with a merge-able change to docs.
+Reynold moved it to his google doc, and has suggested during this
+email thread that a vote should occur.
+If a vote needs to occur, I can't see anything on
+http://apache.org/foundation/voting.html suggesting that I can call
+for a vote, which is why I'm asking PMC members to do it since they're
+the ones who would vote anyway.
+Now Sean is saying this is a code/doc change that can just be reviewed
+and merged as usual...which is what I tried to do to begin with.
+
+The fact that you haven't agreed on a process to agree on your process
+is, I think, an indication that the process really does need
+improvement ;)
+
+
+---------------------------------------------------------------------
+
+
+"
+Sean Owen <sowen@cloudera.com>,"Thu, 09 Mar 2017 16:55:27 +0000",Re: Spark Improvement Proposals,Cody Koeninger <cody@koeninger.org>,"I think a VOTE is over-thinking it, and is rarely used, but, can't hurt.
+Nah, anyone can call a vote. This really isn't that formal. We just want to
+declare and document consensus.
+
+I think SPIP is just a remix of existing process anyway, and don't think it
+will actually do much anyway, which is why I am sanguine about the whole
+thing.
+
+To bring this to a conclusion, I will just put the contents of the doc in
+an email tomorrow for a VOTE. Raise any objections now.
+
+
+"
+Reynold Xin <rxin@databricks.com>,"Thu, 9 Mar 2017 09:00:40 -0800",Re: Spark Improvement Proposals,Sean Owen <sowen@cloudera.com>,"I'm fine without a vote. (are we voting on wether we need a vote?)
+
+
+
+"
+vaquar khan <vaquar.khan@gmail.com>,"Thu, 9 Mar 2017 11:20:51 -0600",Re: Spark Improvement Proposals,Reynold Xin <rxin@databricks.com>,"Many of us have issue with ""shepherd role "" , i think we should go with
+vote.
+
+Regards,
+Vaquar khan
+
+
+
+
+-- 
+Regards,
+Vaquar Khan
++1 -224-436-0783
+
+IT Architect / Lead Consultant
+Greater Chicago
+"
+Mark Hamstra <mark@clearstorydata.com>,"Thu, 9 Mar 2017 10:17:47 -0800",Re: Spark Improvement Proposals,Reynold Xin <rxin@databricks.com>,"-0 on voting on whether we need a vote.
+
+
+"
+Koert Kuipers <koert@tresata.com>,"Thu, 9 Mar 2017 13:31:05 -0500",Re: Spark Improvement Proposals,Mark Hamstra <mark@clearstorydata.com>,"gonna end up with a stackoverflow on recursive votes here
+
+
+"
+Oscar Batori <oscarbatori@gmail.com>,"Thu, 09 Mar 2017 18:52:50 +0000",Question about upgrading Kafka client version,"""dev@spark.apache.org"" <dev@spark.apache.org>","Guys,
+
+To change the subject from meta-voting...
+
+We are doing Spark Streaming against a Kafka setup, everything is pretty
+standard, and pretty current. In particular we are using Spark 2.1, and
+Kafka 0.10.1, with batch windows that are quite large (5-10 minutes). The
+problem we are having is pretty well described in the following excerpt
+from the Spark documentation:
+""For possible kafkaParams, see Kafka consumer config docs. If your Spark
+batch duration is larger than the default Kafka heartbeat session timeout
+(30 seconds), increase heartbeat.interval.ms and session.timeout.ms
+appropriately. For batches larger than 5 minutes, this will require
+changing group.max.session.timeout.ms on the broker. Note that the example
+sets enable.auto.commit to false, for discussion see Storing Offsets below.""
+
+In our case ""group.max.session.timeout.ms"" is set to default value, and our
+processing time per batch easily exceeds that value. I did some further
+hunting around and found the following SO post
+<http://stackoverflow.com/questions/39730126/difference-between-session-timeout-ms-and-max-poll-interval-ms-for-kafka-0-10-0>
+:
+""KIP-62, decouples heartbeats from calls to poll() via a background
+heartbeat thread. This, allow for a longer processing time (ie, time
+between two consecutive poll()) than heartbeat interval.""
+
+This pretty accurately describes our scenario: effectively our per batch
+processing time is 2-6 minutes, well within the batch window, but in excess
+of the max session timeout between polls, causing the consumer to be kicked
+out of the group.
+
+Are there any plans to move the Kafka client up to 0.10.1 and make this
+feature available to consumers? Or have I missed some helpful configuration
+that would ameliorate this problem? I recognize changing ""
+group.max.session.timeout.ms"" is one solution, though it seems doing
+heartbeat checking outside of implicitly piggy backing on polling seems
+more elegant.
+
+-Oscar
+"
+Sean Owen <sowen@cloudera.com>,"Fri, 10 Mar 2017 09:39:22 +0000",Re: Spark Improvement Proposals,Cody Koeninger <cody@koeninger.org>,"Alrighty, if nobody is objecting, and nobody calls for a VOTE, then, let's
+say this document is the SPIP 1.0 process.
+
+I think the next step is just to translate the text to some suitable
+location. I suggest adding it to
+https://github.com/apache/spark-website/blob/asf-site/contributing.md
+
+
+"
+zero323 <mszymkiewicz@gmail.com>,"Fri, 10 Mar 2017 07:15:37 -0700 (MST)",Re: Will .count() always trigger an evaluation of each row?,dev@spark.apache.org,"Technically speaking it is still possible to:
+
+
+df.createOrReplaceTempView(""df"")
+spark.sql(""CACHE TABLE df"")
+spark.table(""df"")
+
+
+
+
+--
+
+---------------------------------------------------------------------
+
+
+"
+Cody Koeninger <cody@koeninger.org>,"Fri, 10 Mar 2017 10:52:52 -0600",Re: Spark Improvement Proposals,Sean Owen <sowen@cloudera.com>,"I think it ought to be its own page, linked from the more / community
+menu dropdowns.
+
+We also need the jira tag, and for the page to clearly link to filters
+that show proposed / completed SPIPs
+
+
+---------------------------------------------------------------------
+
+
+"
+Cody Koeninger <cody@koeninger.org>,"Fri, 10 Mar 2017 11:18:27 -0600",Re: Spark Improvement Proposals,"Sean Owen <sowen@cloudera.com>, ""dev@spark.apache.org"" <dev@spark.apache.org>","So to be clear, if I translate that google doc to markup and submit a
+PR, you will merge it?
+
+If we're just using ""spip"" label, that's probably fine, but we still
+need shared filters for open and closed SPIPs so the page can link to
+them.
+
+I do not believe I have jira permissions to share filters, I just
+attempted to edit one of mine and do not see an add shares field.
+
+
+---------------------------------------------------------------------
+
+
+"
+Cody Koeninger <cody@koeninger.org>,"Fri, 10 Mar 2017 11:26:09 -0600",Re: Spark Improvement Proposals,Reynold Xin <rxin@databricks.com>,"Can someone with filter share permissions can make a filter for open
+SPIP and one for closed SPIP and share it?
+
+e.g.
+
+project = SPARK AND status in (Open, Reopened, ""In Progress"") AND
+labels=SPIP ORDER BY createdDate DESC
+
+and another with the status closed equivalent
+
+I just made an open ticket with the SPIP label show it should show up
+
+
+---------------------------------------------------------------------
+
+
+"
+Reynold Xin <rxin@databricks.com>,"Fri, 10 Mar 2017 09:19:21 -0800",Re: Spark Improvement Proposals,Cody Koeninger <cody@koeninger.org>,"We can just start using spip label and link to it.
+
+
+
+
+"
+Cody Koeninger <cody@koeninger.org>,"Fri, 10 Mar 2017 13:41:27 -0600",Re: Question about upgrading Kafka client version,Oscar Batori <oscarbatori@gmail.com>,"There are existing tickets on the issues around kafka versions, e.g.
+https://issues.apache.org/jira/browse/SPARK-18057 that haven't gotten
+any committer weigh-in on direction.
+
+
+---------------------------------------------------------------------
+
+
+"
+"""Shixiong(Ryan) Zhu"" <shixiong@databricks.com>","Fri, 10 Mar 2017 13:26:59 -0800",Re: Question about upgrading Kafka client version,Cody Koeninger <cody@koeninger.org>,"I did some investigation yesterday and just posted my finds in the ticket.
+Please read my latest comment in https://issues.apache.org/
+jira/browse/SPARK-18057
+
+
+"
+Dongjin Lee <dongjin@apache.org>,"Sat, 11 Mar 2017 17:05:21 +0900",Re: Issues: Generate JSON with null values in Spark 2.0.x,"user <user@spark.apache.org>, dev@spark.apache.org","Hello Chetan,
+
+Could you post some code? If I understood correctly, you are trying to save
+JSON like:
+
+{
+  ""first_name"": ""Dongjin"",
+  ""last_name: null
+}
+
+not in omitted form, like:
+
+{
+  ""first_name"": ""Dongjin""
+}
+
+right?
+
+- Dongjin
+
+
+
+
+
+-- 
+*Dongjin Lee*
+
+
+*Software developer in Line+.So interested in massive-scale machine
+learning.facebook: www.facebook.com/dongjin.lee.kr
+<http://www.facebook.com/dongjin.lee.kr>linkedin:
+kr.linkedin.com/in/dongjinleekr
+<http://kr.linkedin.com/in/dongjinleekr>github:
+<http://goog_969573159/>github.com/dongjinleekr
+<http://github.com/dongjinleekr>twitter: www.twitter.com/dongjinleekr
+<http://www.twitter.com/dongjinleekr>*
+"
+Sean Owen <sowen@cloudera.com>,"Sun, 12 Mar 2017 09:18:23 +0000",SPIP docs are live,"dev <dev@spark.apache.org>, Cody Koeninger <cody@koeninger.org>","http://spark.apache.org/improvement-proposals.html
+
+(Thanks Cody!)
+
+We should use this process where appropriate now, and we can refine it
+further if needed.
+"
+Asher Krim <akrim@hubspot.com>,"Sun, 12 Mar 2017 18:15:14 -0400",Spark Local Pipelines,dev@spark.apache.org,"Hi All,
+
+I spent a lot of time at Spark Summit East this year talking with Spark
+the biggest shortcomings I've encountered in Spark ML pipelines is the lack
+of a way to serve single requests with any reasonable performance.
+SPARK-10413 explores adding methods for single item prediction, but I'd
+like to explore a more holistic approach - a separate local api, with
+models that support transformations without depending on Spark at all.
+
+I've written up a doc
+<https://docs.google.com/document/d/1Ha4DRMio5A7LjPqiHUnwVzbaxbev6ys04myyz6nDgI4/edit?usp=sharing>
+detailing the approach, and I'm happy to discuss alternatives. If this
+gains traction, I can create a branch with a minimal example on a simple
+transformer (probably something like CountVectorizerModel) so we have
+something concrete to continue the discussion on.
+
+Thanks,
+Asher Krim
+Senior Software Engineer
+"
+Georg Heiler <georg.kf.heiler@gmail.com>,"Mon, 13 Mar 2017 06:32:07 +0000",Re: Spark Local Pipelines,"Asher Krim <akrim@hubspot.com>, dev@spark.apache.org","Great idea. I see the same problem.
+I would suggest checking the following projects as a kick start as well (
+not only mleap)
+https://github.com/ucbrise/clipper and
+https://github.com/Hydrospheredata/mist
+
+Regards Georg
+Asher Krim <akrim@hubspot.com> schrieb am So. 12. März 2017 um 23:21:
+
+f
+ck
+z6nDgI4/edit?usp=sharing>
+"
+Sean Owen <sowen@cloudera.com>,"Mon, 13 Mar 2017 08:39:01 +0000",Re: Spark Local Pipelines,"Asher Krim <akrim@hubspot.com>, dev@spark.apache.org","I'm skeptical.  Serving synchronous queries from a model at scale is a
+fundamentally different activity. As you note, it doesn't logically involve
+Spark. If it has to happen in milliseconds it's going to be in-core.
+Scoring even 10qps with a Spark job per request is probably a non-starter;
+think of the thousands of tasks per second and the overhead of just
+tracking them.
+
+When you say the RDDs support point prediction, I think you mean that those
+older models expose a method to score a Vector. They are not somehow
+exposing distributed point prediction. You could add this to the newer
+models, but it raises the question of how to make the Row to feed it? the
+.mllib punts on this and assumes you can construct the Vector.
+
+I think this sweeps a lot under the rug in assuming that there can just be
+a ""local"" version of every Transformer -- but, even if there could be,
+consider how much extra implementation that is. Lots of them probably could
+be but I'm not sure that all can.
+
+The bigger problem in my experience is the Pipelines don't generally
+encapsulate the entire pipeline from source data to score. They encapsulate
+the part after computing underlying features. That is, if one of your
+features is ""total clicks from this user"", that's the product of a
+DataFrame operation that precedes a Pipeline. This can't be turned into a
+non-distributed, non-Spark local version.
+
+Solving subsets of this problem could still be useful, and you've
+highlighted some external projects that try. I'd also highlight PMML as an
+established interchange format for just the model part, and for cases that
+don't involve much or any pipeline, it's a better fit paired with a library
+that can score from PMML.
+
+I think this is one of those things that could live outside the project,
+because it's more not-Spark than Spark. Remember too that building a
+solution into the project blesses one at the expense of others.
+
+
+
+"
+jinhong lu <lujinhong2@gmail.com>,"Mon, 13 Mar 2017 19:38:35 +0800",Re: how to construct parameter for model.transform() from datafile  ,"spark users <user@spark.apache.org>,
+ dev@spark.apache.org","After train the mode, I got the result look like this:
+
+
+	scala>  predictionResult.show()
+	+-----+--------------------+--------------------+--------------------+----------+
+	|label|            features|       rawPrediction|         probability|prediction|
+	+-----+--------------------+--------------------+--------------------+----------+
+	|  0.0|(144109,[100],[2.0])|[-12.246737725034...|[0.96061209556737...|       0.0|
+	|  0.0|(144109,[100],[2.0])|[-12.246737725034...|[0.96061209556737...|       0.0|
+	|  0.0|(144109,[100],[24...|[-146.81612388602...|[9.73704654529197...|       1.0|
+
+And then, I transform() the data by these code:
+
+	import org.apache.spark.ml.linalg.Vectors
+	import org.apache.spark.ml.linalg.Vector
+	import scala.collection.mutable
+
+	   def lineToVector(line:String ):Vector={
+	    val seq = new mutable.Queue[(Int,Double)]
+	    val content = line.split("" "");
+	    for( s <- content){
+	      val index = s.split("":"")(0).toInt
+	      val value = s.split("":"")(1).toDouble
+	       seq += ((index,value))
+	    }
+	    return Vectors.sparse(144109, seq)
+	  }
+
+	 val df = sc.sequenceFile[org.apache.hadoop.io.LongWritable, org.apache.hadoop.io.Text](""/data/gamein/gameall_sdc/wh/gameall.db/edt_udid_label_format/ds=20170312/001006_0"").map(line=>line._2).map(line => (line.toString.split(""\t"")(0),lineToVector(line.toString.split(""\t"")(1)))).toDF(""udid"", ""features"")
+	 val predictionResult = model.transform(df)
+	 predictionResult.show()
+
+
+But I got the error look like this:
+
+ Caused by: java.lang.IllegalArgumentException: requirement failed: You may not write an element to index 804201 because the declared size of your vector is 144109
+  at scala.Predef$.require(Predef.scala:224)
+  at org.apache.spark.ml.linalg.Vectors$.sparse(Vectors.scala:219)
+  at lineToVector(<console>:55)
+  at $anonfun$4.apply(<console>:50)
+  at $anonfun$4.apply(<console>:50)
+  at scala.collection.Iterator$$anon$11.next(Iterator.scala:409)
+  at scala.collection.Iterator$$anon$11.next(Iterator.scala:409)
+  at scala.collection.Iterator$$anon$11.next(Iterator.scala:409)
+  at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIterator.processNext(generated.java:84)
+  at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)
+  at org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$8$$anon$1.hasNext(WholeStageCodegenExec.scala:370)
+  at org.apache.spark.sql.execution.SparkPlan$$anonfun$4.apply(SparkPlan.scala:246)
+  at org.apache.spark.sql.execution.SparkPlan$$anonfun$4.apply(SparkPlan.scala:240)
+  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$24.apply(RDD.scala:803)
+  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$24.apply(RDD.scala:803)
+
+So I change    
+
+ 	return Vectors.sparse(144109, seq)
+
+to 
+
+	return Vectors.sparse(804202, seq)
+
+Another error occurs:
+
+	Caused by: java.lang.IllegalArgumentException: requirement failed: The columns of A don't match the number of elements of x. A: 144109, x: 804202
+	  at scala.Predef$.require(Predef.scala:224)
+	  at org.apache.spark.ml.linalg.BLAS$.gemv(BLAS.scala:521)
+	  at org.apache.spark.ml.linalg.Matrix$class.multiply(Matrices.scala:110)
+	  at org.apache.spark.ml.linalg.DenseMatrix.multiply(Matrices.scala:176)
+
+what should I do?
+<lujinhong2@gmail.com> д����
+27709:1 30209:8 36109:20 41408:1 42309:1 46509:1 47709:5 57809:1 58009:1 58709:2 112109:4 123305:48 142509:1
+15207:19 31607:19
+123305:48 128209:1
+26509:2 27709:2 56509:8 122705:62 123305:31 124005:2
+org.apache.spark.ml.evaluation.BinaryClassificationEvaluator
+org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+SparkSession.builder.appName(""NaiveBayesExample"").getOrCreate()
+spark.read.format(""libsvm"").load(""/tmp/ljhn1829/aplus/training_data3"")
+data.randomSplit(Array(0.7, 0.3), seed = 1234L)
+NaiveBayes().setThresholds(Array(10.0,1.0)).fit(trainingData)
+model to predict the classfication of other data like these:
+parameter for transform() method?
+
+Thanks,
+lujinhong
+
+
+---------------------------------------------------------------------
+
+
+"
+jinhong lu <lujinhong2@gmail.com>,"Mon, 13 Mar 2017 19:59:56 +0800",Re: how to construct parameter for model.transform() from datafile  ,"spark users <user@spark.apache.org>,
+ dev@spark.apache.org","Anyone help?
+
+<lujinhong2@gmail.com> д����
++-----+--------------------+--------------------+--------------------+----------+
+probability|prediction|
++-----+--------------------+--------------------+--------------------+----------+
+0.0|(144109,[100],[2.0])|[-12.246737725034...|[0.96061209556737...|       0.0|
+0.0|(144109,[100],[2.0])|[-12.246737725034...|[0.96061209556737...|       0.0|
+0.0|(144109,[100],[24...|[-146.81612388602...|[9.73704654529197...|       1.0|
+org.apache.hadoop.io.Text](""/data/gamein/gameall_sdc/wh/gameall.db/edt_udid_label_format/ds=20170312/001006_0"").map(line=>line._2).map(line => (line.toString.split(""\t"")(0),lineToVector(line.toString.split(""\t"")(1)))).toDF(""udid"", ""features"")
+may not write an element to index 804201 because the declared size of your vector is 144109
+org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIterator.processNext(generated.java:84)
+org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)
+org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$8$$anon$1.hasNext(WholeStageCodegenExec.scala:370)
+org.apache.spark.sql.execution.SparkPlan$$anonfun$4.apply(SparkPlan.scala:246)
+org.apache.spark.sql.execution.SparkPlan$$anonfun$4.apply(SparkPlan.scala:240)
+org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$24.apply(RDD.scala:803)
+org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$24.apply(RDD.scala:803)
+failed: The columns of A don't match the number of elements of x. A: 144109, x: 804202
+org.apache.spark.ml.linalg.Matrix$class.multiply(Matrices.scala:110)
+org.apache.spark.ml.linalg.DenseMatrix.multiply(Matrices.scala:176)
+<lujinhong2@gmail.com> д����
+27709:1 30209:8 36109:20 41408:1 42309:1 46509:1 47709:5 57809:1 58009:1 58709:2 112109:4 123305:48 142509:1
+15207:19 31607:19
+123305:48 128209:1
+26509:2 27709:2 56509:8 122705:62 123305:31 124005:2
+org.apache.spark.ml.evaluation.BinaryClassificationEvaluator
+org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+SparkSession.builder.appName(""NaiveBayesExample"").getOrCreate()
+spark.read.format(""libsvm"").load(""/tmp/ljhn1829/aplus/training_data3"")
+data.randomSplit(Array(0.7, 0.3), seed = 1234L)
+NaiveBayes().setThresholds(Array(10.0,1.0)).fit(trainingData)
+model to predict the classfication of other data like these:
+parameter for transform() method?
+
+Thanks,
+lujinhong
+
+
+---------------------------------------------------------------------
+
+
+"
+Tom Graves <tgraves_cs@yahoo.com.INVALID>,"Mon, 13 Mar 2017 13:50:02 +0000 (UTC)",Re: Spark Improvement Proposals,"Sean Owen <sowen@cloudera.com>, Cody Koeninger <cody@koeninger.org>","I think a vote here would be good. I think most of the discussion was done by 4 or 5 people and its a long thread.  If nothing else it summarizes everything and gets people attention to the change.
+Tom 
+
+te:
+ 
+
+ I think a VOTE is over-thinking it, and is rarely used, but, can't hurt. Nah, anyone can call a vote. This really isn't that formal. We just want to declare and document consensus.
+I think SPIP is just a remix of existing process anyway, and don't think it will actually do much anyway, which is why I am sanguine about the whole thing.
+To bring this to a conclusion, I will just put the contents of the doc in an email tomorrow for a VOTE. Raise any objections now.
+
+I started this idea as a fork with a merge-able change to docs.
+Reynold moved it to his google doc, and has suggested during this
+email thread that a vote should occur.
+If a vote needs to occur, I can't see anything on
+http://apache.org/foundation/voting.html suggesting that I can call
+for a vote, which is why I'm asking PMC members to do it since they're
+the ones who would vote anyway.
+Now Sean is saying this is a code/doc change that can just be reviewed
+and merged as usual...which is what I tried to do to begin with.
+
+The fact that you haven't agreed on a process to agree on your process
+is, I think, an indication that the process really does need
+improvement ;)
+
+
+
+
+   "
+Dongjin Lee <dongjin@apache.org>,"Tue, 14 Mar 2017 00:08:29 +0900",Re: Spark Local Pipelines,dev@spark.apache.org,"Although I love the cool idea of Asher, I'd rather +1 for Sean's view; I
+think it would be much better to live outside of the project.
+
+Best,
+Dongjin
+
+
+
+
+-- 
+*Dongjin Lee*
+
+
+*Software developer in Line+.So interested in massive-scale machine
+learning.facebook: www.facebook.com/dongjin.lee.kr
+<http://www.facebook.com/dongjin.lee.kr>linkedin:
+kr.linkedin.com/in/dongjinleekr
+<http://kr.linkedin.com/in/dongjinleekr>github:
+<http://goog_969573159/>github.com/dongjinleekr
+<http://github.com/dongjinleekr>twitter: www.twitter.com/dongjinleekr
+<http://www.twitter.com/dongjinleekr>*
+"
+Asher Krim <akrim@hubspot.com>,"Mon, 13 Mar 2017 12:28:01 -0400",Re: Spark Local Pipelines,dev@spark.apache.org,"Thanks for the feedback.
+
+If we strip away all of the fancy stuff, my proposal boils down to exposing
+the logic used in Spark's ML library. In an ideal world, Spark would
+possibly have relied on an existing ML implementation rather than
+reimplement, since there's very little that's Spark specific about using ML
+models. As Sean says, it may make most sense to have localPipelines live
+outside of Spark. However it would be really beneficial for Spark ML
+pipelines adoption if they used non-Spark logic. This would eliminate
+issues with train-serve skew and close the potential for bugs.
+
+I'll leave some more comments in-line to Sean's response:
+
+I'm skeptical.  Serving synchronous queries from a model at scale is a
+fundamentally different activity. As you note, it doesn't logically involve
+Spark. If it has to happen in milliseconds it's going to be in-core.
+Scoring even 10qps with a Spark job per request is probably a non-starter;
+think of the thousands of tasks per second and the overhead of just
+tracking them.
+
+When you say the RDDs support point prediction, I think you mean that those
+older models expose a method to score a Vector. They are not somehow
+exposing distributed point prediction. You could add this to the newer
+models, but it raises the question of how to make the Row to feed it? the
+.mllib punts on this and assumes you can construct the Vector.
+AK: In my mind, punting is exactly the right solution - no overhead, full
+control to the user
+
+I think this sweeps a lot under the rug in assuming that there can just be
+a ""local"" version of every Transformer -- but, even if there could be,
+consider how much extra implementation that is. Lots of them probably could
+be but I'm not sure that all can.
+AK: I'm not aware of models for which this is not possible - there are no
+Spark-only algorithms that I'm aware of. The work to convert Spark to Local
+models may be more involved for some implementations, sure, but I don't
+think any would be too bad. However if there is something that's
+impossible, then that's fine too. I'm not sure we have to commit to having
+local versions for every single model
+
+The bigger problem in my experience is the Pipelines don't generally
+encapsulate the entire pipeline from source data to score. They encapsulate
+the part after computing underlying features. That is, if one of your
+features is ""total clicks from this user"", that's the product of a
+DataFrame operation that precedes a Pipeline. This can't be turned into a
+non-distributed, non-Spark local version.
+AK: That's a great point, and a really good argument for keeping any local
+pipeline logic outside of Spark
+
+Solving subsets of this problem could still be useful, and you've
+highlighted some external projects that try. I'd also highlight PMML as an
+established interchange format for just the model part, and for cases that
+don't involve much or any pipeline, it's a better fit paired with a library
+that can score from PMML.
+AK: The problem with solutions like PMML is that they can tell you WHAT to
+do, but not HOW EXACTLY to do it. At the end of the day, the best
+model-description possible would be the metadata+ the code itself. That's
+the crux of my proposal - expose the implementation so users can use Spark
+models with the same exact code that was used to train
+
+I think this is one of those things that could live outside the project,
+because it's more not-Spark than Spark. Remember too that building a
+solution into the project blesses one at the expense of others.
+
+Asher Krim
+Senior Software Engineer
+
+
+"
+Sean Owen <sowen@cloudera.com>,"Mon, 13 Mar 2017 16:37:03 +0000",Re: Spark Improvement Proposals,"Tom Graves <tgraves_cs@yahoo.com>, Cody Koeninger <cody@koeninger.org>","This ended up proceeding as a normal doc change, instead of precipitating a
+meta-vote.
+However, the text that's on the web site now can certainly be further
+amended if anyone wants to propose a change from here.
+
+
+"
+Tom Graves <tgraves_cs@yahoo.com.INVALID>,"Mon, 13 Mar 2017 17:29:51 +0000 (UTC)",Re: Spark Improvement Proposals,"Sean Owen <sowen@cloudera.com>, Cody Koeninger <cody@koeninger.org>","It seems like if you are adding responsibilities you should do a vote.  SPIP'S require votes from PMC members so you are now putting more responsibility on them. It feels like we should have an official vote to make sure they (PMC members) agree with that and to make sure everyone pays attention to it.  That thread has been there for a while just as discussion and now all of a sudden its implemented without even an announcement being sent out about it. 
+Tom 
+
+e:
+ 
+
+ This ended up proceeding as a normal doc change, instead of precipitating a meta-vote.However, the text that's on the web site now can certainly be further amended if anyone wants to propose a change from here.
+
+I think a vote here would be good. I think most of the discussion was done by 4 or 5 people and its a long thread.  If nothing else it summarizes everything and gets people attention to the change.
+Tom 
+
+te:
+ 
+
+ I think a VOTE is over-thinking it, and is rarely used, but, can't hurt. Nah, anyone can call a vote. This really isn't that formal. We just want to declare and document consensus.
+I think SPIP is just a remix of existing process anyway, and don't think it will actually do much anyway, which is why I am sanguine about the whole thing.
+To bring this to a conclusion, I will just put the contents of the doc in an email tomorrow for a VOTE. Raise any objections now.
+
+I started this idea as a fork with a merge-able change to docs.
+Reynold moved it to his google doc, and has suggested during this
+email thread that a vote should occur.
+If a vote needs to occur, I can't see anything on
+http://apache.org/foundation/voting.html suggesting that I can call
+for a vote, which is why I'm asking PMC members to do it since they're
+the ones who would vote anyway.
+Now Sean is saying this is a code/doc change that can just be reviewed
+and merged as usual...which is what I tried to do to begin with.
+
+The fact that you haven't agreed on a process to agree on your process
+is, I think, an indication that the process really does need
+improvement ;)
+
+
+
+
+   
+
+
+   "
+Sean Owen <sowen@cloudera.com>,"Mon, 13 Mar 2017 17:36:39 +0000",Re: Spark Improvement Proposals,"Tom Graves <tgraves_cs@yahoo.com>, Cody Koeninger <cody@koeninger.org>","It's not a new process, in that it doesn't entail anything not already in
+http://apache.org/foundation/voting.html . We're just deciding to call a
+VOTE for this type of code modification.
+
+To your point -- yes, it's been around a long time with no further comment,
+and I called several times for more input. That's pretty strong lazy
+consensus of the form we use every day.
+
+
+"
+Tom Graves <tgraves_cs@yahoo.com.INVALID>,"Mon, 13 Mar 2017 18:03:43 +0000 (UTC)",Re: Spark Improvement Proposals,"Sean Owen <sowen@cloudera.com>, Cody Koeninger <cody@koeninger.org>","I'm not sure how you can say its not a new process.  If that is the case why do we need a page documenting it?  
+As a developer if I want to put up a major improvement I have to now follow the SPIP whereas before I didn't, that certain seems like a new process.  As a PMC member I now have the ability to vote on these SPIPs, that seems like something new again. 
+There are  apache bylaws and then there are project specific bylaws.  As far as I know Spark doesn't document any of its project specific bylaws so I guess this isn't officially a change to them, but it was implicit before that you didn't need any review for major improvements before, now you need an explicit vote for them to be approved.  Certainly seems to fall under the ""Procedural"" section in the voting link you sent.
+I understand this was under discussion for a while and you have asked for peoples feedback multiple times.  But sometimes long threads are easy to ignore.  That is why personally I like to see things labelled [VOTE], [ANNOUNCE], [DISCUSS] when it gets close to finalizing on something like this. 
+I don't really want to draw this out or argue anymore about it, if I really wanted a vote I guess I would -1 the change. I'm not going to do that. I would at least like to see an announcement go out about it.  The last thing I saw you say was you were going to call a vote.  A few people chimed in with their thoughts on that vote, but nothing was said after that. 
+Tom
+
+ 
+
+e:
+ 
+
+ It's not a new process, in that it doesn't entail anything not already in http://apache.org/foundation/voting.html . We're just deciding to call a VOTE for this type of code modification.
+To your point -- yes, it's been around a long time with no further comment, and I called several times for more input. That's pretty strong lazy consensus of the form we use every day. 
+
+
+It seems like if you are adding responsibilities you should do a vote.  SPIP'S require votes from PMC members so you are now putting more responsibility on them. It feels like we should have an official vote to make sure they (PMC members) agree with that and to make sure everyone pays attention to it.  That thread has been there for a while just as discussion and now all of a sudden its implemented without even an announcement being sent out about it. 
+Tom 
+
+
+
+   "
+Tom Graves <tgraves_cs@yahoo.com.INVALID>,"Mon, 13 Mar 2017 18:15:48 +0000 (UTC)",Re: Spark Improvement Proposals,"Tom Graves <tgraves_cs@yahoo.com>, Sean Owen <sowen@cloudera.com>, 
+	Cody Koeninger <cody@koeninger.org>","Another thing I think you should send out is when exactly does this take affect.  Is it any major new feature without a pull request?   Is it anything major starting with the 2.3 release?  
+Tom 
+
+ 
+
+ I'm not sure how you can say its not a new process.  If that is the case why do we need a page documenting it?  
+As a developer if I want to put up a major improvement I have to now follow the SPIP whereas before I didn't, that certain seems like a new process.  As a PMC member I now have the ability to vote on these SPIPs, that seems like something new again. 
+There are  apache bylaws and then there are project specific bylaws.  As far as I know Spark doesn't document any of its project specific bylaws so I guess this isn't officially a change to them, but it was implicit before that you didn't need any review for major improvements before, now you need an explicit vote for them to be approved.  Certainly seems to fall under the ""Procedural"" section in the voting link you sent.
+I understand this was under discussion for a while and you have asked for peoples feedback multiple times.  But sometimes long threads are easy to ignore.  That is why personally I like to see things labelled [VOTE], [ANNOUNCE], [DISCUSS] when it gets close to finalizing on something like this. 
+I don't really want to draw this out or argue anymore about it, if I really wanted a vote I guess I would -1 the change. I'm not going to do that. I would at least like to see an announcement go out about it.  The last thing I saw you say was you were going to call a vote.  A few people chimed in with their thoughts on that vote, but nothing was said after that. 
+Tom
+
+ 
+
+e:
+ 
+
+ It's not a new process, in that it doesn't entail anything not already in http://apache.org/foundation/voting.html . We're just deciding to call a VOTE for this type of code modification.
+To your point -- yes, it's been around a long time with no further comment, and I called several times for more input. That's pretty strong lazy consensus of the form we use every day. 
+
+
+It seems like if you are adding responsibilities you should do a vote.  SPIP'S require votes from PMC members so you are now putting more responsibility on them. It feels like we should have an official vote to make sure they (PMC members) agree with that and to make sure everyone pays attention to it.  That thread has been there for a while just as discussion and now all of a sudden its implemented without even an announcement being sent out about it. 
+Tom 
+
+
+
+   
+
+   "
+Holden Karau <holden@pigscanfly.ca>,"Mon, 13 Mar 2017 19:06:47 +0000",Should we consider a Spark 2.1.1 release?,"Felix Cheung <felixcheung_m@hotmail.com>, 
+	Shivaram Venkataraman <shivaram@eecs.berkeley.edu>, ""dev@spark.apache.org"" <dev@spark.apache.org>","Hi Spark Devs,
+
+Spark 2.1 has been out since end of December
+<http://apache-spark-developers-list.1001551.n3.nabble.com/ANNOUNCE-Announcing-Apache-Spark-2-1-0-td20390.html>
+and we've got quite a few fixes merged for 2.1.1
+<https://issues.apache.org/jira/browse/SPARK-18281?jql=project%20%3D%20SPARK%20AND%20fixVersion%20%3D%202.1.1%20ORDER%20BY%20updated%20DESC%2C%20priority%20DESC%2C%20created%20ASC>
+.
+
+patch release is a packaging fix (now merged) before we upload to PyPI &
+Conda, and we also have the normal batch of fixes like toLocalIterator for
+large DataFrames in PySpark.
+
+I've chatted with Felix & Shivaram who seem to think the R side is looking
+close to in good shape for a 2.1.1 release to submit to CRAN (if I've
+miss-spoken my apologies). The two outstanding issues that are being
+tracked for R are SPARK-18817, SPARK-19237.
+
+Looking at the other components quickly it seems like structured streaming
+could also benefit from a patch release.
+
+What do others think - are there any issues people are actively targeting
+for 2.1.1? Is this too early to be considering a patch release?
+
+Cheers,
+
+Holden
+-- 
+Cell : 425-233-8271
+Twitter: https://twitter.com/holdenkarau
+"
+Felix Cheung <felixcheung_m@hotmail.com>,"Mon, 13 Mar 2017 19:35:05 +0000",Re: Should we consider a Spark 2.1.1 release?,"Holden Karau <holden@pigscanfly.ca>, ""dev@spark.apache.org""
+	<dev@spark.apache.org>, Shivaram Venkataraman <shivaram@eecs.berkeley.edu>","+1
+there are a lot of good fixes in overall and we need a release for Python and R packages.
+
+
+________________________________
+From: Holden Karau <holden@pigscanfly.ca>
+Sent: Monday, March 13, 2017 12:06:47 PM
+To: Felix Cheung; Shivaram Venkataraman; dev"
+Sean Owen <sowen@cloudera.com>,"Mon, 13 Mar 2017 19:19:26 +0000",Re: Spark Improvement Proposals,Tom Graves <tgraves_cs@yahoo.com>,"Responding to your request for a vote, I meant that this isn't required per
+se and the consensus here was not to vote on it. Hence the jokes about
+meta-voting protocol. In that sense nothing new happened process-wise,
+nothing against ASF norms, if that's your concern.
+
+I think it's just an agreed convention now, that we will VOTE, as normal,
+on particular types of changes that we call SPIPs. I mean it's no new
+process in the ASF sense because VOTEs are an existing mechanic. I
+personally view it as, simply, additional guidance about how to manage huge
+JIRAs in a way that makes them stand a chance of moving forward. I suppose
+we could VOTE about any JIRA if we wanted. They all proceed via lazy
+consensus at the moment.
+
+Practically -- I heard support for codifying this process and no objections
+to the final form. This was bouncing around in process purgatory, when no
+particular new process was called for.
+
+It takes effect immediately, implicitly, like anything else I guess, like
+amendments to code style guidelines. Please uses SPIPs to propose big
+changes from here.
+
+As to finding it hard to pick out of the noise, sure, I sympathize. Many
+big things happen without a VOTE tag though. It does take a time investment
+to triage these email lists. I don't know that this by itself means a VOTE
+should have happened.
+
+
+"
+Sean Owen <sowen@cloudera.com>,"Mon, 13 Mar 2017 20:05:01 +0000",Re: Should we consider a Spark 2.1.1 release?,"""dev@spark.apache.org"" <dev@spark.apache.org>","It seems reasonable to me, in that other x.y.1 releases have followed ~2
+months after the x.y.0 release and it's been about 3 months since 2.1.0.
+
+Related: creating releases is tough work, so I feel kind of bad voting for
+someone else to do that much work. Would it make sense to deputize another
+release manager to help get out just the maintenance releases? this may in
+turn mean maintenance branches last longer. Experienced hands can continue
+to manage new minor and major releases as they require more coordination.
+
+I know most of the release process is written down; I know it's also still
+going to be work to make it 100% documented. Eventually it'll be necessary
+to make sure it's entirely codified anyway.
+
+Not pushing for it myself, just noting I had heard this brought up in side
+conversations before.
+
+
+"
+Holden Karau <holden@pigscanfly.ca>,"Mon, 13 Mar 2017 20:40:15 +0000",Re: Should we consider a Spark 2.1.1 release?,"Sean Owen <sowen@cloudera.com>, ""dev@spark.apache.org"" <dev@spark.apache.org>","I'd be happy to do the work of coordinating a 2.1.1 release if that's a
+thing a committer can do (I think the release coordinator for the most
+recent Arrow release was a committer and the final publish step took a PMC
+member to upload but other than that I don't remember any issues).
+
+
+Cell : 425-233-8271
+Twitter: https://twitter.com/holdenkarau
+"
+enzo <enzo@smartinsightsfromdata.com>,"Mon, 13 Mar 2017 21:47:02 +0100",Fwd: Question on Spark's graph libraries roadmap,dev@spark.apache.org,"Please see this email  trail:  no answer so far on the user@spark board.  Trying the developer board for better luck
+
+The question:
+
+I am a bit confused by the current roadmap for graph and graph analytics in Apache Spark.
+
+I understand that we have had for some time two libraries (the following is my understanding - please amend as appropriate!):
+
+. GraphX, part of Spark project.  This library is based on RDD and it is only accessible via Scala.  It doesn’t look that this library has been enhanced recently.
+. GraphFrames, independent (at the moment?) library for Spark.  This library is based on Spark DataFrames and accessible by Scala & Python. Last commit on GitHub was 2 months ago.
+
+GraphFrames cam about with the promise at some point to be integrated in Apache Spark.
+
+I can see other projects coming up with interesting libraries and ideas (e.g. Graphulo on Accumulo, a new project with the goal of implementing the GraphBlas building blocks for graph algorithms on top of Accumulo).
+
+Where is Apache Spark going?
+
+Where are graph libraries in the roadmap?
+
+
+
+Thanks for any clarity brought to this matter.
+
+Thanks Enzo
+
+<user@spark.apache.org>
+<http://139.59.184.114/index.html>
+-------------------------------------------------------------------------------
+<http://www.manning.com/books/spark-graphx-in-action>
+analytics in Apache Spark.
+following is my understanding - please amend as appropriate!):
+is only accessible via Scala.  It doesn’t look that this library has been enhanced recently.
+library is based on Spark DataFrames and accessible by Scala & Python. Last commit on GitHub was 2 months ago.
+in Apache Spark.
+ideas (e.g. Graphulo on Accumulo, a new project with the goal of implementing the GraphBlas building blocks for graph algorithms on top of Accumulo).
+
+"
+Nicholas Chammas <nicholas.chammas@gmail.com>,"Mon, 13 Mar 2017 21:09:01 +0000",Re: Question on Spark's graph libraries roadmap,"enzo <enzo@smartinsightsfromdata.com>, dev@spark.apache.org","Your question is answered here under ""Will GraphFrames be part of Apache
+Spark?"", no?
+
+http://graphframes.github.io/#what-are-graphframes
+
+Nick
+
+:
+
+ been
+st
+------
+ been
+st
+"
+enzo <enzo@smartinsightsfromdata.com>,"Mon, 13 Mar 2017 22:45:14 +0100",Re: Question on Spark's graph libraries roadmap,Nicholas Chammas <nicholas.chammas@gmail.com>,"Nick
+
+Thanks for the quick answer :)
+
+Sadly, the comment in the page doesn’t answer my questions. More specifically:
+
+1. GraphFrames last activity in github was 2 months ago.  Last release on 12 Nov 2016.  Till recently 2 month was close to a Spark release cycle.  Why there has been no major development since mid November?
+
+2. The page you linked refers to a *plan* to move GraphFrames to the standard Spark release cycle.  Is this *plan* publicly available / visible?
+
+3. I couldn’t find any statement of intent to preserve either one or the other APIs, or just merge them: in other words, there seem to be no overarching plan for a cohesive & comprehensive graph API (I apologise in advance if I’m wrong).
+
+4. I was initially impressed by GraphFrames syntax in places similar to Neo4J Cypher (now open source), but later I understood was an incomplete lightweight experiment (with no intention to move to full compatibility, perhaps for good reasons).  To me it sort of gave the wrong message.
+
+5. In the mean time the world of graphs is changing. GraphBlas forum seems to make some traction: a library based on GraphBlas has been made available on Accumulo (Graphulo).  Assuming that Spark is NOT going to adopt similar lines, nor to follow Datastax with tinkertop and Gremlin, again, what is the new,  cohesive & comprehensive API that Spark is going to deliver?
+
+
+Sadly, the API uncertainty may force developers to more stable kind of API / platforms & roadmaps.
+
+
+
+Thanks Enzo
+
+Apache Spark?"", no?
+<http://graphframes.github.io/#what-are-graphframes>
+board.  Trying the developer board for better luck
+analytics in Apache Spark.
+following is my understanding - please amend as appropriate!):
+is only accessible via Scala.  It doesn’t look that this library has been enhanced recently.
+library is based on Spark DataFrames and accessible by Scala & Python. Last commit on GitHub was 2 months ago.
+in Apache Spark.
+ideas (e.g. Graphulo on Accumulo, a new project with the goal of implementing the GraphBlas building blocks for graph algorithms on top of Accumulo).
+<mailto:rezaul.karim@insight-centre.org>>
+<mailto:robin.east@xense.co.uk>>
+<mailto:enzo@smartinsightsfromdata.com>>, spark users <user@spark.apache.org <mailto:user@spark.apache.org>>
+<http://139.59.184.114/index.html>
+-------------------------------------------------------------------------------
+<http://www.manning.com/books/spark-graphx-in-action>
+analytics in Apache Spark.
+following is my understanding - please amend as appropriate!):
+it is only accessible via Scala.  It doesn’t look that this library has been enhanced recently.
+library is based on Spark DataFrames and accessible by Scala & Python. Last commit on GitHub was 2 months ago.
+integrated in Apache Spark.
+ideas (e.g. Graphulo on Accumulo, a new project with the goal of implementing the GraphBlas building blocks for graph algorithms on top of Accumulo).
+
+"
+Nicholas Chammas <nicholas.chammas@gmail.com>,"Mon, 13 Mar 2017 21:58:56 +0000",Re: Question on Spark's graph libraries roadmap,enzo <enzo@smartinsightsfromdata.com>,"Since GraphFrames is not part of the Spark project, your
+GraphFrames-specific questions are probably better directed at the
+GraphFrames issue tracker:
+
+https://github.com/graphframes/graphframes/issues
+
+As far as I know, GraphFrames is an active project, though not as active as
+Spark of course. There will be lulls in development since the people
+driving that project forward also have major commitments to other projects.
+This is natural.
+
+If you post on GitHub I would wager somewhere there (maybe Joseph or Tim
+<https://github.com/graphframes/graphframes/graphs/contributors>?) should
+be able to answer your questions about GraphFrames.
+
+
+   1. The page you linked refers to a *plan* to move GraphFrames to the
+   standard Spark release cycle. Is this *plan* publicly available /
+   visible?
+
+I didn’t see any such reference to a plan in the page I linked you to.
+Rather, the page says <http://graphframes.github.io/#what-are-graphframes>:
+
+The current plan is to keep GraphFrames separate from core Apache Spark for
+the time being.
+
+Nick
+​
+
+:
+
+ 12
+e?
+ or the
+s
+le
+r
+I
+ been
+st
+------
+ been
+st
+"
+"""Rodriguez Hortala, Juan"" <hortala@amazon.com>","Mon, 13 Mar 2017 22:23:14 +0000","Adding the executor ID to Spark logs when launching an executor in a
+ YARN container","""dev@spark.apache.org"" <dev@spark.apache.org>","Hi Spark developers,
+
+For Spark running on YARN, I would like to be able to find out the container where an executor is running by looking at the logs. I haven't been able to find a way to do this, not even with the Spark UI, as neither the Executors tab nor the stage information page show the container id. I was thinking on modifying the logs sent in YarnAllocator to log the executor id on container start, as follows:
+
+@@ -494,7 +494,8 @@ private[yarn] class YarnAllocator(
+       val containerId = container.getId
+       val executorId = executorIdCounter.toString
+       assert(container.getResource.getMemory >= resource.getMemory)
+-      logInfo(s""Launching container $containerId on host $executorHostname"")
++      logInfo(s""Launching container $containerId on host $executorHostname "" +
++        s""for executor with ID $executorId"")
+
+       def updateInternalState(): Unit = synchronized {
+         numExecutorsRunning += 1
+@@ -528,7 +529,8 @@ private[yarn] class YarnAllocator(
+                 updateInternalState()
+               } catch {
+                 case NonFatal(e) =>
+-                  logError(s""Failed to launch executor $executorId on container $containerId"", e)
++                  logError(s""Failed to launch executor $executorId on container $containerId "" +
++                    s""for executor with ID $executorId"", e)
+                   // Assigned container should be released immediately to avoid unnecessary resource
+                   // occupation.
+                   amClient.releaseAssignedContainer(containerId)
+
+Do you think this is a good idea, or there is a better way to achieve this?
+
+Thanks in advance,
+
+Juan ?
+
+"
+Tim Hunter <timhunter@databricks.com>,"Mon, 13 Mar 2017 16:28:03 -0700",Re: Question on Spark's graph libraries roadmap,Nicholas Chammas <nicholas.chammas@gmail.com>,"Hello Enzo,
+
+since this question is also relevant to Spark, I will answer it here. The
+goal of GraphFrames is to provide graph capabilities along with excellent
+integration to the rest of the Spark ecosystem (using modern APIs such as
+DataFrames). As you seem to be well aware, a large number of graph
+algorithms can be implemented in terms of a small subset of graph
+primitives. These graph primitives can be translated to Spark operations,
+but we feel that some important low-level optimizations should be added to
+the Catalyst engine in order to realize the true potential of GraphFrames.
+You can find a flavor of this work in this presentation of Ankur Dave [1].
+This is still an area of collaboration with the Spark core team, and we
+would like to merge GraphFrames in Spark 2.x eventually.
+
+Where does it leave us for the time being? GraphFrames is actively
+supported, and we implemented a highly scalable version of GraphFrames in
+November. As you mentioned, there are a number of distributed Graph
+frameworks out there, but to my knowledge they are not as easy to integrate
+with Spark. The current approach has been to reach parity with GraphX first
+and then add new algorithms based on popular demand. Along these lines,
+GraphBLAS could be added on top of it if someone is willing to step up.
+
+Tim
+
+[1]
+https://spark-summit.org/east-2016/events/graphframes-graph-queries-in-spark-sql/
+
+
+s.
+u to.
+n 12
+le?
+e or the
+n
+g
+s been
+ast
+s been
+ast
+"
+Andy <andyyehoo@gmail.com>,"Tue, 14 Mar 2017 15:45:41 +0800",Re: Question on Spark's graph libraries roadmap,Tim Hunter <timhunter@databricks.com>,"GraphFrame is just a Graph Analytics/Query Engine, not a Graph Engine which
+GraphX used to be.
+
+And I'm sorry to say, it doesn’t fit most scenarioes at all in fact.
+
+Enzo, I don’t think there is any roadmap of Graph libraries for Spark for
+now.
+
+*Andy*
+
+
+
+o
+.
+.
+te
+st
+ts.
+ou to.
+e
+ble?
+ne or the
+in
+e
+,
+ng
+e
+s
+g
+s
+as been
+Last
+n
+s
+g
+s
+as been
+Last
+n
+"
+Yuhao Yang <hhbyyh@gmail.com>,"Tue, 14 Mar 2017 18:05:08 -0700",Re: how to construct parameter for model.transform() from datafile,jinhong lu <lujinhong2@gmail.com>,"Hi Jinhong,
+
+
+Based on the error message, your second collection of vectors has a
+dimension of 804202, while the dimension of your training vectors
+was 144109. So please make sure your test dataset are of the same dimension
+as the training data.
+
+than 144109
+(804202?).
+
+Regards,
+Yuhao
+
+
+2017-03-13 4:59 GMT-07:00 jinhong lu <lujinhong2@gmail.com>:
+
+ong lu <lujinhong2@gmail.com> 写道：
+7...|
+7...|
+7...|
+e._2).map(line
+(1)))).toDF(""udid"",
+r
+hong lu <lujinhong2@gmail.com> 写道：
+s/
+(
+l
+"
+Liang-Chi Hsieh <viirya@gmail.com>,"Tue, 14 Mar 2017 20:33:40 -0700 (MST)",Re: how to construct parameter for model.transform() from datafile,dev@spark.apache.org,"
+As the libsvm format can't specify number of features, and looks like
+NaiveBayes doesn't have such parameter, if your training/testing data is
+sparse, the number of features inferred from the data files can be
+inconsistent.
+
+We may need to fix this.
+
+Before a fixing going into NaiveBayes, currently a workaround is to align
+the number of features between training and testing data before fitting the
+model.
+
+
+
+jinhong lu wrote
+-------+
+-------+
+      
+      
+      
+id_label_format/ds=20170312/001006_0"").map(line=>line._2).map(line
+).toDF(""udid"",
+r
+r.processNext(generated.java:84)
+rator.java:43)
+asNext(WholeStageCodegenExec.scala:370)
+:246)
+:240)
+24.apply(RDD.scala:803)
+24.apply(RDD.scala:803)
+2
+10)
+6)
+ng lu &lt;
+
+
+or
+),
+
+
+
+
+
+
+-----
+Liang-Chi Hsieh | @viirya 
+Spark Technology Center 
+http://www.spark.tc/ 
+--
+3.nabble.com/Re-how-to-construct-parameter-for-model-transform-from-datafile-tp21155p21179.html
+om.
+
+---------------------------------------------------------------------
+
+
+"
+Liang-Chi Hsieh <viirya@gmail.com>,"Tue, 14 Mar 2017 20:50:15 -0700 (MST)",Re: how to construct parameter for model.transform() from datafile,dev@spark.apache.org,"
+Just found that you can specify number of features when loading libsvm
+source:
+
+val df = spark.read.option(""numFeatures"", ""100"").format(""libsvm"")
+
+
+
+Liang-Chi Hsieh wrote
+--------+
+--------+
+|      
+|      
+|      
+did_label_format/ds=20170312/001006_0"").map(line=>line._2).map(line
+)).toDF(""udid"",
+or.processNext(generated.java:84)
+erator.java:43)
+hasNext(WholeStageCodegenExec.scala:370)
+a:246)
+a:240)
+$24.apply(RDD.scala:803)
+$24.apply(RDD.scala:803)
+e
+76)
+ong lu &lt;
+
+
+2
+2
+tor
+3),
+
+
+
+
+
+
+-----
+Liang-Chi Hsieh | @viirya 
+Spark Technology Center 
+http://www.spark.tc/ 
+--
+3.nabble.com/Re-how-to-construct-parameter-for-model-transform-from-datafile-tp21155p21180.html
+om.
+
+---------------------------------------------------------------------
+
+
+"
